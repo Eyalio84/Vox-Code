@@ -1,0 +1,1304 @@
+[
+  {
+    "id": "langchain-js",
+    "name": "LangChain.js",
+    "description": "Framework for building LLM-powered chains, agents, and retrieval pipelines in TypeScript",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "vercel-ai-sdk",
+    "name": "Vercel AI SDK",
+    "description": "Streaming-first SDK for building AI-powered UIs with React Server Components support",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "transformers-js",
+    "name": "Transformers.js",
+    "description": "Run Hugging Face transformer models directly in the browser via ONNX Runtime",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "chromadb",
+    "name": "Chroma",
+    "description": "Open-source embedding database for building AI applications with semantic search",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "qdrant",
+    "name": "Qdrant",
+    "description": "High-performance vector similarity search engine with rich filtering",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "d3-js",
+    "name": "D3.js",
+    "description": "Low-level, data-driven library for producing dynamic, interactive visualizations in the browser",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "plotly-js",
+    "name": "Plotly.js",
+    "description": "Declarative charting library with 40+ chart types and built-in interactivity",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "echarts",
+    "name": "ECharts",
+    "description": "Apache ECharts -- powerful, interactive charting and visualization library",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "cytoscape-js",
+    "name": "Cytoscape.js",
+    "description": "Graph theory / network visualization library for interactive node-edge diagrams",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "sqlalchemy-2",
+    "name": "SQLAlchemy 2.x",
+    "description": "Async-first ORM and SQL toolkit with modern Python type hints",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "alembic",
+    "name": "Alembic",
+    "description": "Database migration tool for SQLAlchemy with auto-generation support",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "redis-py",
+    "name": "Redis",
+    "description": "In-memory data store used for caching, sessions, rate-limiting, and pub/sub",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "pycasbin",
+    "name": "PyCasbin",
+    "description": "Authorization library supporting RBAC, ABAC, ACL, and custom policies",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "docker",
+    "name": "Docker",
+    "description": "Containerization platform for consistent dev/prod environments",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "github-actions",
+    "name": "GitHub Actions CI/CD",
+    "description": "Automated CI/CD pipelines running on GitHub-hosted or self-hosted runners",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "dotenvx",
+    "name": "dotenvx",
+    "description": "Next-gen dotenv with encryption, multi-environment support, and secret management",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "ag-grid",
+    "name": "AG Grid",
+    "description": "Enterprise-grade data grid with sorting, filtering, grouping, and virtualized rows",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "codemirror-6",
+    "name": "CodeMirror 6",
+    "description": "Extensible code editor with syntax highlighting, completions, and language support",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "agent-github-searcher",
+    "name": "GitHub Searcher",
+    "description": "Agent that searches GitHub repositories, issues, and code for relevant examples and patterns",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "agent-architecture-review",
+    "name": "Architecture Review",
+    "description": "Agent that analyzes generated code structure and suggests architectural improvements",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "agent-security-audit",
+    "name": "Security Audit",
+    "description": "Agent that scans generated code for common security vulnerabilities and misconfigurations",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "agent-generate-tests",
+    "name": "Generate Tests",
+    "description": "Agent that generates unit and integration tests for both frontend and backend code",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "agent-generate-docs",
+    "name": "Generate Docs",
+    "description": "Agent that generates API documentation, README, and inline JSDoc/docstring comments",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "agent-docker-containerize",
+    "name": "Docker Containerize",
+    "description": "Agent that analyzes the project and generates optimized Dockerfile and docker-compose configuration",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "agent-performance-audit",
+    "name": "Performance Audit",
+    "description": "Agent that analyzes code for performance issues: bundle size, N+1 queries, memory leaks",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "skill-rag-pipeline",
+    "name": "Add RAG Pipeline",
+    "description": "Skill that scaffolds a complete Retrieval-Augmented Generation pipeline with ChromaDB and LangChain",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "skill-auth-rbac",
+    "name": "Add Auth + RBAC",
+    "description": "Skill that scaffolds JWT authentication with role-based access control using PyCasbin",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "skill-ci-cd",
+    "name": "Add CI/CD",
+    "description": "Skill that scaffolds GitHub Actions workflows for linting, testing, building, and deploying",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "anim-motion",
+    "name": "Motion",
+    "description": "Declarative React animation — layout, exit, gesture, scroll-linked, spring physics. 30.7K stars. Formerly Framer Motion.",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "anim-gsap",
+    "name": "GSAP",
+    "description": "Professional timeline engine — ScrollTrigger, Draggable, MorphSVG, SplitText plugins. 23.6K stars.",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "anim-react-spring",
+    "name": "react-spring",
+    "description": "Spring-physics hooks — useSpring, useTrail, useTransition, useChain. Natural, physics-based feel. 28K stars.",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "anim-animejs",
+    "name": "Anime.js v4",
+    "description": "Lightweight ESM-first animation engine — tree-shakeable, 53K stars, v4 complete rewrite.",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "anim-aos",
+    "name": "AOS",
+    "description": "CSS class injection on scroll — the simplest scroll reveal library. 27K stars.",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "anim-taos",
+    "name": "TAOS",
+    "description": "Tailwind scroll-triggered reveal animations — 600 bytes, no JS, pure CSS with data attributes.",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "anim-auto-animate",
+    "name": "AutoAnimate",
+    "description": "Single hook animates DOM mutations automatically — ~2KB, zero config. 13K stars.",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "anim-tw-motion",
+    "name": "tailwindcss-motion",
+    "description": "Tailwind plugin for motion-* utility classes — pure CSS, no runtime JS, RSC compatible.",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "anim-motion-one",
+    "name": "Motion One",
+    "description": "Framework-agnostic animation using native Web Animations API — zero framework coupling.",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "anim-lottie",
+    "name": "Lottie React",
+    "description": "After Effects animations at runtime via WASM — .lottie format 80% smaller than JSON, scroll-sync.",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "anim-theatre",
+    "name": "Theatre.js",
+    "description": "Visual animation editor in browser — keyframe timeline for designer-dev collaboration.",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "docs-starlight",
+    "name": "Astro Starlight",
+    "description": "Full documentation theme for Astro — sidebar, search, i18n, dark mode out of the box",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "docs-vitepress",
+    "name": "VitePress",
+    "description": "Vue-powered docs with instant dev server, built-in search, and theme customization",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "docs-docusaurus",
+    "name": "Docusaurus",
+    "description": "React docs framework by Meta — versioning, blog, plugin ecosystem, MDX support",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "docs-nextra",
+    "name": "Nextra",
+    "description": "Next.js docs/blog generator — MDX-first, file-system routing, zero-config",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "docs-fumadocs",
+    "name": "Fumadocs",
+    "description": "React docs framework with OpenAPI rendering, fast-growing alternative to Docusaurus",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "docs-mkdocs",
+    "name": "MkDocs Material",
+    "description": "Python docs-as-code — Markdown + YAML config, 20K stars, best Python docs framework",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "docs-docsify",
+    "name": "Docsify",
+    "description": "No-build docs from Markdown — runtime rendering, zero build step, instant setup",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "docs-markdoc",
+    "name": "Markdoc",
+    "description": "Plugin-based Markdown AST pipeline — transform, validate, convert markdown programmatically",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "docs-unified",
+    "name": "Unified / Remark",
+    "description": "Type-safe content SDK with Zod schemas — Contentlayer replacement for MD/YAML/JSON content",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "docs-velite",
+    "name": "Velite",
+    "description": "Beautiful OpenAPI renderer with built-in REST client — modern Swagger UI replacement",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "docs-scalar",
+    "name": "Scalar",
+    "description": "API reference from TypeScript source — reads tsconfig, auto-generates module documentation",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "docs-typedoc",
+    "name": "TypeDoc",
+    "description": "AST-based docstring generation (Google/NumPy/Sphinx style) + OpenAPI spec output",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "docs-doc-generator",
+    "name": "Documentation Generator",
+    "description": "Schema-first parser for 15+ formats — extracts structured content from any doc format",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "docs-universal-parser",
+    "name": "Universal Parser",
+    "description": "Codebase documentation coverage audit — scores 0-1 per component, finds gaps",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "docs-auditor",
+    "name": "Documentation Auditor",
+    "description": "Scans for markdown docs, categorizes by type, and detects documentation coverage gaps",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "docs-agent-tracker",
+    "name": "Doc Tracker Agent",
+    "description": "Parallel README generation across project components using Haiku swarm",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "docs-agent-readme",
+    "name": "README Generator",
+    "description": "docs-agent-readme",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "gm-phaser",
+    "name": "Phaser 3",
+    "description": "Full 2D game framework: sprites, tilemaps, 3 physics systems, audio, cameras, particles. 36K stars.",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "gm-excalibur",
+    "name": "Excalibur.js",
+    "description": "TypeScript-first ECS 2D game engine with full IntelliSense and friendly API.",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "gm-kaplay",
+    "name": "KAPLAY",
+    "description": "Component-based 2D game library with plain-English API — successor to Kaboom.js. Tiled map integration.",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "gm-littlejs",
+    "name": "LittleJS",
+    "description": "Tiny ~6KB game engine with zero dependencies — particles, tiles, WebGL renderer. Surprisingly capable.",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "gm-kontra",
+    "name": "Kontra.js",
+    "description": "Micro game library — tree-shakeable modules for Sprite, GameLoop, TileEngine. Fits in 13KB.",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "gm-melonjs",
+    "name": "melonJS 2",
+    "description": "HTML5 game engine with first-class Tiled TMX map support — no bundler required, CDN-ready.",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "gm-pixi",
+    "name": "PixiJS v8",
+    "description": "Ultra-fast 2D WebGL/WebGPU renderer — scene graph, filters, mesh/sprite batching. 43K stars.",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "gm-matter",
+    "name": "Matter.js",
+    "description": "Approachable 2D rigid-body physics — collision detection, constraints, composites, sleeping bodies. 16K stars.",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "gm-rapier",
+    "name": "Rapier (WASM)",
+    "description": "Rust-based physics engine compiled to WebAssembly — 2-5x faster than pure JS, deterministic simulation.",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "gm-planck",
+    "name": "Planck.js",
+    "description": "JavaScript Box2D port with TypeScript types — accurate, stable simulation matching Box2D behavior.",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "gm-colyseus",
+    "name": "Colyseus",
+    "description": "Authoritative multiplayer server — rooms, matchmaking, delta-compressed state sync. 6.1K stars.",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "gm-resilience",
+    "name": "Production Resilience",
+    "description": "Multiplayer error handling — reconnection, state reconciliation, timeout recovery, graceful degradation.",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "gm-howler",
+    "name": "Howler.js",
+    "description": "Game audio manager — BGM, SFX sprites, spatial audio, audio pools for concurrent sounds. 23K stars.",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "gm-patterns",
+    "name": "Game Patterns",
+    "description": "Core game architecture patterns — Observer (events), State (game states), Command (input/undo).",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "agent-gm-scaffold",
+    "name": "Scaffold Generator",
+    "description": "Generates game project structure with assets/, scenes/, entities/ directories.",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "agent-gm-fullstack",
+    "name": "Full Stack Scaffolding",
+    "description": "Plans game app architecture with asset pipeline, build targets, and deployment configs.",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "agent-gm-codewriter",
+    "name": "Code Writer Agent",
+    "description": "Generates game logic from natural language — AI behaviors, level generators, scoring systems.",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "agent-gm-analyzer",
+    "name": "Code Analyzer Agent",
+    "description": "Profiles game code — render loop optimization, GC pressure analysis, memory allocation hotspots.",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "mu-tone",
+    "name": "Tone.js",
+    "description": "Full DAW-style Web Audio framework with synths, effects, transport scheduling, and pattern sequencing. 13K stars.",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "mu-elementary",
+    "name": "Elementary Audio",
+    "description": "Declarative/functional DSP graph construction — same mental model as React, but for audio signal processing.",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "mu-strudel",
+    "name": "Strudel.js",
+    "description": "Live coding music pattern language inspired by TidalCycles — algorithmic composition directly in the browser.",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "mu-howler",
+    "name": "Howler.js",
+    "description": "Cross-browser audio playback manager — 7KB gzipped, handles every browser/format edge case. 23K stars.",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "mu-webaudiofont",
+    "name": "WebAudioFont",
+    "description": "2000+ General MIDI-compatible wavetable soundfonts — instant instrument playback with no samples to load.",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "mu-wavesurfer",
+    "name": "wavesurfer.js",
+    "description": "Interactive waveform rendering with synchronized playback — v7 with extensible plugin system. 8.5K stars.",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "mu-audiomotion",
+    "name": "audioMotion-analyzer",
+    "description": "Real-time FFT spectrum analyzer with 240-band resolution and ANSI-standard octave bands. Zero dependencies.",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "mu-tonal",
+    "name": "Tonal.js",
+    "description": "Music theory primitives — notes, chords, scales, intervals, progressions. Pure functional API, zero deps. 6K stars.",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "mu-vexflow",
+    "name": "VexFlow",
+    "description": "Publication-quality sheet music notation rendering to SVG or Canvas. 3.7K stars.",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "mu-midiwriter",
+    "name": "MidiWriterJS",
+    "description": "Programmatic MIDI file generation and export — full General MIDI event model with multi-track support.",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "mu-resilience",
+    "name": "Production Resilience",
+    "description": "Streaming audio error handling — reconnect logic, buffer underrun recovery, AudioContext suspend/resume.",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "mu-orchestrator",
+    "name": "Audio Orchestrator",
+    "description": "Multi-step audio processing pipeline with agent coordination — analyze, transform, render in sequence.",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "agent-mu-scaffold",
+    "name": "Scaffold Generator",
+    "description": "Generates music app project structure with audio-aware directories (synths/, effects/, samples/).",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "agent-mu-fullstack",
+    "name": "Full Stack Scaffolding",
+    "description": "Plans music app architecture with audio-specific configurations (Web Audio API, MIDI, streaming).",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "agent-mu-boilerplate",
+    "name": "Boilerplate Generator",
+    "description": "Injects audio design patterns — Observer for playback events, State for transport modes.",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "rag-chroma",
+    "name": "Chroma",
+    "description": "Open-source embedding database with persistent storage, cosine/L2/IP similarity, and metadata filtering",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "rag-qdrant",
+    "name": "Qdrant",
+    "description": "High-performance vector search engine with rich filtering, payload indexing, and gRPC support",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "rag-transformers-js",
+    "name": "Transformers.js",
+    "description": "Client-side ML inference via ONNX — run embedding models directly in the browser, no server needed",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "rag-contextual-embeddings",
+    "name": "Contextual Embeddings",
+    "description": "Self-supervised 256D embedding model with graph-neighbor fusion for context-aware vectors",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "rag-embedding-generator",
+    "name": "Embedding Generator",
+    "description": "56D semantic embeddings via keyword-heuristic/Haiku/hybrid modes — zero-cost local option",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "rag-haystack",
+    "name": "Haystack",
+    "description": "Modular RAG pipeline framework with document stores, retrievers, readers, and prompt builders",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "rag-langchain",
+    "name": "LangChain.js",
+    "description": "Chains + agents + vector store retriever — the most popular RAG framework with 95K stars",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "rag-dspy",
+    "name": "DSPy",
+    "description": "Self-optimizing retrieval modules with compiled prompts and evaluation-driven pipeline tuning",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "rag-hybrid-query",
+    "name": "Hybrid Query",
+    "description": "Production hybrid search combining embedding cosine + BM25 + graph-neighbor boosting in one call",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "rag-context-retrieval",
+    "name": "Context Retrieval",
+    "description": "Intent-aware retrieval that classifies queries into 6 types and adapts search strategy per intent",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "rag-lightrag",
+    "name": "LightRAG",
+    "description": "Graph-based RAG with dual-level retrieval and single insert()/query() API — 27K stars",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "rag-nano-graphrag",
+    "name": "nano-graphrag",
+    "description": "Minimal hackable GraphRAG in ~1000 LOC — easy to modify, extend, and understand",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "rag-graph-embedder",
+    "name": "Graph Embedder",
+    "description": "Graph-structural feature vectors (PageRank, centrality, clustering coefficient) from SQLite KG",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "rag-kg-reasoner",
+    "name": "Perceptual KG Reasoner",
+    "description": "Locality-first KG traversal — 2-hop neighborhood subgraph retrieval for focused reasoning",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "rag-kg-ask",
+    "name": "KG-Ask",
+    "description": "Natural language REPL over unified KG — 7 query types: search, traverse, explain, compare, etc.",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "rag-txtai",
+    "name": "txtai",
+    "description": "All-in-one semantic search + RAG + KG — zero infrastructure, SQLite-backed, batteries included",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "rag-parser-adapters",
+    "name": "Parser Adapters",
+    "description": "Unified parser for 15+ formats (PDF, DOCX, HTML, JSON, CSV, MD) with metadata extraction",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "rag-universal-parser",
+    "name": "Universal Parser",
+    "description": "Schema-first parser with batch processing, validation, and structured output",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "rag-mem0",
+    "name": "mem0",
+    "description": "Persistent memory layer for AI agents — add(), search(), get_all() with 3-line integration, 41K stars",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "rag-ragatouille",
+    "name": "RAGatouille",
+    "description": "ColBERT late-interaction retrieval for token-level matching — beats BM25 on retrieval benchmarks",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "rag-intent-classifier",
+    "name": "Intent Classifier",
+    "description": "Rule-based query classifier into 6 intent types with entity extraction — zero API cost",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "rag-markov-predictor",
+    "name": "Markov Predictor",
+    "description": "Markov chain for \"suggested next query\" based on query history patterns",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "rag-vercel-ai",
+    "name": "Vercel AI SDK",
+    "description": "Streaming RAG answers with useChat() hook — real-time token display in React",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "rag-pathway",
+    "name": "Pathway",
+    "description": "Streaming/real-time RAG with incremental indexing and live-updating knowledge bases",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "rag-similarity-search",
+    "name": "Similarity Search",
+    "description": "Fast semantic search over pre-generated embeddings — <100ms, $0 cost, REST API wrapper",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "rag-util-kg-importer",
+    "name": "KG Importer",
+    "description": "Imports tier-3 KG extraction JSON into SQLite — handles schema mapping and deduplication",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "rag-util-kg-merger",
+    "name": "KG Merger",
+    "description": "Merges two KGs with namespace prefixes, deduplication, and conflict resolution",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "rag-util-kg-validator",
+    "name": "KG Validate Rules",
+    "description": "CI-oriented architecture validator — checks KG against defined rules and constraints",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "rag-util-persist-kg",
+    "name": "Persist to KG",
+    "description": "Strategic subset selection for KG indexing — decides what is worth persisting",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "rag-util-intent-keywords",
+    "name": "Add Intent Keywords",
+    "description": "Enriches KG nodes with multi-level intent keywords for better retrieval matching",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "rag-util-kg-impact",
+    "name": "KG Impact Analyzer",
+    "description": "BFS change-impact analysis — shows what breaks if you modify a KG node",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "rag-util-rag-fusion",
+    "name": "RAG Fusion Analyzer",
+    "description": "RAG pipeline analyzer — evaluates hybrid search quality, query expansion, and RRF scoring",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "saas-better-auth",
+    "name": "Better-Auth",
+    "description": "Full-featured auth framework with sessions, OAuth, 2FA, organizations, and Stripe plugin",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "saas-clerk",
+    "name": "Clerk",
+    "description": "Hosted authentication with React components — zero backend auth code, 10K MAU free tier",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "saas-stripe",
+    "name": "Stripe",
+    "description": "Full-stack billing: React checkout components, backend webhook handling, subscription management",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "saas-lago",
+    "name": "Lago",
+    "description": "Open-source usage-based billing with metering, invoicing — self-hosted Stripe Billing alternative",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "saas-wasp",
+    "name": "Wasp / Open SaaS",
+    "description": "Full-stack SaaS framework with built-in auth, Stripe billing, admin dashboard, and email",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "saas-refine",
+    "name": "Refine",
+    "description": "Headless admin framework — CRUD from data providers, inference engine, access control",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "saas-react-admin",
+    "name": "react-admin",
+    "description": "Data-agnostic admin framework with 150+ components and 50+ data provider adapters",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "saas-ag-grid",
+    "name": "AG Grid",
+    "description": "Enterprise data grid with server-side row model, pivot, and aggregation for admin dashboards",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "saas-bullmq",
+    "name": "BullMQ",
+    "description": "Node.js job queue on Redis — delayed jobs, rate limiting, priorities, job flows, dashboard",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "saas-saq",
+    "name": "SAQ",
+    "description": "Async Python job queue on Redis/Postgres — drop-in Celery replacement for FastAPI",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "saas-taskiq",
+    "name": "Taskiq",
+    "description": "FastAPI-native distributed task queue — shares DI dependencies with FastAPI endpoints",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "saas-react-email",
+    "name": "react-email",
+    "description": "HTML email templates as React components — type-safe, version-controlled, with preview server",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "saas-sqlalchemy",
+    "name": "SQLAlchemy 2.x",
+    "description": "Multi-tenant async ORM with schema-per-tenant isolation and row-level security",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "saas-alembic",
+    "name": "Alembic",
+    "description": "Tenant-aware database migrations with per-schema migration support",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "saas-redis",
+    "name": "Redis",
+    "description": "Session caching, rate limiting, job broker, and pub/sub for real-time SaaS features",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "saas-casbin",
+    "name": "PyCasbin",
+    "description": "RBAC/ABAC authorization with role hierarchy, multi-tenant policies, and API middleware",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "saas-resilience",
+    "name": "Production Resilience",
+    "description": "Circuit breaker for external APIs (Stripe, email), retry with backoff, multi-model fallback",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "saas-agent-scaffold",
+    "name": "Scaffold Generator",
+    "description": "Generates SaaS project structure with auth/, billing/, admin/, and jobs/ modules",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "saas-agent-boilerplate",
+    "name": "Boilerplate Generator",
+    "description": "Injects SaaS patterns: Repository for data access, Singleton for services, Factory for tenants",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "saas-agent-reviewer",
+    "name": "Code Reviewer Agent",
+    "description": "Security/compliance review: auth bypass, payment handling, data isolation, OWASP SaaS checks",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "sd-zustand",
+    "name": "Zustand",
+    "description": "Minimal flux-style client state manager, ~3.5kB, with immer middleware for immutable updates",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "sd-jotai",
+    "name": "Jotai",
+    "description": "Atomic state management — create independent atoms that compose into derived state",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "sd-tanstack-query",
+    "name": "TanStack Query",
+    "description": "Server state manager with caching, background refetching, and optimistic updates — 43K stars",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "sd-swr",
+    "name": "SWR",
+    "description": "Stale-while-revalidate data fetching by Vercel, 4.2kB — simpler alternative to TanStack Query",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "sd-react-hook-form",
+    "name": "React Hook Form",
+    "description": "Performant form management via uncontrolled inputs — ~9kB, 41K stars",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "sd-tanstack-form",
+    "name": "TanStack Form",
+    "description": "Type-safe form management with first-class TypeScript support — newer alternative to RHF",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "sd-radix-ui",
+    "name": "Radix UI",
+    "description": "Unstyled, accessible component primitives (32+) — Dialog, Dropdown, Toast, Tooltip, etc.",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "sd-ark-ui",
+    "name": "Ark UI",
+    "description": "Headless components (45+) backed by state machines — framework-agnostic, accessible",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "sd-astro",
+    "name": "Astro",
+    "description": "Zero-JS island architecture — multi-framework, content-focused, 46K stars",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "sd-hono",
+    "name": "Hono",
+    "description": "Ultra-lightweight web framework (12kB), Web Standards-based, runs on edge — 25K stars",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "sd-sqlalchemy",
+    "name": "SQLAlchemy 2.x",
+    "description": "Async-first ORM and SQL toolkit with modern Python type hints",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "sd-alembic",
+    "name": "Alembic",
+    "description": "Database migration tool for SQLAlchemy with auto-generation and async support",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "sd-redis",
+    "name": "Redis",
+    "description": "In-memory data store for caching, sessions, rate-limiting, and pub/sub",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "sd-docker",
+    "name": "Docker",
+    "description": "Containerization for consistent dev/prod environments with multi-stage builds",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "sd-github-actions",
+    "name": "GitHub Actions CI/CD",
+    "description": "Automated CI/CD pipelines for lint, test, build, and deploy to GHCR",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "sd-sst",
+    "name": "SST",
+    "description": "Infrastructure-as-code for AWS and Cloudflare — deploy full-stack apps with one command",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "sd-codemirror",
+    "name": "CodeMirror 6",
+    "description": "Extensible code editor with syntax highlighting, completions, and 20+ language modes",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "sd-ag-grid",
+    "name": "AG Grid",
+    "description": "Enterprise data grid with sorting, filtering, grouping, and virtualized rendering",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "agent-code-reviewer",
+    "name": "Code Reviewer",
+    "description": "Scans generated code for security vulnerabilities (CWE IDs), style violations, and performance anti-patterns",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "agent-code-analyzer",
+    "name": "Code Analyzer",
+    "description": "AST-based complexity analysis, anti-pattern detection, and dependency graph mapping",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "agent-tdd-assistant",
+    "name": "TDD Assistant",
+    "description": "Generates unit and integration tests, identifies coverage gaps, and suggests test strategies",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "agent-refactoring",
+    "name": "Refactoring Analyzer",
+    "description": "Detects code smells, produces safe refactoring plans with effort/risk estimates",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "agent-scaffold",
+    "name": "Scaffold Generator",
+    "description": "Generates project structure templates for 7 project types (API, CLI, Fullstack, etc.)",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "agent-resilience",
+    "name": "Production Resilience",
+    "description": "Adds circuit breaker, retry with backoff, and multi-model fallback patterns",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "visuals-recharts",
+    "name": "Recharts",
+    "description": "Declarative React SVG charts — Line, Bar, Area, Pie, Radar with responsive containers",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "visuals-tremor",
+    "name": "Tremor",
+    "description": "Tailwind dashboard components — KPI cards, charts, tables, entire dashboard in minutes",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "visuals-nivo",
+    "name": "Nivo",
+    "description": "Rich chart collection (SVG, Canvas, HTML) with built-in theming and animation support",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "visuals-plotly",
+    "name": "Plotly.js",
+    "description": "Interactive scientific charts with hover tooltips, zoom, pan, and 40+ trace types",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "visuals-echarts",
+    "name": "ECharts",
+    "description": "Feature-rich charting from Apache — auto-resize, theme support, 60+ chart types",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "visuals-observable-plot",
+    "name": "Observable Plot",
+    "description": "Grammar-of-graphics with marks and scales — extremely concise API for exploratory analysis",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "visuals-shadcn-charts",
+    "name": "shadcn/ui Charts",
+    "description": "Chart primitives styled with shadcn tokens — zero new deps if already using shadcn",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "visuals-d3",
+    "name": "D3.js",
+    "description": "Full SVG/Canvas control — scales, axes, shapes, transitions, layouts, force simulations",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "visuals-visx",
+    "name": "Visx",
+    "description": "Low-level React D3 primitives — compositional, mix-and-match visualization components",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "visuals-react-flow",
+    "name": "React Flow",
+    "description": "Node-and-edge graph canvas with drag, zoom, custom nodes — 27K stars",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "visuals-cytoscape",
+    "name": "Cytoscape.js",
+    "description": "Graph/network visualization + analysis with 40+ layout algorithms",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "visuals-sigma",
+    "name": "Sigma.js",
+    "description": "WebGL network graph rendering for 100K+ nodes — fastest option for large graphs",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "visuals-maplibre",
+    "name": "react-map-gl + MapLibre",
+    "description": "WebGL maps with React — open-source, Mapbox-compatible, no API key required",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "visuals-deckgl",
+    "name": "deck.gl",
+    "description": "GPU geospatial layers — scatter, heat, arc, hexagon — millions of points, WebGPU ready",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "visuals-ag-grid",
+    "name": "AG Grid",
+    "description": "Data exploration grid — sort, filter, group, pivot, paginate, export for dashboard tables",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "visuals-graph-embedder",
+    "name": "Graph Embedder",
+    "description": "Graph structural feature extraction — PageRank, centrality, clustering for graph visualizations",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "visuals-kg-reasoner",
+    "name": "Perceptual KG Reasoner",
+    "description": "Locality-first graph traversal with 2D projection — generates data for network visualizations",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "visuals-kg-impact",
+    "name": "KG Impact Analyzer",
+    "description": "DOT-format graph export — converts KG data into Graphviz/Cytoscape/React Flow format",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "visuals-agent-ascii",
+    "name": "ASCII Graph Viz",
+    "description": "Terminal-based KG visualization for quick graph inspection without a browser",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "visuals-agent-textual",
+    "name": "Textual Viewer",
+    "description": "Terminal UI for tabular data display using Textual DataTable component",
+    "domains": [],
+    "category": "library"
+  },
+  {
+    "id": "visuals-agent-docs",
+    "name": "Documentation Generator",
+    "description": "Generates OpenAPI spec for visualization API endpoints",
+    "domains": [],
+    "category": "library"
+  }
+]
