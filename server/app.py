@@ -22,6 +22,7 @@ from server.routers.welcome import router as welcome_router
 from server.routers.studio import router as studio_router
 from server.routers.recommend import router as recommend_router
 from server.routers.synthesize import router as synthesize_router
+from server.routers.vox_live import router as vox_live_router
 from server.services.tts_service import tts
 
 log = logging.getLogger("aus.server")
@@ -71,6 +72,7 @@ app.include_router(welcome_router)
 app.include_router(studio_router)
 app.include_router(recommend_router)
 app.include_router(synthesize_router)
+app.include_router(vox_live_router)
 
 
 def get_studio() -> Studio:
