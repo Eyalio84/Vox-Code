@@ -2,9 +2,11 @@ import React, { useState } from 'react'
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import { ThemeProvider, useThemeContext } from './context/ThemeContext'
 import { VoxModelProvider } from './context/VoxModelContext'
+import { VoxLiveProvider } from './context/VoxLiveContext'
 import NavBar from './components/NavBar'
 import ThemeShell from './components/ThemeShell'
 import BootScreen from './components/BootScreen'
+import VoxLivePanel from './components/VoxLivePanel'
 import WelcomePage from './pages/WelcomePage'
 import StudioPage from './pages/StudioPage'
 import SettingsPage from './pages/SettingsPage'
@@ -51,7 +53,10 @@ const App: React.FC = () => {
   return (
     <VoxModelProvider>
       <ThemeProvider>
-        <AppShell />
+        <VoxLiveProvider>
+          <AppShell />
+          <VoxLivePanel />
+        </VoxLiveProvider>
       </ThemeProvider>
     </VoxModelProvider>
   )

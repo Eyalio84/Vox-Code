@@ -1,8 +1,10 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useEffect } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { useStudioStream } from '../hooks/useStudioStream'
 import { useToolRecommendations } from '../hooks/useToolRecommendations'
 import { useThemeContext } from '../context/ThemeContext'
+import { useVoxModel } from '../context/VoxModelContext'
+import { useVoxLive } from '../context/VoxLiveContext'
 import ChatPanel from '../components/ChatPanel'
 import InterviewWizard from '../components/InterviewWizard'
 import FileTree from '../components/FileTree'
@@ -34,9 +36,30 @@ const StudioPage: React.FC<StudioPageProps> = ({ isToolsOpen, onCloseTools }) =>
   const [selectedFile, setSelectedFile] = useState<string | null>(null)
   const [mobileTab, setMobileTab] = useState<MobileTab>('chat')
   const { themeId } = useThemeContext()
+  const { activeModel } = useVoxModel()
+  const { isConnected, startSession, lastToolAction } = useVoxLive()
   const { recommendations, isLoading: isLoadingRecs } = useToolRecommendations(project, themeId)
 
   const showInterview = searchParams.get('interview') === 'true' && !project
+
+  const handleTalkToVox = useCallback(() => {
+    if (!isConnected) {
+      startSession(themeId)
+    }
+  }, [isConnected, startSession, themeId])
+
+  // Handle VOX UI actions (generate, add_tool from voice commands)
+  useEffect(() => {
+    if (!lastToolAction || lastToolAction.type !== 'ui_action') return
+    const data = lastToolAction.data as Record<string, string> | undefined
+    if (!data) return
+
+    if (data.action === 'generate' && data.prompt) {
+      generate(data.prompt, project ?? undefined)
+    } else if (data.action === 'add_tool' && data.integration_prompt && project) {
+      generate(data.integration_prompt, project)
+    }
+  }, [lastToolAction, generate, project])
 
   const handleInterviewComplete = useCallback(
     (generationPrompt: string) => {
@@ -139,6 +162,31 @@ const StudioPage: React.FC<StudioPageProps> = ({ isToolsOpen, onCloseTools }) =>
           />
         </div>
       </div>
+
+      {activeModel === 'gemini' && !isConnected && (
+        <button
+          onClick={handleTalkToVox}
+          style={{
+            position: 'fixed',
+            bottom: 16,
+            right: 16,
+            padding: '12px 20px',
+            background: 'var(--t-primary)',
+            color: '#fff',
+            border: 'none',
+            borderRadius: 12,
+            fontSize: '0.8rem',
+            fontWeight: 600,
+            fontFamily: 'var(--t-font)',
+            cursor: 'pointer',
+            boxShadow: '0 4px 16px rgba(0,0,0,0.2)',
+            zIndex: 999,
+            transition: 'all 150ms ease',
+          }}
+        >
+          Talk to VOX
+        </button>
+      )}
 
       <ToolDrawer
         isOpen={isToolsOpen ?? false}
