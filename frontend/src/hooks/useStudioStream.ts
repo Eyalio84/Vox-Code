@@ -1,0 +1,223 @@
+import { useState, useCallback, useRef } from 'react'
+import type {
+  AusProject,
+  AusFile,
+  PhaseResult,
+  StudioMessage,
+} from '../types/project'
+
+export interface StudioState {
+  messages: StudioMessage[]
+  files: Record<string, AusFile>
+  phases: PhaseResult[]
+  project: AusProject | null
+  plan: string
+  isStreaming: boolean
+  error: string | null
+}
+
+const initialState: StudioState = {
+  messages: [],
+  files: {},
+  phases: [],
+  project: null,
+  plan: '',
+  isStreaming: false,
+  error: null,
+}
+
+function makeId(): string {
+  return Date.now().toString(36) + Math.random().toString(36).slice(2, 6)
+}
+
+export function useStudioStream() {
+  const [state, setState] = useState<StudioState>(initialState)
+  const abortRef = useRef<AbortController | null>(null)
+
+  const addMessage = useCallback(
+    (role: StudioMessage['role'], content: string, extra?: Partial<StudioMessage>) => {
+      setState((prev) => ({
+        ...prev,
+        messages: [
+          ...prev.messages,
+          {
+            id: makeId(),
+            role,
+            content,
+            timestamp: new Date().toISOString(),
+            ...extra,
+          },
+        ],
+      }))
+    },
+    [],
+  )
+
+  const handleEvent = useCallback(
+    (event: string, data: Record<string, unknown>) => {
+      switch (event) {
+        case 'phase':
+          setState((prev) => {
+            const updated = [...prev.phases]
+            const existing = updated.findIndex(
+              (p) => p.phase === data.phase,
+            )
+            const phaseResult: PhaseResult = {
+              phase: data.phase as PhaseResult['phase'],
+              success: data.status === 'completed',
+              output: '',
+              error: data.status === 'failed' ? 'Phase failed' : null,
+              duration_ms: (data.duration_ms as number) || 0,
+              tokens_used: (data.tokens_used as number) || 0,
+              model: (data.model as string) || null,
+            }
+            if (existing >= 0) {
+              updated[existing] = phaseResult
+            } else {
+              updated.push(phaseResult)
+            }
+            return { ...prev, phases: updated }
+          })
+          break
+
+        case 'studio_plan':
+          setState((prev) => ({ ...prev, plan: data.content as string }))
+          addMessage('assistant', data.content as string)
+          break
+
+        case 'studio_file':
+          setState((prev) => ({
+            ...prev,
+            files: {
+              ...prev.files,
+              [data.path as string]: {
+                path: data.path as string,
+                content: data.content as string,
+                role: (data.role as AusFile['role']) || 'COMPONENT',
+                language: (data.language as string) || 'text',
+                size: (data.content as string).length,
+                order: Object.keys(prev.files).length,
+              },
+            },
+          }))
+          break
+
+        case 'studio_deps':
+          setState((prev) => {
+            if (!prev.project) return prev
+            const frontendDeps = {
+              ...prev.project.frontend_deps,
+              ...(data.frontend as Record<string, string>),
+            }
+            const backendDeps = {
+              ...prev.project.backend_deps,
+              ...(data.backend as Record<string, string>),
+            }
+            return {
+              ...prev,
+              project: {
+                ...prev.project,
+                frontend_deps: frontendDeps,
+                backend_deps: backendDeps,
+              },
+            }
+          })
+          break
+
+        case 'done': {
+          const project = data.project as AusProject
+          setState((prev) => ({ ...prev, project }))
+          const fileCount = project?.files?.length || 0
+          addMessage('assistant', `Generation complete — ${fileCount} files generated.`)
+          break
+        }
+
+        case 'error':
+          setState((prev) => ({ ...prev, error: data.message as string }))
+          addMessage('system', `Error: ${data.message}`)
+          break
+      }
+    },
+    [addMessage],
+  )
+
+  const generate = useCallback(
+    async (prompt: string, project?: AusProject) => {
+      addMessage('user', prompt)
+      setState((prev) => ({ ...prev, isStreaming: true, error: null, phases: [] }))
+
+      const controller = new AbortController()
+      abortRef.current = controller
+
+      const mode = project ? 'refine' : 'create'
+      const body = JSON.stringify({
+        request: prompt,
+        mode,
+        project: project ?? null,
+        spec: null,
+      })
+
+      try {
+        const res = await fetch('/api/studio/stream', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body,
+          signal: controller.signal,
+        })
+
+        if (!res.ok || !res.body) {
+          const err = await res.json().catch(() => ({ detail: 'Stream failed' }))
+          throw new Error(err.detail || 'Failed to start stream')
+        }
+
+        const reader = res.body.getReader()
+        const decoder = new TextDecoder()
+        let buffer = ''
+
+        while (true) {
+          const { done, value } = await reader.read()
+          if (done) break
+
+          buffer += decoder.decode(value, { stream: true })
+          const lines = buffer.split('\n')
+          buffer = lines.pop() || ''
+
+          let currentEvent = ''
+          for (const line of lines) {
+            if (line.startsWith('event: ')) {
+              currentEvent = line.slice(7).trim()
+            } else if (line.startsWith('data: ') && currentEvent) {
+              try {
+                const data = JSON.parse(line.slice(6))
+                handleEvent(currentEvent, data)
+              } catch {
+                // skip malformed events
+              }
+              currentEvent = ''
+            }
+          }
+        }
+      } catch (err: unknown) {
+        if ((err as Error).name !== 'AbortError') {
+          const msg = (err as Error).message || 'Stream failed'
+          setState((prev) => ({ ...prev, error: msg }))
+          addMessage('system', `Error: ${msg}`)
+        }
+      } finally {
+        setState((prev) => ({ ...prev, isStreaming: false }))
+        abortRef.current = null
+      }
+    },
+    [addMessage, handleEvent],
+  )
+
+  const stop = useCallback(() => {
+    abortRef.current?.abort()
+  }, [])
+
+  const reset = useCallback(() => {
+    setState(initialState)
+  }, [])
+
+  return { ...state, generate, stop, reset, addMessage }
+}
