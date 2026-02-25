@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import { ThemeProvider, useThemeContext } from './context/ThemeContext'
+import { VoxModelProvider } from './context/VoxModelContext'
 import NavBar from './components/NavBar'
 import ThemeShell from './components/ThemeShell'
+import BootScreen from './components/BootScreen'
 import WelcomePage from './pages/WelcomePage'
 import StudioPage from './pages/StudioPage'
 import SettingsPage from './pages/SettingsPage'
@@ -13,6 +15,9 @@ const AppShell: React.FC = () => {
   const location = useLocation()
   const isStudioRoute = location.pathname === '/studio'
   const [isToolsOpen, setIsToolsOpen] = useState(false)
+  const [booted, setBooted] = useState(false)
+
+  if (!booted) return <BootScreen onReady={() => setBooted(true)} />
 
   return (
     <div className="flex flex-col h-screen" style={{ background: 'var(--t-bg)' }}>
@@ -44,9 +49,11 @@ const AppShell: React.FC = () => {
 
 const App: React.FC = () => {
   return (
-    <ThemeProvider>
-      <AppShell />
-    </ThemeProvider>
+    <VoxModelProvider>
+      <ThemeProvider>
+        <AppShell />
+      </ThemeProvider>
+    </VoxModelProvider>
   )
 }
 
