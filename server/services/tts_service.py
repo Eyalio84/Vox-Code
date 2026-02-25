@@ -40,9 +40,8 @@ THEME_VOICES: dict[str, str] = {
 }
 
 CACHED_LINES: list[tuple[str, str, str]] = [
-    ("greeting", VOX_VOICE, "Welcome to A Us Studio. I'm Vox, your creative partner."),
+    ("greeting", VOX_VOICE, "Welcome to Vox Code. I'm Vox, your creative partner."),
     ("q1_intro", VOX_VOICE, "First, tell me about your style. How do you like to work?"),
-    ("q2_intro", VOX_VOICE, "Now, how dense do you like your workspace?"),
     ("q3_intro", VOX_VOICE, "Last one. What mood suits you best?"),
     ("reveal_expert", "bm_george", "Expert Pro. Precision engineering at its finest."),
     ("reveal_sharp", "am_adam", "Sharp Edge. Clean lines, bold decisions."),
@@ -53,6 +52,8 @@ CACHED_LINES: list[tuple[str, str, str]] = [
     ("reveal_retro", "bm_lewis", "Retro Terminal. Old school never dies."),
     ("reveal_creative", "af_nicole", "Creative Burst. Let's make something wild."),
     ("outro", VOX_VOICE, "Let me reshape your workspace for you."),
+    ("model_question", VOX_VOICE, "One more thing. Which model would you like to power me?"),
+    ("action_question", VOX_VOICE, "Welcome to Vox Code. What would you like to do?"),
     # Interview transitions
     ("interview_start", VOX_VOICE, "Great, let's figure out what we're building. I'll ask you some questions."),
     ("interview_section2", VOX_VOICE, "Now let's talk about how it should look and feel."),
