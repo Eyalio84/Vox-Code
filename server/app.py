@@ -21,6 +21,7 @@ from aus.models import Project, Spec, GenerationResult
 from server.routers.welcome import router as welcome_router
 from server.routers.studio import router as studio_router
 from server.routers.recommend import router as recommend_router
+from server.routers.synthesize import router as synthesize_router
 from server.services.tts_service import tts
 
 log = logging.getLogger("aus.server")
@@ -37,9 +38,15 @@ ANTHROPIC_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     app.state.studio = Studio(gemini_key=GEMINI_KEY, anthropic_key=ANTHROPIC_KEY)
+    app.state.tts_ready = False
+    app.state.boot_status = "Initializing..."
     log.info("Loading TTS service...")
-    tts.load()
-    tts.precache()
+    app.state.boot_status = "Loading voice library..."
+    await tts.aload()
+    app.state.boot_status = "Pre-caching voices..."
+    await tts.aprecache()
+    app.state.tts_ready = True
+    app.state.boot_status = "Ready"
     log.info("A(Us) Studio server started (TTS ready)")
     yield
 
@@ -63,6 +70,7 @@ app.add_middleware(
 app.include_router(welcome_router)
 app.include_router(studio_router)
 app.include_router(recommend_router)
+app.include_router(synthesize_router)
 
 
 def get_studio() -> Studio:
@@ -99,7 +107,9 @@ async def health():
     return {
         "status": "ok",
         "version": "0.1.0",
-        "name": "A(Us) Studio",
+        "name": "Vox Code",
+        "ready": getattr(app.state, "tts_ready", False),
+        "boot_status": getattr(app.state, "boot_status", "Initializing..."),
         "providers": {
             "gemini": bool(GEMINI_KEY),
             "claude": bool(ANTHROPIC_KEY),
