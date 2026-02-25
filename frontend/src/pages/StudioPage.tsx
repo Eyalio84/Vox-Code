@@ -1,5 +1,7 @@
 import React, { useState, useCallback } from 'react'
 import { useStudioStream } from '../hooks/useStudioStream'
+import { useToolRecommendations } from '../hooks/useToolRecommendations'
+import { useThemeContext } from '../context/ThemeContext'
 import ChatPanel from '../components/ChatPanel'
 import FileTree from '../components/FileTree'
 import PreviewPanel from '../components/PreviewPanel'
@@ -24,6 +26,8 @@ const StudioPage: React.FC<StudioPageProps> = ({ isToolsOpen, onCloseTools }) =>
   } = useStudioStream()
 
   const [selectedFile, setSelectedFile] = useState<string | null>(null)
+  const { themeId } = useThemeContext()
+  const { recommendations, isLoading: isLoadingRecs } = useToolRecommendations(project, themeId)
 
   const handleSubmit = useCallback(
     (prompt: string) => {
@@ -65,6 +69,8 @@ const StudioPage: React.FC<StudioPageProps> = ({ isToolsOpen, onCloseTools }) =>
         isOpen={isToolsOpen ?? false}
         onClose={onCloseTools ?? (() => {})}
         onAddTool={handleAddTool}
+        recommendations={recommendations}
+        isLoadingRecs={isLoadingRecs}
         isStreaming={isStreaming}
       />
     </div>
