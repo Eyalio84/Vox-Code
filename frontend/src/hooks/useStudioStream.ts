@@ -12,6 +12,7 @@ export interface StudioState {
   phases: PhaseResult[]
   project: AusProject | null
   plan: string
+  streamingText: string
   isStreaming: boolean
   error: string | null
 }
@@ -22,6 +23,7 @@ const initialState: StudioState = {
   phases: [],
   project: null,
   plan: '',
+  streamingText: '',
   isStreaming: false,
   error: null,
 }
@@ -33,6 +35,8 @@ function makeId(): string {
 export function useStudioStream() {
   const [state, setState] = useState<StudioState>(initialState)
   const abortRef = useRef<AbortController | null>(null)
+  // Use a ref for accumulated text to avoid stale closures in the SSE loop
+  const accTextRef = useRef('')
 
   const addMessage = useCallback(
     (role: StudioMessage['role'], content: string, extra?: Partial<StudioMessage>) => {
@@ -56,6 +60,15 @@ export function useStudioStream() {
   const handleEvent = useCallback(
     (event: string, data: Record<string, unknown>) => {
       switch (event) {
+        case 'token':
+          // Accumulate streaming text in ref (avoids stale closure)
+          accTextRef.current += data.content as string
+          setState((prev) => ({
+            ...prev,
+            streamingText: accTextRef.current,
+          }))
+          break
+
         case 'phase':
           setState((prev) => {
             const updated = [...prev.phases]
@@ -126,9 +139,24 @@ export function useStudioStream() {
 
         case 'done': {
           const project = data.project as AusProject
-          setState((prev) => ({ ...prev, project }))
-          const fileCount = project?.files?.length || 0
-          addMessage('assistant', `Generation complete — ${fileCount} files generated.`)
+          const fileCount = project?.files?.length || Object.keys(state.files).length || 0
+          // Finalize: add the accumulated text as an assistant message, clear streaming state
+          const finalText = accTextRef.current
+          accTextRef.current = ''
+          setState((prev) => ({
+            ...prev,
+            project,
+            streamingText: '',
+            messages: [
+              ...prev.messages,
+              {
+                id: makeId(),
+                role: 'assistant' as const,
+                content: finalText || `Generation complete — ${fileCount} files generated.`,
+                timestamp: new Date().toISOString(),
+              },
+            ],
+          }))
           break
         }
 
@@ -138,13 +166,20 @@ export function useStudioStream() {
           break
       }
     },
-    [addMessage],
+    [addMessage, state.files],
   )
 
   const generate = useCallback(
     async (prompt: string, project?: AusProject) => {
       addMessage('user', prompt)
-      setState((prev) => ({ ...prev, isStreaming: true, error: null, phases: [] }))
+      accTextRef.current = ''
+      setState((prev) => ({
+        ...prev,
+        isStreaming: true,
+        error: null,
+        phases: [],
+        streamingText: '',
+      }))
 
       const controller = new AbortController()
       abortRef.current = controller
@@ -204,7 +239,7 @@ export function useStudioStream() {
           addMessage('system', `Error: ${msg}`)
         }
       } finally {
-        setState((prev) => ({ ...prev, isStreaming: false }))
+        setState((prev) => ({ ...prev, isStreaming: false, streamingText: '' }))
         abortRef.current = null
       }
     },
@@ -216,8 +251,42 @@ export function useStudioStream() {
   }, [])
 
   const reset = useCallback(() => {
+    accTextRef.current = ''
     setState(initialState)
   }, [])
 
-  return { ...state, generate, stop, reset, addMessage }
+  const loadProject = useCallback((project: AusProject) => {
+    const filesMap: Record<string, AusFile> = {}
+    for (const f of project.files) {
+      filesMap[f.path] = f
+    }
+    accTextRef.current = ''
+    setState({
+      messages: [{
+        id: makeId(),
+        role: 'system',
+        content: `Loaded project "${project.name}" — ${project.files.length} files.`,
+        timestamp: new Date().toISOString(),
+      }],
+      files: filesMap,
+      phases: [],
+      project,
+      plan: '',
+      streamingText: '',
+      isStreaming: false,
+      error: null,
+    })
+  }, [])
+
+  const addBlueprint = useCallback((files: AusFile[]) => {
+    setState((prev) => {
+      const updated = { ...prev.files }
+      for (const f of files) {
+        updated[f.path] = f
+      }
+      return { ...prev, files: updated }
+    })
+  }, [])
+
+  return { ...state, generate, stop, reset, addMessage, loadProject, addBlueprint }
 }
