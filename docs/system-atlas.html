@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vox Code — System Atlas</title>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #0f172a;
+    color: #e2e8f0;
+    min-height: 100vh;
+  }
+  .header {
+    text-align: center;
+    padding: 40px 20px 20px;
+    border-bottom: 1px solid #1e293b;
+  }
+  .header h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .header p { color: #94a3b8; margin-top: 8px; font-size: 0.9rem; }
+
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 12px;
+    max-width: 900px;
+    margin: 24px auto;
+    padding: 0 20px;
+  }
+  .stat {
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 10px;
+    padding: 16px;
+    text-align: center;
+  }
+  .stat .value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #3b82f6;
+  }
+  .stat .label {
+    font-size: 0.7rem;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-top: 4px;
+  }
+
+  .diagram-container {
+    max-width: 1200px;
+    margin: 24px auto;
+    padding: 20px;
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 12px;
+    overflow-x: auto;
+  }
+
+  .layers {
+    max-width: 900px;
+    margin: 32px auto;
+    padding: 0 20px;
+  }
+  .layer {
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 10px;
+    margin-bottom: 12px;
+    overflow: hidden;
+  }
+  .layer-header {
+    padding: 12px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+  }
+  .layer-header:hover { background: #334155; }
+  .layer-header h3 { font-size: 0.85rem; font-weight: 600; }
+  .layer-header .badge {
+    font-size: 0.65rem;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-weight: 600;
+  }
+  .layer-body {
+    display: none;
+    padding: 0 16px 16px;
+    font-size: 0.8rem;
+    color: #94a3b8;
+    line-height: 1.6;
+  }
+  .layer.open .layer-body { display: block; }
+  .layer.open .layer-header { border-bottom: 1px solid #334155; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.75rem;
+    margin-top: 8px;
+  }
+  th, td { padding: 6px 10px; text-align: left; }
+  th { color: #64748b; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; font-size: 0.65rem; }
+  td { color: #cbd5e1; border-top: 1px solid #1e293b; }
+  td code { color: #3b82f6; font-size: 0.7rem; }
+
+  .footer {
+    text-align: center;
+    padding: 32px;
+    color: #475569;
+    font-size: 0.75rem;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Vox Code — System Atlas</h1>
+  <p>Architecture overview — Not AI, Us</p>
+</div>
+
+<div class="stats">
+  <div class="stat"><div class="value">18</div><div class="label">API Endpoints</div></div>
+  <div class="stat"><div class="value">158</div><div class="label">Developer Tools</div></div>
+  <div class="stat"><div class="value">8</div><div class="label">Theme Packs</div></div>
+  <div class="stat"><div class="value">11</div><div class="label">Templates</div></div>
+  <div class="stat"><div class="value">5</div><div class="label">Blueprints</div></div>
+  <div class="stat"><div class="value">8</div><div class="label">VOX Tools</div></div>
+</div>
+
+<div class="diagram-container">
+  <pre class="mermaid">
+graph LR
+  subgraph Browser
+    direction TB
+    Welcome["Welcome Flow"]
+    Studio["Studio Page"]
+    Templates["Template Gallery"]
+    Import["Import Modal"]
+    VOX["VOX Live Panel"]
+    Preview["Sandpack Preview"]
+    Tools["Tool Drawer<br/>158 tools"]
+  end
+
+  subgraph FastAPI["FastAPI Server"]
+    direction TB
+    SSE["/studio/stream"]
+    WS["/vox/live"]
+    Proj["/project/*"]
+    Tmpl["/templates"]
+    Rec["/recommend"]
+    Synth["/synthesize"]
+    TTS["/tts/cache"]
+  end
+
+  subgraph SDK["A(Us) SDK"]
+    Pipeline["6-Phase Pipeline"]
+  end
+
+  subgraph External
+    Gemini["Gemini API"]
+    Claude["Claude API"]
+    GeminiLive["Gemini Live"]
+    Kokoro["Kokoro TTS"]
+  end
+
+  Studio --> SSE
+  VOX --> WS
+  Import --> Proj
+  Templates --> Tmpl
+  Studio --> Rec
+  Welcome --> TTS
+  Welcome --> Synth
+
+  SSE --> Pipeline
+  WS --> GeminiLive
+  TTS --> Kokoro
+  Pipeline --> Gemini
+  Pipeline --> Claude
+  </pre>
+</div>
+
+<div class="layers">
+  <h2 style="font-size: 1rem; font-weight: 600; margin-bottom: 16px; padding-left: 4px;">Architecture Layers</h2>
+
+  <div class="layer open">
+    <div class="layer-header" onclick="this.parentElement.classList.toggle('open')">
+      <h3>Frontend (React 19 + Vite)</h3>
+      <span class="badge" style="background:#3b82f6;color:#fff">15+ components</span>
+    </div>
+    <div class="layer-body">
+      <table>
+        <tr><th>Component</th><th>Purpose</th><th>Key Tech</th></tr>
+        <tr><td><code>WelcomePage</code></td><td>VOX-guided onboarding with personality questions</td><td>VoxContext, TTS</td></tr>
+        <tr><td><code>StudioPage</code></td><td>Main workspace: chat + preview + files</td><td>useStudioStream, Sandpack</td></tr>
+        <tr><td><code>ChatPanel</code></td><td>SSE streaming conversation</td><td>SSE, markdown</td></tr>
+        <tr><td><code>PreviewPanel</code></td><td>Live Sandpack React preview</td><td>@codesandbox/sandpack-react</td></tr>
+        <tr><td><code>ToolDrawer</code></td><td>158 tools across 8 domains</td><td>Adaptive filtering</td></tr>
+        <tr><td><code>VoxLivePanel</code></td><td>Voice UI with pulse, transcript, tools</td><td>WebSocket, PCM audio</td></tr>
+        <tr><td><code>ImportModal</code></td><td>ZIP upload + folder path import</td><td>FormData, drag-drop</td></tr>
+        <tr><td><code>TemplateGallery</code></td><td>11 template cards with categories</td><td>Fetch, loadProject</td></tr>
+        <tr><td><code>InterviewWizard</code></td><td>20-question feature interview</td><td>Domain switching</td></tr>
+        <tr><td><code>ThemeShell</code></td><td>GSAP-powered theme transitions</td><td>8 ThemePacks</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="layer">
+    <div class="layer-header" onclick="this.parentElement.classList.toggle('open')">
+      <h3>Backend (FastAPI)</h3>
+      <span class="badge" style="background:#10b981;color:#fff">7 routers, 5 services</span>
+    </div>
+    <div class="layer-body">
+      <table>
+        <tr><th>Router</th><th>Endpoints</th><th>Description</th></tr>
+        <tr><td><code>studio.py</code></td><td>POST /api/studio/stream</td><td>SSE generation pipeline</td></tr>
+        <tr><td><code>welcome.py</code></td><td>POST /api/welcome/profile, GET /api/tts/cache/*</td><td>Welcome flow + TTS</td></tr>
+        <tr><td><code>recommend.py</code></td><td>POST /api/recommend</td><td>AI tool recommendations</td></tr>
+        <tr><td><code>synthesize.py</code></td><td>POST /api/synthesize</td><td>Interview to prompt</td></tr>
+        <tr><td><code>vox_live.py</code></td><td>WS /api/vox/live</td><td>VOX voice WebSocket</td></tr>
+        <tr><td><code>project.py</code></td><td>POST /api/project/import/*, POST /api/project/export/zip</td><td>Import + export</td></tr>
+        <tr><td><code>templates.py</code></td><td>GET /api/templates/*, GET /api/blueprints/*</td><td>Templates + blueprints</td></tr>
+      </table>
+      <br/>
+      <table>
+        <tr><th>Service</th><th>Purpose</th></tr>
+        <tr><td><code>tts_service.py</code></td><td>Kokoro ONNX text-to-speech with pre-caching</td></tr>
+        <tr><td><code>vox_session.py</code></td><td>Gemini Live API session (bidirectional audio + function calling)</td></tr>
+        <tr><td><code>vox_tools.py</code></td><td>8 VOX function tool handlers</td></tr>
+        <tr><td><code>project_importer.py</code></td><td>Folder/ZIP to AusProject conversion with stack detection</td></tr>
+        <tr><td><code>project_exporter.py</code></td><td>AusProject to ready-to-run ZIP with scaffolding</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="layer">
+    <div class="layer-header" onclick="this.parentElement.classList.toggle('open')">
+      <h3>SDK (pip: aus-studio)</h3>
+      <span class="badge" style="background:#8b5cf6;color:#fff">6-phase pipeline</span>
+    </div>
+    <div class="layer-body">
+      <table>
+        <tr><th>Phase</th><th>Model</th><th>Purpose</th></tr>
+        <tr><td>ANALYZE</td><td>Gemini 2.5 Flash</td><td>Classify complexity, stack, features</td></tr>
+        <tr><td>SPEC</td><td>(derived)</td><td>Build specification from analysis</td></tr>
+        <tr><td>PLAN</td><td>Claude Sonnet</td><td>Architecture + component plan</td></tr>
+        <tr><td>GENERATE</td><td>Claude Sonnet</td><td>Generate all code files</td></tr>
+        <tr><td>VALIDATE</td><td>(structural)</td><td>Check entry points, placeholders</td></tr>
+        <tr><td>ITERATE</td><td>Gemini 2.5 Pro</td><td>Refine with 1M token context</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="layer">
+    <div class="layer-header" onclick="this.parentElement.classList.toggle('open')">
+      <h3>External APIs</h3>
+      <span class="badge" style="background:#f59e0b;color:#000">4 providers</span>
+    </div>
+    <div class="layer-body">
+      <table>
+        <tr><th>Provider</th><th>Model</th><th>Used For</th></tr>
+        <tr><td>Google</td><td>Gemini 2.5 Flash</td><td>Analysis, fallback generation</td></tr>
+        <tr><td>Google</td><td>Gemini 2.5 Pro</td><td>ITERATE phase (1M context)</td></tr>
+        <tr><td>Google</td><td>Gemini Live (native audio)</td><td>VOX real-time voice</td></tr>
+        <tr><td>Anthropic</td><td>Claude Sonnet</td><td>Planning + code generation</td></tr>
+        <tr><td>Local</td><td>Kokoro 82M ONNX</td><td>Offline TTS for Claude mode</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="layer">
+    <div class="layer-header" onclick="this.parentElement.classList.toggle('open')">
+      <h3>Data Assets</h3>
+      <span class="badge" style="background:#6b7280;color:#fff">templates + blueprints</span>
+    </div>
+    <div class="layer-body">
+      <table>
+        <tr><th>Asset</th><th>Count</th><th>Location</th></tr>
+        <tr><td>Project Templates</td><td>11</td><td><code>server/templates/*.json</code></td></tr>
+        <tr><td>Component Blueprints</td><td>5</td><td><code>server/blueprints/*.json</code></td></tr>
+        <tr><td>Tool Catalog</td><td>186</td><td><code>server/tool_catalog.json</code></td></tr>
+        <tr><td>Domain Tool Files</td><td>8</td><td><code>frontend/src/tools/domains/*.ts</code></td></tr>
+        <tr><td>TTS Cache</td><td>~12</td><td><code>server/tts_cache/*.wav</code></td></tr>
+        <tr><td>ThemePacks</td><td>8</td><td><code>frontend/src/themes/*.ts</code></td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  Vox Code — A(Us) — Not AI, Us<br/>
+  Generated 2026-02-26
+</div>
+
+<script>
+  mermaid.initialize({
+    startOnLoad: true,
+    theme: 'dark',
+    themeVariables: {
+      primaryColor: '#3b82f6',
+      primaryTextColor: '#e2e8f0',
+      primaryBorderColor: '#1e293b',
+      lineColor: '#64748b',
+      secondaryColor: '#1e293b',
+      tertiaryColor: '#0f172a',
+    }
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,117 @@
+---
+title: Vox Code — Ecosystem Atlas
+---
+graph TB
+    subgraph Client["Browser (React 19 + Vite)"]
+        WP[WelcomePage<br/>Personality Interview]
+        SP[StudioPage<br/>Chat + Preview + Files]
+        TG[TemplateGallery<br/>11 Templates]
+        IM[ImportModal<br/>ZIP + Folder]
+
+        subgraph Contexts
+            TC[ThemeContext<br/>8 ThemePacks]
+            VMC[VoxModelContext<br/>Gemini / Claude]
+            VLC[VoxLiveContext<br/>WebSocket + Audio]
+        end
+
+        subgraph Hooks
+            USS[useStudioStream<br/>SSE + loadProject]
+            UTR[useToolRecs]
+        end
+
+        subgraph Preview
+            SP --> FileTree
+            SP --> ChatPanel
+            SP --> PreviewPanel[PreviewPanel<br/>Sandpack]
+        end
+
+        SP --> ToolDrawer[ToolDrawer<br/>158 Tools × 8 Domains]
+        SP --> VoxLivePanel[VoxLivePanel<br/>Voice UI]
+    end
+
+    subgraph Server["FastAPI Backend (port 8001)"]
+        subgraph Routers
+            R_Studio["/api/studio/stream<br/>SSE Generation"]
+            R_Welcome["/api/welcome/profile<br/>Theme Assignment"]
+            R_Recommend["/api/recommend<br/>Tool Recommendations"]
+            R_Synthesize["/api/synthesize<br/>Interview → Prompt"]
+            R_VoxLive["/api/vox/live<br/>WebSocket Voice"]
+            R_Project["/api/project/*<br/>Import + Export"]
+            R_Templates["/api/templates<br/>/api/blueprints"]
+        end
+
+        subgraph Services
+            TTS[tts_service<br/>Kokoro ONNX]
+            VoxSess[vox_session<br/>Gemini Live API]
+            VoxTools[vox_tools<br/>8 Function Tools]
+            Importer[project_importer<br/>Folder/ZIP → AusProject]
+            Exporter[project_exporter<br/>AusProject → ZIP]
+        end
+
+        subgraph Data
+            Templates["server/templates/<br/>11 JSON files"]
+            Blueprints["server/blueprints/<br/>5 JSON files"]
+            Catalog["tool_catalog.json<br/>186 tools"]
+            TTSCache["tts_cache/<br/>Pre-rendered audio"]
+        end
+    end
+
+    subgraph SDK["A(Us) SDK (pip package)"]
+        Studio[Studio class<br/>create / refine / export]
+        Pipeline[6-Phase Pipeline<br/>ANALYZE → VALIDATE]
+        LLM[LLM Wrappers<br/>Gemini + Claude]
+        Parser[File Parser<br/>### FILE: extraction]
+        Prompts[6 Prompts<br/>~24K chars]
+    end
+
+    subgraph External["External APIs"]
+        GeminiFlash[Gemini 2.5 Flash<br/>Analysis + Fallback]
+        GeminiPro[Gemini 2.5 Pro<br/>ITERATE phase]
+        GeminiLive[Gemini Live API<br/>Native Audio]
+        ClaudeSonnet[Claude Sonnet<br/>PLAN + GENERATE]
+        KokoroModel[Kokoro 82M ONNX<br/>Local TTS]
+    end
+
+    %% Client → Server connections
+    USS -->|SSE| R_Studio
+    VLC -->|WebSocket| R_VoxLive
+    IM -->|POST| R_Project
+    TG -->|GET| R_Templates
+    UTR -->|POST| R_Recommend
+    WP -->|POST| R_Welcome
+    WP -->|GET| TTS
+
+    %% Server internal
+    R_Studio --> Studio
+    R_VoxLive --> VoxSess
+    VoxSess --> VoxTools
+    R_Project --> Importer
+    R_Project --> Exporter
+    R_Templates --> Templates
+    R_Templates --> Blueprints
+    R_Recommend --> LLM
+    R_Welcome --> TTS
+    TTS --> TTSCache
+    VoxTools --> Catalog
+
+    %% SDK → External
+    Studio --> Pipeline
+    Pipeline --> LLM
+    LLM --> GeminiFlash
+    LLM --> GeminiPro
+    LLM --> ClaudeSonnet
+    VoxSess --> GeminiLive
+    TTS --> KokoroModel
+
+    %% Styling
+    classDef frontend fill:#3b82f6,stroke:#1d4ed8,color:#fff
+    classDef backend fill:#10b981,stroke:#059669,color:#fff
+    classDef sdk fill:#8b5cf6,stroke:#6d28d9,color:#fff
+    classDef external fill:#f59e0b,stroke:#d97706,color:#fff
+    classDef data fill:#6b7280,stroke:#4b5563,color:#fff
+
+    class WP,SP,TG,IM,TC,VMC,VLC,USS,UTR,FileTree,ChatPanel,PreviewPanel,ToolDrawer,VoxLivePanel frontend
+    class R_Studio,R_Welcome,R_Recommend,R_Synthesize,R_VoxLive,R_Project,R_Templates,TTS,VoxSess,VoxTools,Importer,Exporter backend
+    class Studio,Pipeline,LLM,Parser,Prompts sdk
+    class GeminiFlash,GeminiPro,GeminiLive,ClaudeSonnet,KokoroModel external
+    class Templates,Blueprints,Catalog,TTSCache data
