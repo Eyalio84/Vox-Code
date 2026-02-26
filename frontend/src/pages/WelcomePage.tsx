@@ -25,7 +25,7 @@ const MODEL_OPTIONS = [
 
 const ACTION_OPTIONS = [
   { value: 'new-build', label: 'Start New Build', description: "I'll interview you about what to build, then generate a complete app." },
-  { value: 'load-project', label: 'Load Project', description: 'Resume where you left off on a previous build. (Coming soon)' },
+  { value: 'load-project', label: 'Load Project', description: 'Start from a template or import your own React app.' },
   { value: 'guided-tour', label: 'Guided Tour', description: "I'll walk you through everything Vox Code can do. (Coming soon)" },
 ]
 
@@ -117,6 +117,8 @@ const WelcomeFlow: React.FC = () => {
     setTimeout(() => {
       if (value === 'new-build') {
         navigate('/studio?interview=true')
+      } else if (value === 'load-project') {
+        navigate('/studio?mode=load')
       } else {
         navigate('/studio')
       }

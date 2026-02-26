@@ -10,6 +10,8 @@ import InterviewWizard from '../components/InterviewWizard'
 import FileTree from '../components/FileTree'
 import PreviewPanel from '../components/PreviewPanel'
 import ToolDrawer from '../components/ToolDrawer'
+import ImportModal from '../components/ImportModal'
+import TemplateGallery from '../components/TemplateGallery'
 import type { ToolEntry } from '../tools/types'
 
 interface StudioPageProps {
@@ -31,6 +33,7 @@ const StudioPage: React.FC<StudioPageProps> = ({ isToolsOpen, onCloseTools }) =>
     error,
     generate,
     stop,
+    loadProject,
   } = useStudioStream()
 
   const [selectedFile, setSelectedFile] = useState<string | null>(null)
@@ -41,6 +44,8 @@ const StudioPage: React.FC<StudioPageProps> = ({ isToolsOpen, onCloseTools }) =>
   const { recommendations, isLoading: isLoadingRecs } = useToolRecommendations(project, themeId)
 
   const showInterview = searchParams.get('interview') === 'true' && !project
+  const showTemplates = searchParams.get('mode') === 'load' && !project
+  const [showImport, setShowImport] = useState(false)
 
   const handleTalkToVox = useCallback(() => {
     if (!isConnected) {
@@ -72,6 +77,27 @@ const StudioPage: React.FC<StudioPageProps> = ({ isToolsOpen, onCloseTools }) =>
   const handleInterviewSkip = useCallback(() => {
     setSearchParams({}, { replace: true })
   }, [setSearchParams])
+
+  const handleExportZip = useCallback(async () => {
+    if (!project) return
+    try {
+      const res = await fetch('/api/project/export/zip', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(project),
+      })
+      if (!res.ok) throw new Error('Export failed')
+      const blob = await res.blob()
+      const url = URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = `${project.name || 'project'}.zip`
+      a.click()
+      URL.revokeObjectURL(url)
+    } catch (e) {
+      console.error('Export failed:', e)
+    }
+  }, [project])
 
   const fileCount = Object.keys(files).length
 
@@ -140,6 +166,16 @@ const StudioPage: React.FC<StudioPageProps> = ({ isToolsOpen, onCloseTools }) =>
               onComplete={handleInterviewComplete}
               onSkip={handleInterviewSkip}
             />
+          ) : showTemplates ? (
+            <div className="flex-1 flex flex-col items-center justify-center p-6 overflow-auto" style={{ background: 'var(--t-bg)' }}>
+              <h2 style={{ color: 'var(--t-text)', fontSize: '1rem', fontWeight: 600, marginBottom: 16, fontFamily: 'var(--t-font)' }}>
+                Choose a template or import your project
+              </h2>
+              <TemplateGallery
+                onSelect={(p) => { loadProject(p); setSearchParams({}, { replace: true }) }}
+                onImport={() => setShowImport(true)}
+              />
+            </div>
           ) : (
             <ChatPanel
               messages={messages}
@@ -187,6 +223,58 @@ const StudioPage: React.FC<StudioPageProps> = ({ isToolsOpen, onCloseTools }) =>
           Talk to VOX
         </button>
       )}
+
+      {/* Import button — fixed bottom-left */}
+      <button
+        onClick={() => setShowImport(true)}
+        style={{
+          position: 'fixed',
+          bottom: 16,
+          left: 16,
+          padding: '10px 16px',
+          background: 'var(--t-surface)',
+          color: 'var(--t-text)',
+          border: '1px solid var(--t-border)',
+          borderRadius: 10,
+          fontSize: '0.75rem',
+          fontWeight: 600,
+          fontFamily: 'var(--t-font)',
+          cursor: 'pointer',
+          zIndex: 999,
+        }}
+      >
+        Import
+      </button>
+
+      {/* Export ZIP button — fixed bottom-left, offset */}
+      {project && (
+        <button
+          onClick={handleExportZip}
+          style={{
+            position: 'fixed',
+            bottom: 16,
+            left: 100,
+            padding: '10px 16px',
+            background: 'var(--t-surface)',
+            color: 'var(--t-text)',
+            border: '1px solid var(--t-border)',
+            borderRadius: 10,
+            fontSize: '0.75rem',
+            fontWeight: 600,
+            fontFamily: 'var(--t-font)',
+            cursor: 'pointer',
+            zIndex: 999,
+          }}
+        >
+          Download ZIP
+        </button>
+      )}
+
+      <ImportModal
+        isOpen={showImport}
+        onClose={() => setShowImport(false)}
+        onImport={loadProject}
+      />
 
       <ToolDrawer
         isOpen={isToolsOpen ?? false}
