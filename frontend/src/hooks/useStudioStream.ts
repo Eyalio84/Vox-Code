@@ -59,6 +59,31 @@ export function useStudioStream() {
     [],
   )
 
+  // Auto-save project to persistence API after generation completes
+  const saveProject = useCallback(async (proj: AusProject) => {
+    try {
+      const filesObj: Record<string, unknown> = {}
+      for (const f of proj.files) {
+        filesObj[f.path] = { path: f.path, content: f.content, role: f.role, language: f.language, size: f.size, order: f.order }
+      }
+      const body = {
+        name: proj.name,
+        description: '',
+        stack: proj.stack || 'REACT_ONLY',
+        files: filesObj,
+        frontend_deps: proj.frontend_deps || {},
+        backend_deps: proj.backend_deps || {},
+      }
+      await fetch('/api/projects', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      })
+    } catch {
+      // Fire-and-forget — don't break the UX on save failure
+    }
+  }, [])
+
   const handleEvent = useCallback(
     (event: string, data: Record<string, unknown>) => {
       switch (event) {
@@ -160,6 +185,10 @@ export function useStudioStream() {
               },
             ],
           }))
+          // Auto-save to persistence
+          if (project) {
+            saveProject(project)
+          }
           break
         }
 
@@ -169,7 +198,7 @@ export function useStudioStream() {
           break
       }
     },
-    [addMessage, state.files],
+    [addMessage, state.files, saveProject],
   )
 
   const generate = useCallback(
@@ -296,5 +325,15 @@ export function useStudioStream() {
     })
   }, [])
 
-  return { ...state, generate, stop, reset, addMessage, loadProject, addBlueprint }
+  const listProjects = useCallback(async (): Promise<Array<{id: string, name: string, description: string, stack: string, updated_at: string}>> => {
+    try {
+      const res = await fetch('/api/projects')
+      if (!res.ok) return []
+      return await res.json()
+    } catch {
+      return []
+    }
+  }, [])
+
+  return { ...state, generate, stop, reset, addMessage, loadProject, addBlueprint, saveProject, listProjects }
 }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import { ThemeProvider, useThemeContext } from './context/ThemeContext'
 import { VoxModelProvider } from './context/VoxModelContext'
@@ -18,6 +18,15 @@ const AppShell: React.FC = () => {
   const isStudioRoute = location.pathname === '/studio'
   const [isToolsOpen, setIsToolsOpen] = useState(false)
   const [booted, setBooted] = useState(false)
+
+  // Awareness: log page visits on route change
+  useEffect(() => {
+    fetch('/api/awareness/page', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ page: location.pathname }),
+    }).catch(() => {})
+  }, [location.pathname])
 
   if (!booted) return <BootScreen onReady={() => setBooted(true)} />
 

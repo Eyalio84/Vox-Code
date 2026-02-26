@@ -14,6 +14,7 @@ import ImportModal from '../components/ImportModal'
 import TemplateGallery from '../components/TemplateGallery'
 import ProjectHub from '../components/ProjectHub'
 import type { ToolEntry } from '../tools/types'
+import type { AusFile } from '../types/project'
 
 interface StudioPageProps {
   isToolsOpen?: boolean
@@ -36,6 +37,7 @@ const StudioPage: React.FC<StudioPageProps> = ({ isToolsOpen, onCloseTools }) =>
     generate,
     stop,
     loadProject,
+    listProjects,
   } = useStudioStream()
 
   const [selectedFile, setSelectedFile] = useState<string | null>(null)
@@ -51,11 +53,64 @@ const StudioPage: React.FC<StudioPageProps> = ({ isToolsOpen, onCloseTools }) =>
   const [hubDismissed, setHubDismissed] = useState(false)
   const showHub = !project && !showInterview && !showTemplates && !hubDismissed && Object.keys(files).length === 0
 
+  const [recentProjects, setRecentProjects] = useState<Array<{id: string, name: string, description: string, updated_at: string}>>([])
+
+  useEffect(() => {
+    if (showHub) {
+      listProjects().then(setRecentProjects).catch(() => {})
+    }
+  }, [showHub, listProjects])
+
+  const handleLoadRecent = useCallback(async (projectId: string) => {
+    try {
+      const res = await fetch(`/api/projects/${projectId}`)
+      if (!res.ok) return
+      const data = await res.json()
+      // Convert persistence format to AusProject
+      const files = Object.values(data.files || {}) as AusFile[]
+      loadProject({
+        id: data.id || projectId,
+        name: data.name,
+        stack: data.stack || 'REACT_ONLY',
+        complexity: data.complexity || 'STANDARD',
+        files,
+        frontend_deps: data.frontend_deps || {},
+        backend_deps: data.backend_deps || {},
+        created_at: data.created_at || new Date().toISOString(),
+        version: data.version || 1,
+      })
+    } catch {
+      // Ignore
+    }
+  }, [loadProject])
+
   const handleTalkToVox = useCallback(() => {
     if (!isConnected) {
       startSession(themeId)
     }
   }, [isConnected, startSession, themeId])
+
+  // Awareness: log active project context
+  useEffect(() => {
+    if (project?.name) {
+      fetch('/api/awareness/context', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ key: 'active_project', value: project.name }),
+      }).catch(() => {})
+    }
+  }, [project?.name])
+
+  // Awareness: log generation errors
+  useEffect(() => {
+    if (error) {
+      fetch('/api/awareness/error', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ error_type: 'generation', message: error, page: '/studio' }),
+      }).catch(() => {})
+    }
+  }, [error])
 
   // Handle VOX UI actions (generate, add_tool from voice commands)
   useEffect(() => {
@@ -175,6 +230,8 @@ const StudioPage: React.FC<StudioPageProps> = ({ isToolsOpen, onCloseTools }) =>
               onNewProject={() => setHubDismissed(true)}
               onTemplates={() => setSearchParams({ mode: 'load' }, { replace: true })}
               onImport={() => setShowImport(true)}
+              recentProjects={recentProjects}
+              onLoadRecent={handleLoadRecent}
             />
           ) : showTemplates ? (
             <div className="flex-1 flex flex-col items-center justify-center p-6 overflow-auto" style={{ background: 'var(--t-bg)' }}>
