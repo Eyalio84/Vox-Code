@@ -25,24 +25,34 @@ aus-studio/
 │   ├── prompts/                 # 6 generation prompts (~24K chars total)
 │   └── specs/templates.py       # 3 pre-built specs (todo, dashboard, saas)
 ├── server/
-│   ├── app.py                   # FastAPI server (8 routers, CORS, lifespan)
+│   ├── app.py                   # FastAPI server (10 routers, CORS, lifespan)
 │   ├── routers/
 │   │   ├── studio.py            # SSE streaming generation endpoint
 │   │   ├── welcome.py           # Welcome flow + theme assignment
-│   │   ├── recommend.py         # AI tool recommendations
+│   │   ├── recommend.py         # AI tool recommendations (semantic pre-filter)
 │   │   ├── synthesize.py        # Feature interview → generation prompt
 │   │   ├── vox_live.py          # WebSocket VOX Live endpoint
 │   │   ├── project.py           # Import/export endpoints
-│   │   └── templates.py         # Template + blueprint API
+│   │   ├── templates.py         # Template + blueprint API
+│   │   ├── studio_projects.py   # SQLite project persistence + versioning
+│   │   ├── awareness.py         # VOX awareness context API
+│   │   └── tts.py               # Gemini Cloud TTS + Kokoro local TTS
 │   ├── services/
-│   │   ├── tts_service.py       # Kokoro ONNX text-to-speech
+│   │   ├── tts_service.py       # Kokoro ONNX text-to-speech (local)
+│   │   ├── gemini_tts.py        # Gemini Cloud TTS (30 voices, style control)
+│   │   ├── tool_embeddings.py   # Semantic tool search (gemini-embedding-001)
 │   │   ├── vox_session.py       # Gemini Live API session wrapper
 │   │   ├── vox_tools.py         # 8 VOX function call handlers
 │   │   ├── project_importer.py  # Folder/ZIP → AusProject conversion
-│   │   └── project_exporter.py  # AusProject → ready-to-run ZIP
+│   │   ├── project_exporter.py  # AusProject → ready-to-run ZIP
+│   │   ├── project_store.py     # SQLite project persistence
+│   │   └── awareness_store.py   # SQLite VOX awareness (3 tables)
+│   ├── scripts/
+│   │   └── build_tool_embeddings.py  # One-time embedding generation
 │   ├── templates/               # 11 project template JSON files
 │   ├── blueprints/              # 5 component blueprint JSON files
-│   └── tool_catalog.json        # 186 tools for VOX search
+│   ├── tool_catalog.json        # 186 tools for VOX search
+│   └── tool_embeddings.json     # Pre-computed 768-dim embeddings
 ├── frontend/
 │   ├── src/
 │   │   ├── pages/               # WelcomePage, StudioPage, SettingsPage
@@ -83,12 +93,22 @@ Models are selected **per pipeline phase**, not per task:
 
 | Phase | Primary | Fallback | Reason |
 |-------|---------|----------|--------|
-| ANALYZE | Gemini Flash | Claude Haiku | Fast classification |
-| PLAN | Claude Sonnet | Gemini Pro | Better architectural reasoning |
-| GENERATE | Claude Sonnet | Gemini Flash | Gemini Pro triggers RECITATION |
-| ITERATE | Gemini Pro | Claude Sonnet | 1M context for existing code |
+| ANALYZE | Gemini 3 Flash | Claude Haiku | Fast classification |
+| PLAN | Claude Sonnet | Gemini 3 Pro | Better architectural reasoning |
+| GENERATE | Claude Sonnet | Gemini 3 Flash | Gemini Pro triggers RECITATION |
+| ITERATE | Gemini 3 Pro | Claude Sonnet | 1M context for existing code |
 
-**Important**: Gemini 2.5 Pro's RECITATION filter blocks common boilerplate code (React + FastAPI patterns). Always prefer Claude for the GENERATE phase.
+**Important**: Gemini Pro's RECITATION filter blocks common boilerplate code (React + FastAPI patterns). Always prefer Claude for the GENERATE phase.
+
+### Gemini Models Used
+
+| Model ID | Purpose | Location |
+|----------|---------|----------|
+| `gemini-3-flash-preview` | Fast classification, backend utilities, generation fallback | router.py, llm.py, recommend.py, synthesize.py, vox_tools.py |
+| `gemini-3-pro-preview` | Complex reasoning, 1M context code review | router.py, llm.py |
+| `gemini-2.5-flash-native-audio-preview-12-2025` | VOX real-time bidirectional voice | vox_session.py |
+| `gemini-2.5-flash-preview-tts` | Cloud text-to-speech (30 voices) | gemini_tts.py |
+| `gemini-embedding-001` | Semantic tool search (768-dim vectors) | tool_embeddings.py |
 
 ### Streaming
 
@@ -173,12 +193,13 @@ python3 e2e_test.py
 |---------|---------|----------|
 | pydantic>=2.0 | Data models with validation | Yes |
 | httpx>=0.27 | HTTP client | Yes |
-| google-genai>=1.0 | Gemini API SDK | Yes (for Gemini) |
+| google-genai>=1.0 | Gemini API SDK (generation, embeddings, TTS, Live) | Yes (for Gemini) |
 | anthropic>=0.40 | Claude API SDK | Recommended |
 | rich>=13.0 | CLI output formatting | Yes (for CLI) |
 | pyyaml>=6.0 | Config file support | Yes |
 | fastapi>=0.115 | Server wrapper | Optional (server extra) |
 | uvicorn>=0.32 | ASGI server | Optional (server extra) |
+| aiosqlite>=0.20 | Async SQLite (projects, awareness) | Optional (server extra) |
 
 ## Server Configuration
 
@@ -206,6 +227,11 @@ cd frontend && node node_modules/vite/bin/vite.js
 | `/api/templates` | GET | List templates |
 | `/api/blueprints` | GET | List blueprints |
 | `/api/vox/live` | WS | VOX voice channel |
+| `/api/tts/speak` | POST | Gemini Cloud / Kokoro TTS |
+| `/api/tts/voices` | GET | List 30 Gemini TTS voices |
+| `/api/projects` | GET | List saved projects |
+| `/api/projects/{id}` | GET | Load project + files |
+| `/api/awareness/context` | GET | VOX awareness context |
 
 ### Frontend Architecture
 
@@ -235,10 +261,28 @@ cd frontend && node node_modules/vite/bin/vite.js
 ## Validated Test Result
 
 ```
-ANALYZE   gemini-2.5-flash      816 tokens    4.7s
-PLAN      claude-sonnet-4-6   1,567 tokens   16.3s
-GENERATE  claude-sonnet-4-6  27,402 tokens  189.5s
-VALIDATE  (structural)            0 tokens      0s
-Total:                        29,785 tokens  210.5s
+ANALYZE   gemini-3-flash-preview   816 tokens    4.7s
+PLAN      claude-sonnet-4-6      1,567 tokens   16.3s
+GENERATE  claude-sonnet-4-6     27,402 tokens  189.5s
+VALIDATE  (structural)               0 tokens      0s
+Total:                           29,785 tokens  210.5s
 Output:   45 files, 2,086 lines, all checks passed
 ```
+
+**Note:** Timings are from pre-Gemini 3 run. Model routing now uses `gemini-3-flash-preview` for ANALYZE.
+
+## Session Continuity Protocol
+
+When the user says **"we are reaching a context window limit"** (or similar phrasing about context/token limits), Claude MUST:
+
+1. **Create a context preservation data packet** at `docs/context-packets/SESSION-YYYY-MM-DD_HH-MM.md` containing:
+   - What was accomplished this session (tasks completed, commits)
+   - Current task status table (all tasks with status)
+   - Next action (exact task + specific changes needed)
+   - Key files modified and to-be-modified
+   - Architecture context and server config
+   - User preferences
+2. **Update memory** at `/root/.claude/projects/-storage-self-primary-Download-aus-studio/memory/MEMORY.md` with current state
+3. **Pause and tell the user** the packet is ready so they can `/compact`
+
+This enables seamless session continuation — the compacted context + packet + memory file effectively preserve the full session state across context windows.
