@@ -80,6 +80,7 @@ app.include_router(vox_live_router)
 app.include_router(project_router)
 app.include_router(templates_router)
 app.include_router(projects_router)
+app.include_router(awareness_router)
 
 
 def get_studio() -> Studio:

@@ -16,6 +16,8 @@ from typing import Any, AsyncIterator, Callable, Awaitable
 from google import genai
 from google.genai import types
 
+from server.services.vox_awareness import vox_awareness
+
 log = logging.getLogger("aus.vox.session")
 
 GEMINI_KEY = os.environ.get("GEMINI_API_KEY", "")
@@ -214,7 +216,8 @@ class VoxLiveSession:
         self._client = genai.Client(api_key=GEMINI_KEY)
         voice_name = THEME_VOICES.get(self.theme, "Kore")
 
-        system_text = VOX_SYSTEM_INSTRUCTION.format(theme=self.theme)
+        awareness_context = vox_awareness.build_awareness_prompt()
+        system_text = VOX_SYSTEM_INSTRUCTION.format(theme=self.theme) + f"\n\n[Workspace Context]\n{awareness_context}"
         tool_decls = _build_tool_declarations()
 
         config = types.LiveConnectConfig(
