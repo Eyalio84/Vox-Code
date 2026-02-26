@@ -134,6 +134,7 @@ export const VoxLiveProvider: React.FC<{ children: React.ReactNode }> = ({ child
   const processorRef = useRef<ScriptProcessorNode | null>(null)
   const micCtxRef = useRef<AudioContext | null>(null)
   const mutedRef = useRef(false)
+  const resumeHandleRef = useRef<string | null>(null)
 
   // Keep mutedRef in sync
   useEffect(() => { mutedRef.current = state.isMuted }, [state.isMuted])
@@ -195,7 +196,11 @@ export const VoxLiveProvider: React.FC<{ children: React.ReactNode }> = ({ child
     ws.binaryType = 'arraybuffer'
 
     ws.onopen = () => {
-      ws.send(JSON.stringify({ type: 'start', theme }))
+      const startMsg: Record<string, unknown> = { type: 'start', theme }
+      if (resumeHandleRef.current) {
+        startMsg.resume_handle = resumeHandleRef.current
+      }
+      ws.send(JSON.stringify(startMsg))
     }
 
     ws.onmessage = (event: MessageEvent) => {
@@ -244,6 +249,10 @@ export const VoxLiveProvider: React.FC<{ children: React.ReactNode }> = ({ child
               ...prev,
               searchSources: msg.sources || [],
             }))
+            break
+
+          case 'resume_handle':
+            resumeHandleRef.current = msg.handle
             break
 
           case 'error':

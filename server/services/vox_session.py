@@ -209,10 +209,12 @@ class VoxLiveSession:
     def connected(self) -> bool:
         return self._connected
 
-    async def connect(self) -> None:
+    async def connect(self, resume_handle: str | None = None) -> None:
         """Open a Gemini Live API session."""
         if not GEMINI_KEY:
             raise RuntimeError("GEMINI_API_KEY not set")
+        if resume_handle:
+            self._resume_handle = resume_handle
 
         self._client = genai.Client(api_key=GEMINI_KEY)
         voice_name = THEME_VOICES.get(self.theme, "Kore")
@@ -365,6 +367,11 @@ class VoxLiveSession:
                     update = response.session_resumption_update
                     if update.resumable and update.new_handle:
                         self._resume_handle = update.new_handle
+                        if self._on_control:
+                            await self._on_control({
+                                "type": "resume_handle",
+                                "handle": update.new_handle,
+                            })
 
                 # GoAway — session ending soon
                 if response.go_away is not None:

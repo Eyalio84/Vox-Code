@@ -102,6 +102,7 @@ async def vox_live_ws(ws: WebSocket):
 
                 if msg_type == "start":
                     theme = data.get("theme", "expert")
+                    resume_handle = data.get("resume_handle")
                     session = VoxLiveSession(
                         theme=theme,
                         on_audio=on_audio,
@@ -109,7 +110,7 @@ async def vox_live_ws(ws: WebSocket):
                         on_tool_call=on_tool_call,
                         on_control=on_control,
                     )
-                    await session.connect()
+                    await session.connect(resume_handle=resume_handle)
                     await ws.send_text(json.dumps({
                         "type": "ready", "sessionId": session_id,
                     }))
