@@ -59,7 +59,7 @@ const InterviewWizard: React.FC<InterviewWizardProps> = ({ onComplete, onSkip })
       if (wavFilename) {
         audioUrl = `/api/tts/cache/${wavFilename}`
       } else {
-        const res = await fetch('/api/tts/speak', {
+        const res = await fetch('/api/welcome/speak', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ text, voice: 'af_bella', speed: 1.0 }),

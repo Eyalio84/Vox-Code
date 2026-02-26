@@ -106,7 +106,7 @@ async def tts_cache(filename: str):
     return FileResponse(path, media_type="audio/wav")
 
 
-@router.post("/api/tts/speak")
+@router.post("/api/welcome/speak")
 async def tts_speak(req: SpeakRequest):
     try:
         wav_bytes = await tts.aspeak_to_wav_bytes(req.text, req.voice, req.speed)

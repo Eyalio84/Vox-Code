@@ -148,11 +148,14 @@ export async function speakText(
   text: string,
   voice: string = 'af_bella',
   speed: number = 1.0,
+  engine: string = 'kokoro',
+  style: string = '',
+  theme: string = '',
 ): Promise<Blob> {
   const res = await fetch(`${BASE}/tts/speak`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ text, voice, speed }),
+    body: JSON.stringify({ text, voice, speed, engine, style, theme }),
   })
   if (!res.ok) throw new Error('TTS speak failed')
   return res.blob()
