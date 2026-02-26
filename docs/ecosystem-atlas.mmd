@@ -29,29 +29,37 @@ graph TB
         SP --> VoxLivePanel[VoxLivePanel<br/>Voice UI]
     end
 
-    subgraph Server["FastAPI Backend (port 8001)"]
+    subgraph Server["FastAPI Backend (10 routers)"]
         subgraph Routers
             R_Studio["/api/studio/stream<br/>SSE Generation"]
             R_Welcome["/api/welcome/profile<br/>Theme Assignment"]
-            R_Recommend["/api/recommend<br/>Tool Recommendations"]
+            R_Recommend["/api/recommend<br/>Semantic Tool Recs"]
             R_Synthesize["/api/synthesize<br/>Interview → Prompt"]
             R_VoxLive["/api/vox/live<br/>WebSocket Voice"]
             R_Project["/api/project/*<br/>Import + Export"]
             R_Templates["/api/templates<br/>/api/blueprints"]
+            R_Projects["/api/projects/*<br/>SQLite Persistence"]
+            R_Awareness["/api/awareness/*<br/>Context Tracking"]
+            R_TTS["/api/tts/speak<br/>/api/tts/voices"]
         end
 
         subgraph Services
-            TTS[tts_service<br/>Kokoro ONNX]
-            VoxSess[vox_session<br/>Gemini Live API]
+            KokoroTTS[tts_service<br/>Kokoro ONNX]
+            GeminiTTS[gemini_tts<br/>30 Voices + Style]
+            EmbedSvc[tool_embeddings<br/>768-dim Search]
+            VoxSess[vox_session<br/>Live API + Google Search]
             VoxTools[vox_tools<br/>8 Function Tools]
             Importer[project_importer<br/>Folder/ZIP → AusProject]
             Exporter[project_exporter<br/>AusProject → ZIP]
+            ProjStore[project_store<br/>SQLite + Versioning]
+            AwareStore[awareness_store<br/>3 SQLite Tables]
         end
 
         subgraph Data
             Templates["server/templates/<br/>11 JSON files"]
             Blueprints["server/blueprints/<br/>5 JSON files"]
             Catalog["tool_catalog.json<br/>186 tools"]
+            Embeddings["tool_embeddings.json<br/>768-dim vectors"]
             TTSCache["tts_cache/<br/>Pre-rendered audio"]
         end
     end
@@ -64,12 +72,22 @@ graph TB
         Prompts[6 Prompts<br/>~24K chars]
     end
 
-    subgraph External["External APIs"]
-        GeminiFlash[Gemini 2.5 Flash<br/>Analysis + Fallback]
-        GeminiPro[Gemini 2.5 Pro<br/>ITERATE phase]
-        GeminiLive[Gemini Live API<br/>Native Audio]
-        ClaudeSonnet[Claude Sonnet<br/>PLAN + GENERATE]
+    subgraph External["AI Models"]
+        subgraph Gemini3["Gemini 3 (Generation)"]
+            G3Flash[gemini-3-flash-preview<br/>ANALYZE + Utilities]
+            G3Pro[gemini-3-pro-preview<br/>ITERATE + PLAN fallback]
+        end
+        subgraph Gemini25["Gemini 2.5 (Specialized)"]
+            GeminiLive[gemini-2.5-flash-native-audio<br/>VOX Real-time Voice]
+            GeminiTTSAPI[gemini-2.5-flash-preview-tts<br/>Cloud TTS]
+            GeminiEmbed[gemini-embedding-001<br/>768-dim Embeddings]
+        end
+        subgraph Anthropic
+            ClaudeSonnet[claude-sonnet-4-6<br/>PLAN + GENERATE]
+            ClaudeHaiku[claude-haiku-4-5<br/>ANALYZE fallback]
+        end
         KokoroModel[Kokoro 82M ONNX<br/>Local TTS]
+        GoogleSearch[Google Search<br/>Grounding]
     end
 
     %% Client → Server connections
@@ -79,9 +97,10 @@ graph TB
     TG -->|GET| R_Templates
     UTR -->|POST| R_Recommend
     WP -->|POST| R_Welcome
-    WP -->|GET| TTS
+    WP -->|GET| R_TTS
+    SP -->|GET/POST| R_Projects
 
-    %% Server internal
+    %% Server internal routing
     R_Studio --> Studio
     R_VoxLive --> VoxSess
     VoxSess --> VoxTools
@@ -89,29 +108,44 @@ graph TB
     R_Project --> Exporter
     R_Templates --> Templates
     R_Templates --> Blueprints
+    R_Recommend --> EmbedSvc
     R_Recommend --> LLM
-    R_Welcome --> TTS
-    TTS --> TTSCache
+    R_TTS --> GeminiTTS
+    R_TTS --> KokoroTTS
+    R_Projects --> ProjStore
+    R_Awareness --> AwareStore
+    KokoroTTS --> TTSCache
     VoxTools --> Catalog
+    EmbedSvc --> Embeddings
 
     %% SDK → External
     Studio --> Pipeline
     Pipeline --> LLM
-    LLM --> GeminiFlash
-    LLM --> GeminiPro
+    LLM --> G3Flash
+    LLM --> G3Pro
     LLM --> ClaudeSonnet
+    LLM --> ClaudeHaiku
     VoxSess --> GeminiLive
-    TTS --> KokoroModel
+    VoxSess --> GoogleSearch
+    GeminiTTS --> GeminiTTSAPI
+    EmbedSvc --> GeminiEmbed
+    KokoroTTS --> KokoroModel
 
     %% Styling
     classDef frontend fill:#3b82f6,stroke:#1d4ed8,color:#fff
     classDef backend fill:#10b981,stroke:#059669,color:#fff
     classDef sdk fill:#8b5cf6,stroke:#6d28d9,color:#fff
-    classDef external fill:#f59e0b,stroke:#d97706,color:#fff
-    classDef data fill:#6b7280,stroke:#4b5563,color:#fff
+    classDef gemini3 fill:#4285f4,stroke:#1a73e8,color:#fff
+    classDef gemini25 fill:#34a853,stroke:#1e8e3e,color:#fff
+    classDef claude fill:#cc785c,stroke:#b05a3c,color:#fff
+    classDef local fill:#6b7280,stroke:#4b5563,color:#fff
+    classDef data fill:#475569,stroke:#334155,color:#fff
 
     class WP,SP,TG,IM,TC,VMC,VLC,USS,UTR,FileTree,ChatPanel,PreviewPanel,ToolDrawer,VoxLivePanel frontend
-    class R_Studio,R_Welcome,R_Recommend,R_Synthesize,R_VoxLive,R_Project,R_Templates,TTS,VoxSess,VoxTools,Importer,Exporter backend
+    class R_Studio,R_Welcome,R_Recommend,R_Synthesize,R_VoxLive,R_Project,R_Templates,R_Projects,R_Awareness,R_TTS,KokoroTTS,GeminiTTS,EmbedSvc,VoxSess,VoxTools,Importer,Exporter,ProjStore,AwareStore backend
     class Studio,Pipeline,LLM,Parser,Prompts sdk
-    class GeminiFlash,GeminiPro,GeminiLive,ClaudeSonnet,KokoroModel external
-    class Templates,Blueprints,Catalog,TTSCache data
+    class G3Flash,G3Pro gemini3
+    class GeminiLive,GeminiTTSAPI,GeminiEmbed gemini25
+    class ClaudeSonnet,ClaudeHaiku claude
+    class KokoroModel,GoogleSearch local
+    class Templates,Blueprints,Catalog,Embeddings,TTSCache data

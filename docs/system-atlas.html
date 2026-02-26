@@ -130,7 +130,7 @@
 </div>
 
 <div class="stats">
-  <div class="stat"><div class="value">18</div><div class="label">API Endpoints</div></div>
+  <div class="stat"><div class="value">23</div><div class="label">API Endpoints</div></div>
   <div class="stat"><div class="value">158</div><div class="label">Developer Tools</div></div>
   <div class="stat"><div class="value">8</div><div class="label">Theme Packs</div></div>
   <div class="stat"><div class="value">11</div><div class="label">Templates</div></div>
@@ -152,7 +152,7 @@ graph LR
     Tools["Tool Drawer<br/>158 tools"]
   end
 
-  subgraph FastAPI["FastAPI Server"]
+  subgraph FastAPI["FastAPI Server (10 routers)"]
     direction TB
     SSE["/studio/stream"]
     WS["/vox/live"]
@@ -160,7 +160,17 @@ graph LR
     Tmpl["/templates"]
     Rec["/recommend"]
     Synth["/synthesize"]
-    TTS["/tts/cache"]
+    TTSCache["/tts/cache"]
+    TTSSpeak["/tts/speak"]
+    Projects["/projects/*"]
+    Awareness["/awareness/*"]
+  end
+
+  subgraph Services["Backend Services"]
+    Embed["Tool Embeddings<br/>768-dim semantic search"]
+    GemTTS["Gemini TTS<br/>30 voices"]
+    ProjStore["Project Store<br/>SQLite"]
+    AwareStore["Awareness<br/>3 tables"]
   end
 
   subgraph SDK["A(Us) SDK"]
@@ -168,10 +178,13 @@ graph LR
   end
 
   subgraph External
-    Gemini["Gemini API"]
-    Claude["Claude API"]
-    GeminiLive["Gemini Live"]
-    Kokoro["Kokoro TTS"]
+    G3["Gemini 3 Flash/Pro"]
+    Claude["Claude Sonnet/Haiku"]
+    GeminiLive["Gemini Live Audio"]
+    GSearch["Google Search"]
+    GEmbed["Gemini Embeddings"]
+    GTTS["Gemini TTS API"]
+    Kokoro["Kokoro ONNX"]
   end
 
   Studio --> SSE
@@ -179,14 +192,23 @@ graph LR
   Import --> Proj
   Templates --> Tmpl
   Studio --> Rec
-  Welcome --> TTS
+  Welcome --> TTSCache
   Welcome --> Synth
+  Studio --> Projects
+  Studio --> TTSSpeak
 
   SSE --> Pipeline
   WS --> GeminiLive
-  TTS --> Kokoro
-  Pipeline --> Gemini
+  WS --> GSearch
+  TTSCache --> Kokoro
+  TTSSpeak --> GemTTS
+  GemTTS --> GTTS
+  Rec --> Embed
+  Embed --> GEmbed
+  Pipeline --> G3
   Pipeline --> Claude
+  Projects --> ProjStore
+  Awareness --> AwareStore
   </pre>
 </div>
 
@@ -218,27 +240,34 @@ graph LR
   <div class="layer">
     <div class="layer-header" onclick="this.parentElement.classList.toggle('open')">
       <h3>Backend (FastAPI)</h3>
-      <span class="badge" style="background:#10b981;color:#fff">7 routers, 5 services</span>
+      <span class="badge" style="background:#10b981;color:#fff">10 routers, 8 services</span>
     </div>
     <div class="layer-body">
       <table>
         <tr><th>Router</th><th>Endpoints</th><th>Description</th></tr>
         <tr><td><code>studio.py</code></td><td>POST /api/studio/stream</td><td>SSE generation pipeline</td></tr>
         <tr><td><code>welcome.py</code></td><td>POST /api/welcome/profile, GET /api/tts/cache/*</td><td>Welcome flow + TTS</td></tr>
-        <tr><td><code>recommend.py</code></td><td>POST /api/recommend</td><td>AI tool recommendations</td></tr>
+        <tr><td><code>recommend.py</code></td><td>POST /api/recommend</td><td>AI tool recs (semantic pre-filter)</td></tr>
         <tr><td><code>synthesize.py</code></td><td>POST /api/synthesize</td><td>Interview to prompt</td></tr>
-        <tr><td><code>vox_live.py</code></td><td>WS /api/vox/live</td><td>VOX voice WebSocket</td></tr>
-        <tr><td><code>project.py</code></td><td>POST /api/project/import/*, POST /api/project/export/zip</td><td>Import + export</td></tr>
-        <tr><td><code>templates.py</code></td><td>GET /api/templates/*, GET /api/blueprints/*</td><td>Templates + blueprints</td></tr>
+        <tr><td><code>vox_live.py</code></td><td>WS /api/vox/live</td><td>VOX voice + Google Search</td></tr>
+        <tr><td><code>project.py</code></td><td>POST /api/project/import/*, /export/zip</td><td>Import + export</td></tr>
+        <tr><td><code>templates.py</code></td><td>GET /api/templates/*, /api/blueprints/*</td><td>Templates + blueprints</td></tr>
+        <tr><td><code>studio_projects.py</code></td><td>GET/POST /api/projects/*</td><td>SQLite project persistence</td></tr>
+        <tr><td><code>awareness.py</code></td><td>GET/POST /api/awareness/*</td><td>VOX awareness context</td></tr>
+        <tr><td><code>tts.py</code></td><td>POST /api/tts/speak, GET /api/tts/voices</td><td>Gemini Cloud + Kokoro TTS</td></tr>
       </table>
       <br/>
       <table>
         <tr><th>Service</th><th>Purpose</th></tr>
         <tr><td><code>tts_service.py</code></td><td>Kokoro ONNX text-to-speech with pre-caching</td></tr>
-        <tr><td><code>vox_session.py</code></td><td>Gemini Live API session (bidirectional audio + function calling)</td></tr>
+        <tr><td><code>gemini_tts.py</code></td><td>Gemini Cloud TTS — 30 voices with style control</td></tr>
+        <tr><td><code>tool_embeddings.py</code></td><td>Semantic tool search via gemini-embedding-001 (768-dim)</td></tr>
+        <tr><td><code>vox_session.py</code></td><td>Gemini Live API + Google Search grounding</td></tr>
         <tr><td><code>vox_tools.py</code></td><td>8 VOX function tool handlers</td></tr>
-        <tr><td><code>project_importer.py</code></td><td>Folder/ZIP to AusProject conversion with stack detection</td></tr>
+        <tr><td><code>project_importer.py</code></td><td>Folder/ZIP to AusProject conversion</td></tr>
         <tr><td><code>project_exporter.py</code></td><td>AusProject to ready-to-run ZIP with scaffolding</td></tr>
+        <tr><td><code>project_store.py</code></td><td>SQLite project persistence with versioning</td></tr>
+        <tr><td><code>awareness_store.py</code></td><td>SQLite VOX awareness (3 tables)</td></tr>
       </table>
     </div>
   </div>
@@ -251,12 +280,12 @@ graph LR
     <div class="layer-body">
       <table>
         <tr><th>Phase</th><th>Model</th><th>Purpose</th></tr>
-        <tr><td>ANALYZE</td><td>Gemini 2.5 Flash</td><td>Classify complexity, stack, features</td></tr>
+        <tr><td>ANALYZE</td><td>Gemini 3 Flash</td><td>Classify complexity, stack, features</td></tr>
         <tr><td>SPEC</td><td>(derived)</td><td>Build specification from analysis</td></tr>
         <tr><td>PLAN</td><td>Claude Sonnet</td><td>Architecture + component plan</td></tr>
         <tr><td>GENERATE</td><td>Claude Sonnet</td><td>Generate all code files</td></tr>
         <tr><td>VALIDATE</td><td>(structural)</td><td>Check entry points, placeholders</td></tr>
-        <tr><td>ITERATE</td><td>Gemini 2.5 Pro</td><td>Refine with 1M token context</td></tr>
+        <tr><td>ITERATE</td><td>Gemini 3 Pro</td><td>Refine with 1M token context</td></tr>
       </table>
     </div>
   </div>
@@ -264,15 +293,18 @@ graph LR
   <div class="layer">
     <div class="layer-header" onclick="this.parentElement.classList.toggle('open')">
       <h3>External APIs</h3>
-      <span class="badge" style="background:#f59e0b;color:#000">4 providers</span>
+      <span class="badge" style="background:#f59e0b;color:#000">5 Gemini + 2 Claude + 1 Local</span>
     </div>
     <div class="layer-body">
       <table>
         <tr><th>Provider</th><th>Model</th><th>Used For</th></tr>
-        <tr><td>Google</td><td>Gemini 2.5 Flash</td><td>Analysis, fallback generation</td></tr>
-        <tr><td>Google</td><td>Gemini 2.5 Pro</td><td>ITERATE phase (1M context)</td></tr>
-        <tr><td>Google</td><td>Gemini Live (native audio)</td><td>VOX real-time voice</td></tr>
-        <tr><td>Anthropic</td><td>Claude Sonnet</td><td>Planning + code generation</td></tr>
+        <tr><td>Google</td><td>gemini-3-flash-preview</td><td>ANALYZE, backend utilities, generation fallback</td></tr>
+        <tr><td>Google</td><td>gemini-3-pro-preview</td><td>ITERATE phase, PLAN fallback (1M context)</td></tr>
+        <tr><td>Google</td><td>gemini-2.5-flash-native-audio</td><td>VOX real-time bidirectional voice</td></tr>
+        <tr><td>Google</td><td>gemini-2.5-flash-preview-tts</td><td>Cloud TTS (30 voices, style control)</td></tr>
+        <tr><td>Google</td><td>gemini-embedding-001</td><td>Semantic tool search (768-dim)</td></tr>
+        <tr><td>Anthropic</td><td>claude-sonnet-4-6</td><td>PLAN + GENERATE primary</td></tr>
+        <tr><td>Anthropic</td><td>claude-haiku-4-5</td><td>ANALYZE fallback</td></tr>
         <tr><td>Local</td><td>Kokoro 82M ONNX</td><td>Offline TTS for Claude mode</td></tr>
       </table>
     </div>
@@ -290,6 +322,7 @@ graph LR
         <tr><td>Component Blueprints</td><td>5</td><td><code>server/blueprints/*.json</code></td></tr>
         <tr><td>Tool Catalog</td><td>186</td><td><code>server/tool_catalog.json</code></td></tr>
         <tr><td>Domain Tool Files</td><td>8</td><td><code>frontend/src/tools/domains/*.ts</code></td></tr>
+        <tr><td>Tool Embeddings</td><td>186</td><td><code>server/tool_embeddings.json</code> (768-dim)</td></tr>
         <tr><td>TTS Cache</td><td>~12</td><td><code>server/tts_cache/*.wav</code></td></tr>
         <tr><td>ThemePacks</td><td>8</td><td><code>frontend/src/themes/*.ts</code></td></tr>
       </table>

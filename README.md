@@ -15,7 +15,9 @@ Vox Code is a dual-model AI platform that turns natural language into complete R
 - **Gemini mode**: Real-time bidirectional voice via Gemini Live API (full Jarvis mode)
 - **Claude mode**: Claude reasoning + Kokoro local TTS (ONNX)
 - 8 function tools: recommend, generate, add tools, navigate, status, search, load templates, add blueprints
+- Google Search grounding for real-time web answers
 - Theme-matched voices (8 themes → 8 Gemini voices)
+- Cloud TTS with 30 Gemini voices + style control
 
 ### Project Hub
 - Import projects from folder path or ZIP upload (Google AI Studio exports work)
@@ -28,6 +30,7 @@ Vox Code is a dual-model AI platform that turns natural language into complete R
 - File tree with syntax-highlighted code view
 - Chat panel with SSE streaming
 - Adaptive tool drawer with 158 tools across 8 domains
+- Semantic tool search via Gemini embeddings (768-dim vectors)
 - 8 theme packs with GSAP transitions
 
 ### Welcome Flow
@@ -92,7 +95,9 @@ aus-studio/
 │   │   ├── project.py      # Import/export endpoints
 │   │   └── templates.py    # Template + blueprint API
 │   ├── services/
-│   │   ├── tts_service.py  # Kokoro ONNX TTS
+│   │   ├── tts_service.py  # Kokoro ONNX TTS (local)
+│   │   ├── gemini_tts.py   # Gemini Cloud TTS (30 voices)
+│   │   ├── tool_embeddings.py  # Semantic tool search
 │   │   ├── vox_session.py  # Gemini Live API session
 │   │   ├── vox_tools.py    # 8 VOX function tools
 │   │   ├── project_importer.py  # Folder/ZIP → AusProject
@@ -138,6 +143,8 @@ aus-studio/
 | `/api/blueprints` | GET | List component blueprints |
 | `/api/blueprints/{id}` | GET | Get blueprint files |
 | `/api/vox/live` | WS | VOX bidirectional voice |
+| `/api/tts/speak` | POST | Gemini Cloud / Kokoro TTS |
+| `/api/tts/voices` | GET | List 30 Gemini TTS voices |
 
 ## Templates
 
@@ -177,8 +184,10 @@ aus-studio/
 | Backend | FastAPI + Pydantic v2 |
 | Voice (Gemini) | Gemini Live API (bidirectional audio) |
 | Voice (Claude) | Kokoro ONNX TTS + local inference |
+| Cloud TTS | Gemini TTS (30 voices, style control) |
+| Embeddings | Gemini Embedding API (768-dim semantic search) |
 | Preview | Sandpack (in-browser React bundler) |
-| LLM | Gemini 2.5 Flash/Pro + Claude Sonnet/Haiku |
+| LLM | Gemini 3 Flash/Pro + Claude Sonnet/Haiku |
 | Themes | 8 packs with CSS custom properties + GSAP |
 
 ## Development Phases
@@ -194,6 +203,8 @@ aus-studio/
 | 6.5 | Feature Interview + VOX Redesign | Done |
 | 7a | Gemini Jarvis Mode (Live API) | Done |
 | 7b | Project Hub + Templates + Export | Done |
+| 7c | Studio Core Fixes + Persistence | Done |
+| 7d | Gemini 3 Upgrade + Semantic Search + Cloud TTS | Done |
 | 8 | Visual Agent Builder | Planned |
 
 ## License

@@ -91,7 +91,7 @@ Generate a new full-stack application from a natural language description.
       "output": {"complexity": "simple", "stack": "react-fastapi"},
       "duration_ms": 4750,
       "tokens_used": 816,
-      "model": "gemini-2.5-flash"
+      "model": "gemini-3-flash-preview"
     },
     {
       "phase": "spec",
@@ -130,7 +130,7 @@ Generate a new full-stack application from a natural language description.
 ```
 
 **Pipeline Phases Executed**:
-1. ANALYZE (Gemini Flash) -- classify complexity, stack, features
+1. ANALYZE (Gemini 3 Flash) -- classify complexity, stack, features
 2. SPEC (derived) -- build specification from analysis
 3. PLAN (Claude Sonnet) -- produce technical architecture plan
 4. GENERATE (Claude Sonnet) -- generate all code files
@@ -552,9 +552,76 @@ Bidirectional voice channel for VOX (Gemini Jarvis mode). Proxies audio between 
 3. `add_tool` — Add tool to project
 4. `navigate_ui` — Navigate Studio UI
 5. `get_project_status` — Current project state
-6. `search_tools` — Search 158-tool catalog
+6. `search_tools` — Semantic search 158-tool catalog (embedding-based + keyword fallback)
 7. `load_template` — Load a project template
 8. `add_blueprint` — Add component blueprint
+
+**VOX Capabilities**:
+- Google Search grounding — real-time web answers
+- Audio transcription — input and output transcription enabled
+- Session resumption — automatic reconnection support
+
+---
+
+### Text-to-Speech
+
+```
+POST /api/tts/speak
+```
+
+Generate speech audio using Gemini Cloud TTS or Kokoro local TTS.
+
+**Request Body**:
+```json
+{
+  "text": "Hello from VOX",
+  "voice": "Puck",
+  "style": "Speak with excitement",
+  "engine": "gemini",
+  "theme": ""
+}
+```
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `text` | string | Yes | Text to speak |
+| `voice` | string | No | Voice name (default: `Kore`). See `/api/tts/voices` for options |
+| `style` | string | No | Natural language style direction |
+| `engine` | enum | No | `gemini` (cloud) or `kokoro` (local ONNX). Default: `gemini` |
+| `theme` | string | No | If set, auto-selects theme-appropriate voice |
+
+**Response**: WAV audio (mono, 16-bit, 24kHz)
+
+---
+
+### List TTS Voices
+
+```
+GET /api/tts/voices
+```
+
+List all available Gemini TTS voices and theme mappings.
+
+**Response**:
+```json
+{
+  "voices": [
+    {"name": "Zephyr", "style": "Bright"},
+    {"name": "Puck", "style": "Upbeat"},
+    {"name": "Kore", "style": "Firm"}
+  ],
+  "theme_mapping": {
+    "expert": "Orus",
+    "sharp": "Fenrir",
+    "warm": "Sulafat",
+    "casual": "Zubenelgenubi",
+    "future": "Puck",
+    "minimal": "Zephyr",
+    "retro": "Charon",
+    "creative": "Leda"
+  }
+}
+```
 
 ---
 
@@ -651,14 +718,14 @@ The server is a thin wrapper. The SDK (`aus.Studio`) provides the same functiona
 The pipeline automatically selects models per phase:
 
 ```
-ANALYZE  ──► gemini-2.5-flash     (fast, cheap classification)
-SPEC     ──► (no LLM call)        (derived from analysis)
-PLAN     ──► claude-sonnet-4-6    (architectural reasoning)
-GENERATE ──► claude-sonnet-4-6    (code quality, no RECITATION filter)
-             └─► gemini-2.5-flash (fallback if Claude unavailable)
-VALIDATE ──► (no LLM call)        (structural checks)
-ITERATE  ──► gemini-2.5-pro       (1M context for existing code)
-             └─► claude-sonnet-4-6 (fallback)
+ANALYZE  ──► gemini-3-flash-preview  (fast classification)
+SPEC     ──► (no LLM call)          (derived from analysis)
+PLAN     ──► claude-sonnet-4-6      (architectural reasoning)
+GENERATE ──► claude-sonnet-4-6      (code quality, no RECITATION filter)
+             └─► gemini-3-flash-preview (fallback if Claude unavailable)
+VALIDATE ──► (no LLM call)          (structural checks)
+ITERATE  ──► gemini-3-pro-preview   (1M context for existing code)
+             └─► claude-sonnet-4-6   (fallback)
 ```
 
 With only `GEMINI_API_KEY`: all phases use Gemini models.
