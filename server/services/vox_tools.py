@@ -82,7 +82,7 @@ class VoxToolDispatcher:
 
             raw = await asyncio.wait_for(
                 client.aio.models.generate_content(
-                    model="gemini-2.0-flash", contents=prompt,
+                    model="gemini-3-flash-preview", contents=prompt,
                 ),
                 timeout=5.0,
             )

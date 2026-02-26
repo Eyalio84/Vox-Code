@@ -129,12 +129,11 @@ async def recommend_tools(req: RecommendRequest) -> RecommendResponse:
         client = genai.Client(api_key=GEMINI_KEY)
 
         raw = await asyncio.wait_for(
-            asyncio.to_thread(
-                client.models.generate_content,
-                model="gemini-2.0-flash",
+            client.aio.models.generate_content(
+                model="gemini-3-flash-preview",
                 contents=prompt,
             ),
-            timeout=3.0,
+            timeout=5.0,
         )
 
         text = raw.text or ""
