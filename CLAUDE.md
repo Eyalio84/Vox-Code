@@ -261,15 +261,15 @@ cd frontend && node node_modules/vite/bin/vite.js
 ## Validated Test Result
 
 ```
-ANALYZE   gemini-3-flash-preview   816 tokens    4.7s
-PLAN      claude-sonnet-4-6      1,567 tokens   16.3s
-GENERATE  claude-sonnet-4-6     27,402 tokens  189.5s
-VALIDATE  (structural)               0 tokens      0s
-Total:                           29,785 tokens  210.5s
-Output:   45 files, 2,086 lines, all checks passed
+ANALYZE   gemini-3-flash-preview     751 tokens    6.1s
+PLAN      claude-sonnet-4-6        1,602 tokens   16.3s
+GENERATE  claude-sonnet-4-6       27,702 tokens  194.3s
+VALIDATE  (structural)                 0 tokens      0s
+Total:                            30,055 tokens  216.8s
+Output:   51 files, 2,085 lines, all checks passed
 ```
 
-**Note:** Timings are from pre-Gemini 3 run. Model routing now uses `gemini-3-flash-preview` for ANALYZE.
+**Live E2E test:** 2026-02-26, Gemini 3 Flash (ANALYZE) + Claude Sonnet 4.6 (PLAN/GENERATE). Bookmark manager app with categories and search.
 
 ## Session Continuity Protocol
 
