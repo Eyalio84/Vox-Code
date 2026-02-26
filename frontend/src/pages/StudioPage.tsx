@@ -12,6 +12,7 @@ import PreviewPanel from '../components/PreviewPanel'
 import ToolDrawer from '../components/ToolDrawer'
 import ImportModal from '../components/ImportModal'
 import TemplateGallery from '../components/TemplateGallery'
+import ProjectHub from '../components/ProjectHub'
 import type { ToolEntry } from '../tools/types'
 
 interface StudioPageProps {
@@ -47,6 +48,8 @@ const StudioPage: React.FC<StudioPageProps> = ({ isToolsOpen, onCloseTools }) =>
   const showInterview = searchParams.get('interview') === 'true' && !project
   const showTemplates = searchParams.get('mode') === 'load' && !project
   const [showImport, setShowImport] = useState(false)
+  const [hubDismissed, setHubDismissed] = useState(false)
+  const showHub = !project && !showInterview && !showTemplates && !hubDismissed && Object.keys(files).length === 0
 
   const handleTalkToVox = useCallback(() => {
     if (!isConnected) {
@@ -166,6 +169,12 @@ const StudioPage: React.FC<StudioPageProps> = ({ isToolsOpen, onCloseTools }) =>
             <InterviewWizard
               onComplete={handleInterviewComplete}
               onSkip={handleInterviewSkip}
+            />
+          ) : showHub ? (
+            <ProjectHub
+              onNewProject={() => setHubDismissed(true)}
+              onTemplates={() => setSearchParams({ mode: 'load' }, { replace: true })}
+              onImport={() => setShowImport(true)}
             />
           ) : showTemplates ? (
             <div className="flex-1 flex flex-col items-center justify-center p-6 overflow-auto" style={{ background: 'var(--t-bg)' }}>

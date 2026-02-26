@@ -26,7 +26,7 @@ const MODEL_OPTIONS = [
 const ACTION_OPTIONS = [
   { value: 'new-build', label: 'Start New Build', description: "I'll interview you about what to build, then generate a complete app." },
   { value: 'load-project', label: 'Load Project', description: 'Start from a template or import your own React app.' },
-  { value: 'guided-tour', label: 'Guided Tour', description: "I'll walk you through everything Vox Code can do. (Coming soon)" },
+  { value: 'go-to-studio', label: 'Go to Studio', description: "Jump straight into the Project Hub — start, import, or pick a template." },
 ]
 
 const WelcomeFlow: React.FC = () => {
