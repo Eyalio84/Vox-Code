@@ -1,0 +1,47 @@
+{
+  "name": "React Flow Graph Canvas",
+  "description": "Interactive node-edge graph with React Flow + custom nodes + inspector",
+  "category": "component",
+  "files": [
+    {
+      "path": "src/components/GraphCanvas.tsx",
+      "content": "import React, { useMemo } from 'react';\nimport ReactFlow, { Background, Controls, MiniMap, OnSelectionChangeParams, NodeTypes } from 'reactflow';\nimport { useOntologyStore } from '../../store/useOntologyStore';\nimport { ClassNode } from './ClassNode';\n\nexport function OntologyCanvas(): React.ReactElement {\n  const {\n    nodes,\n    edges,\n    onNodesChange,\n    onEdgesChange,\n    onConnect,\n    setSelectedElement,\n  } = useOntologyStore();\n\n  const nodeTypes: NodeTypes = useMemo(() => ({ class: ClassNode }), []);\n\n  const handleSelectionChange = ({ nodes, edges }: OnSelectionChangeParams) => {\n    setSelectedElement(nodes[0] || edges[0] || null);\n  };\n\n  return (\n    <div className=\"w-full h-full\">\n      <ReactFlow\n        nodes={nodes}\n        edges={edges}\n        onNodesChange={onNodesChange}\n        onEdgesChange={onEdgesChange}\n        onConnect={onConnect}\n        onSelectionChange={handleSelectionChange}\n        nodeTypes={nodeTypes}\n        fitView\n        className=\"bg-gray-50\"\n      >\n        <Background />\n        <Controls />\n        <MiniMap />\n      </ReactFlow>\n    </div>\n  );\n}\n",
+      "role": "COMPONENT",
+      "language": "typescript",
+      "size": 1110,
+      "order": 0
+    },
+    {
+      "path": "src/components/ClassNode.tsx",
+      "content": "import React from 'react';\nimport { Handle, Position, NodeProps } from 'reactflow';\nimport { NodeData } from '../../types';\n\nexport function ClassNode({ data }: NodeProps<NodeData>): React.ReactElement {\n  return (\n    <div className=\"bg-white border-2 border-blue-500 rounded-lg shadow-lg text-center w-[180px]\">\n      <Handle type=\"target\" position={Position.Top} className=\"w-3 h-3 bg-gray-400 border-2 border-white rounded-full !-top-1.5\" />\n      <div className=\"p-4\">\n        <div className=\"font-bold text-lg mb-2 text-gray-800\">{data.label}</div>\n        <div className=\"text-left text-sm space-y-1\">\n          {data.properties?.map(prop => (\n            <div key={prop.id} className=\"flex justify-between items-center bg-gray-50 p-1 rounded\">\n              <span className=\"text-gray-700\">{prop.key}</span>\n              <span className=\"text-blue-600 font-mono\">{prop.value}</span>\n            </div>\n          ))}\n        </div>\n      </div>\n      <Handle type=\"source\" position={Position.Bottom} className=\"w-3 h-3 bg-gray-400 border-2 border-white rounded-full !-bottom-1.5\" />\n    </div>\n  );\n}\n",
+      "role": "COMPONENT",
+      "language": "typescript",
+      "size": 1109,
+      "order": 1
+    },
+    {
+      "path": "src/components/InspectorPanel.tsx",
+      "content": "import React from 'react';\nimport { useOntologyStore } from '../../store/useOntologyStore';\nimport { NodeEditor } from './NodeEditor';\nimport { EdgeEditor } from './EdgeEditor';\nimport { PlusCircle } from 'lucide-react';\nimport { isEdge } from 'reactflow';\n\nexport function InspectorPanel(): React.ReactElement {\n  const { selectedElement, addNode } = useOntologyStore();\n\n  const renderContent = () => {\n    if (!selectedElement) {\n      return (\n        <div className=\"p-6 text-center text-gray-500\">\n          <p className=\"mb-4\">Select an element to inspect its properties, or add a new concept to the canvas.</p>\n          <button \n            onClick={() => addNode()} \n            className=\"flex items-center justify-center w-full px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors duration-200\"\n          >\n            <PlusCircle className=\"h-4 w-4 mr-2\" />\n            Add Concept\n          </button>\n        </div>\n      );\n    }\n\n    if (isEdge(selectedElement)) {\n      return <EdgeEditor edge={selectedElement} />;\n    }\n    \n    return <NodeEditor node={selectedElement} />;\n  };\n\n  return <div className=\"h-full overflow-y-auto\">{renderContent()}</div>;\n}\n",
+      "role": "COMPONENT",
+      "language": "typescript",
+      "size": 1278,
+      "order": 2
+    },
+    {
+      "path": "src/types/graph.ts",
+      "content": "import { Node, Edge } from 'reactflow';\n\nexport interface Property {\n  id: string;\n  key: string;\n  value: string;\n}\n\nexport interface NodeData {\n  label: string;\n  properties: Property[];\n}\n\nexport interface EdgeData {\n  label: string;\n}\n\nexport type OntologyNode = Node<NodeData>;\nexport type OntologyEdge = Edge<EdgeData>;\n",
+      "role": "TYPE",
+      "language": "typescript",
+      "size": 326,
+      "order": 3
+    },
+    {
+      "path": "src/store/useGraphStore.ts",
+      "content": "import { create } from 'zustand';\nimport { persist } from 'zustand/middleware';\nimport {\n  applyNodeChanges,\n  applyEdgeChanges,\n  OnNodesChange,\n  OnEdgesChange,\n  OnConnect,\n  NodeChange,\n  EdgeChange,\n  Connection,\n  Edge,\n  Node,\n} from 'reactflow';\nimport { nanoid } from 'nanoid';\nimport { OntologyNode, OntologyEdge, NodeData, EdgeData } from '../types';\n\ntype SelectedElement = OntologyNode | OntologyEdge | null;\n\ninterface StoreState {\n  nodes: OntologyNode[];\n  edges: OntologyEdge[];\n  selectedElement: SelectedElement;\n  onNodesChange: OnNodesChange;\n  onEdgesChange: OnEdgesChange;\n  onConnect: OnConnect;\n  addNode: (type?: string) => void;\n  updateNodeData: (nodeId: string, newData: Partial<NodeData>) => void;\n  updateEdgeData: (edgeId: string, newData: Partial<EdgeData>) => void;\n  setSelectedElement: (element: SelectedElement) => void;\n  getState: () => StoreState;\n}\n\nexport const useOntologyStore = create<StoreState>()(\n  persist(\n    (set, get) => ({\n      nodes: [],\n      edges: [],\n      selectedElement: null,\n\n      onNodesChange: (changes: NodeChange[]) => {\n        set({\n          nodes: applyNodeChanges(changes, get().nodes),\n        });\n      },\n\n      onEdgesChange: (changes: EdgeChange[]) => {\n        set({\n          edges: applyEdgeChanges(changes, get().edges),\n        });\n      },\n\n      onConnect: (connection: Connection) => {\n        const newEdge: OntologyEdge = {\n          ...connection,\n          id: nanoid(),\n          type: 'default',\n          data: { label: 'hasProperty' },\n        };\n        set({\n          edges: [...get().edges, newEdge],\n        });\n      },\n\n      addNode: (type = 'class') => {\n        const newNode: OntologyNode = {\n          id: nanoid(),\n          type: 'class',\n          position: { x: Math.random() * 500 + 100, y: Math.random() * 300 + 100 },\n          data: {\n            label: 'NewConcept',\n            properties: [{ id: nanoid(), key: 'name', value: 'string' }],\n          },\n        };\n        set({ nodes: [...get().nodes, newNode] });\n      },\n\n      updateNodeData: (nodeId: string, newData: Partial<NodeData>) => {\n        set({\n          nodes: get().nodes.map((node) =>\n            node.id === nodeId\n              ? { ...node, data: { ...node.data, ...newData } }\n              : node\n          ),\n        });\n      },\n\n      updateEdgeData: (edgeId: string, newData: Partial<EdgeData>) => {\n        set({\n          edges: get().edges.map((edge) =>\n            edge.id === edgeId\n              ? { ...edge, data: { ...edge.data, ...newData } }\n              : edge\n          ),\n        });\n      },\n\n      setSelectedElement: (element: SelectedElement) => {\n        set({ selectedElement: element });\n      },\n      \n      getState: () => get(),\n    }),\n    {\n      name: 'ontology-storage',\n    }\n  )\n);\n",
+      "role": "SERVICE",
+      "language": "typescript",
+      "size": 2808,
+      "order": 4
+    }
+  ]
+}

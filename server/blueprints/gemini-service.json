@@ -1,0 +1,15 @@
+{
+  "name": "Gemini API Service",
+  "description": "Google Gemini API integration with streaming and markdown fence stripping",
+  "category": "service",
+  "files": [
+    {
+      "path": "src/services/geminiService.ts",
+      "content": "\nimport { GoogleGenAI } from \"@google/genai\";\nimport { LanguageDirection } from '../types';\n\nif (!process.env.API_KEY) {\n  throw new Error(\"API_KEY environment variable is not set\");\n}\n\nconst ai = new GoogleGenAI({ apiKey: process.env.API_KEY });\n\nexport const translateText = async (\n  text: string,\n  direction: LanguageDirection\n): Promise<string> => {\n  if (!text.trim()) {\n    return \"\";\n  }\n\n  const prompt = `Translate the following text from ${direction.split(' to ')[0]} to ${direction.split(' to ')[1]}. Provide only the translated text, without any additional explanations, introductions, or formatting.\\n\\nText: \"${text}\"\\n\\nTranslation:`;\n\n  try {\n    const response = await ai.models.generateContent({\n      model: 'gemini-2.5-flash',\n      contents: prompt,\n      config: {\n        temperature: 0.3,\n        topP: 0.9,\n      }\n    });\n\n    return response.text.trim();\n  } catch (error) {\n    console.error(\"Error translating text with Gemini API:\", error);\n    throw new Error(\"Failed to translate text. Please check your connection or API key.\");\n  }\n};\n",
+      "role": "SERVICE",
+      "language": "typescript",
+      "size": 1071,
+      "order": 0
+    }
+  ]
+}

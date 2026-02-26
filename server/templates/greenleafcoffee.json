@@ -1,0 +1,306 @@
+{
+  "id": "f85e1028faaf",
+  "name": "greenleaf-coffee",
+  "description": "Coffee shop landing page with routing, animations, gallery, and contact form",
+  "stack": "react-only",
+  "complexity": "STANDARD",
+  "files": [
+    {
+      "path": ".env.local",
+      "content": "GEMINI_API_KEY=PLACEHOLDER_API_KEY\n",
+      "role": "COMPONENT",
+      "language": "text",
+      "size": 35,
+      "order": 0
+    },
+    {
+      "path": ".gitignore",
+      "content": "# Logs\nlogs\n*.log\nnpm-debug.log*\nyarn-debug.log*\nyarn-error.log*\npnpm-debug.log*\nlerna-debug.log*\n\nnode_modules\ndist\ndist-ssr\n*.local\n\n# Editor directories and files\n.vscode/*\n!.vscode/extensions.json\n.idea\n.DS_Store\n*.suo\n*.ntvs*\n*.njsproj\n*.sln\n*.sw?\n",
+      "role": "COMPONENT",
+      "language": "text",
+      "size": 253,
+      "order": 1
+    },
+    {
+      "path": "App.tsx",
+      "content": "\nimport React from 'react';\nimport { HashRouter, Routes, Route, useLocation } from 'react-router-dom';\nimport { PageLayout } from './components/layout/PageLayout';\nimport { Home } from './pages/Home';\nimport { Menu } from './pages/Menu';\nimport { About } from './pages/About';\nimport { Gallery } from './pages/Gallery';\nimport { Contact } from './pages/Contact';\nimport { useEffect } from 'react';\n\nconst ScrollToTop = () => {\n  const { pathname } = useLocation();\n\n  useEffect(() => {\n    window.scrollTo(0, 0);\n  }, [pathname]);\n\n  return null;\n};\n\nfunction App() {\n  return (\n    <HashRouter>\n      <ScrollToTop />\n      <Routes>\n        <Route path=\"/\" element={<PageLayout />}>\n          <Route index element={<Home />} />\n          <Route path=\"menu\" element={<Menu />} />\n          <Route path=\"about\" element={<About />} />\n          <Route path=\"gallery\" element={<Gallery />} />\n          <Route path=\"contact\" element={<Contact />} />\n        </Route>\n      </Routes>\n    </HashRouter>\n  );\n}\n\nexport default App;\n",
+      "role": "COMPONENT",
+      "language": "typescript",
+      "size": 1025,
+      "order": 2
+    },
+    {
+      "path": "README.md",
+      "content": "<div align=\"center\">\n<img width=\"1200\" height=\"475\" alt=\"GHBanner\" src=\"https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6\" />\n</div>\n\n# Run and deploy your AI Studio app\n\nThis contains everything you need to run your app locally.\n\nView your app in AI Studio: https://ai.studio/apps/drive/1nbtNgyGs47Yic2-fPK60KlhxqluRDRCo\n\n## Run Locally\n\n**Prerequisites:**  Node.js\n\n\n1. Install dependencies:\n   `npm install`\n2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key\n3. Run the app:\n   `npm run dev`\n",
+      "role": "COMPONENT",
+      "language": "markdown",
+      "size": 553,
+      "order": 3
+    },
+    {
+      "path": "index.html",
+      "content": "\n<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"UTF-8\" />\n    <link rel=\"icon\" type=\"image/svg+xml\" href=\"/favicon.svg\" />\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n    <title>Greenleaf Coffee - Crafted Coffee, Community Vibes</title>\n    <script src=\"https://cdn.tailwindcss.com\"></script>\n    <link rel=\"preconnect\" href=\"https://fonts.googleapis.com\">\n    <link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin>\n    <link href=\"https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Playfair+Display:wght@700;800&display=swap\" rel=\"stylesheet\">\n    <script>\n      tailwind.config = {\n        theme: {\n          extend: {\n            colors: {\n              brand: {\n                cream: '#F5F1E8',\n                coffee: '#3E2723',\n                gold: '#D4A574',\n                sage: '#8A9A7B',\n                charcoal: '#2C2C2C',\n              },\n              elegant: {\n                light: '#FDFBF7',\n                medium: '#E8E4DC',\n                dark: '#4A4238',\n              },\n            },\n            fontFamily: {\n              serif: ['Playfair Display', 'serif'],\n              sans: ['Inter', 'sans-serif'],\n            },\n            boxShadow: {\n              elegant: '0 4px 24px rgba(62, 39, 35, 0.08)',\n              'elegant-lg': '0 8px 40px rgba(62, 39, 35, 0.12)',\n            },\n            backgroundImage: {\n              'coffee-texture': \"url('https://www.transparenttextures.com/patterns/subtle-grunge.png')\",\n            },\n          },\n        },\n      }\n    </script>\n    <style>\n      /* Smooth scrolling */\n      html {\n        scroll-behavior: smooth;\n      }\n    </style>\n  <script type=\"importmap\">\n{\n  \"imports\": {\n    \"react\": \"https://aistudiocdn.com/react@^19.2.0\",\n    \"react/\": \"https://aistudiocdn.com/react@^19.2.0/\",\n    \"react-dom/\": \"https://aistudiocdn.com/react-dom@^19.2.0/\",\n    \"react-router-dom\": \"https://aistudiocdn.com/react-router-dom@^7.9.6\",\n    \"lucide-react\": \"https://aistudiocdn.com/lucide-react@^0.553.0\",\n    \"framer-motion\": \"https://aistudiocdn.com/framer-motion@^12.23.24\",\n    \"clsx\": \"https://aistudiocdn.com/clsx@^2.1.1\",\n    \"class-variance-authority\": \"https://aistudiocdn.com/class-variance-authority@^0.7.1\",\n    \"yet-another-react-lightbox\": \"https://aistudiocdn.com/yet-another-react-lightbox@^3.25.0\",\n    \"yet-another-react-lightbox/\": \"https://aistudiocdn.com/yet-another-react-lightbox@^3.25.0/\",\n    \"react-hook-form\": \"https://aistudiocdn.com/react-hook-form@^7.66.0\",\n    \"@hookform/resolvers/\": \"https://aistudiocdn.com/@hookform/resolvers@^5.2.2/\",\n    \"zod\": \"https://aistudiocdn.com/zod@^4.1.12\"\n  }\n}\n</script>\n<link rel=\"stylesheet\" href=\"/index.css\">\n</head>\n  <body class=\"bg-brand-cream font-sans\">\n    <div id=\"root\"></div>\n    <script type=\"module\" src=\"/index.tsx\"></script>\n  </body>\n</html>\n",
+      "role": "COMPONENT",
+      "language": "html",
+      "size": 2885,
+      "order": 4
+    },
+    {
+      "path": "index.tsx",
+      "content": "\nimport React from 'react';\nimport ReactDOM from 'react-dom/client';\nimport App from './App';\n\nconst rootElement = document.getElementById('root');\nif (!rootElement) {\n  throw new Error(\"Could not find root element to mount to\");\n}\n\nconst root = ReactDOM.createRoot(rootElement);\nroot.render(\n  <React.StrictMode>\n    <App />\n  </React.StrictMode>\n);\n",
+      "role": "ENTRY",
+      "language": "typescript",
+      "size": 351,
+      "order": 5
+    },
+    {
+      "path": "metadata.json",
+      "content": "{\n  \"name\": \"Greenleaf Coffee\",\n  \"description\": \"An elegant and sophisticated website for a mock coffee shop, Greenleaf Coffee. It features a modern design, smooth animations, an interactive menu, a gallery, and a contact form.\",\n  \"requestFramePermissions\": []\n}",
+      "role": "COMPONENT",
+      "language": "json",
+      "size": 264,
+      "order": 6
+    },
+    {
+      "path": "package.json",
+      "content": "{\n  \"name\": \"greenleaf-coffee\",\n  \"private\": true,\n  \"version\": \"0.0.0\",\n  \"type\": \"module\",\n  \"scripts\": {\n    \"dev\": \"vite\",\n    \"build\": \"vite build\",\n    \"preview\": \"vite preview\"\n  },\n  \"dependencies\": {\n    \"react\": \"^19.2.0\",\n    \"react-dom\": \"^19.2.0\",\n    \"react-router-dom\": \"^7.9.6\",\n    \"lucide-react\": \"^0.553.0\",\n    \"framer-motion\": \"^12.23.24\",\n    \"clsx\": \"^2.1.1\",\n    \"class-variance-authority\": \"^0.7.1\",\n    \"yet-another-react-lightbox\": \"^3.25.0\",\n    \"react-hook-form\": \"^7.66.0\",\n    \"@hookform/resolvers\": \"^5.2.2\",\n    \"zod\": \"^4.1.12\"\n  },\n  \"devDependencies\": {\n    \"@types/node\": \"^22.14.0\",\n    \"@vitejs/plugin-react\": \"^5.0.0\",\n    \"typescript\": \"~5.8.2\",\n    \"vite\": \"^6.2.0\"\n  }\n}\n",
+      "role": "CONFIG",
+      "language": "json",
+      "size": 714,
+      "order": 7
+    },
+    {
+      "path": "tsconfig.json",
+      "content": "{\n  \"compilerOptions\": {\n    \"target\": \"ES2022\",\n    \"experimentalDecorators\": true,\n    \"useDefineForClassFields\": false,\n    \"module\": \"ESNext\",\n    \"lib\": [\n      \"ES2022\",\n      \"DOM\",\n      \"DOM.Iterable\"\n    ],\n    \"skipLibCheck\": true,\n    \"types\": [\n      \"node\"\n    ],\n    \"moduleResolution\": \"bundler\",\n    \"isolatedModules\": true,\n    \"moduleDetection\": \"force\",\n    \"allowJs\": true,\n    \"jsx\": \"react-jsx\",\n    \"paths\": {\n      \"@/*\": [\n        \"./*\"\n      ]\n    },\n    \"allowImportingTsExtensions\": true,\n    \"noEmit\": true\n  }\n}",
+      "role": "CONFIG",
+      "language": "json",
+      "size": 542,
+      "order": 8
+    },
+    {
+      "path": "vite.config.ts",
+      "content": "import path from 'path';\nimport { defineConfig, loadEnv } from 'vite';\nimport react from '@vitejs/plugin-react';\n\nexport default defineConfig(({ mode }) => {\n    const env = loadEnv(mode, '.', '');\n    return {\n      server: {\n        port: 3000,\n        host: '0.0.0.0',\n      },\n      plugins: [react()],\n      define: {\n        'process.env.API_KEY': JSON.stringify(env.GEMINI_API_KEY),\n        'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY)\n      },\n      resolve: {\n        alias: {\n          '@': path.resolve(__dirname, '.'),\n        }\n      }\n    };\n});\n",
+      "role": "CONFIG",
+      "language": "typescript",
+      "size": 580,
+      "order": 9
+    },
+    {
+      "path": "components/layout/Footer.tsx",
+      "content": "\nimport React from 'react';\nimport { Coffee, Instagram, Facebook, Twitter, MapPin, Phone, Mail } from 'lucide-react';\nimport { Link } from 'react-router-dom';\n\nexport function Footer() {\n  return (\n    <footer className=\"bg-brand-coffee text-brand-cream py-16 bg-coffee-texture\">\n      <div className=\"max-w-7xl mx-auto px-4 sm:px-6 lg:px-8\">\n        <div className=\"grid md:grid-cols-4 gap-8\">\n          <div>\n            <div className=\"flex items-center gap-2 mb-4\">\n              <Coffee className=\"h-8 w-8 text-brand-gold\" />\n              <span className=\"font-serif text-2xl\">Greenleaf Coffee</span>\n            </div>\n            <p className=\"text-brand-cream/70\">\n              Crafted Coffee, Community Vibes\n            </p>\n          </div>\n\n          <div>\n            <h4 className=\"font-serif text-xl mb-4 text-white\">Quick Links</h4>\n            <ul className=\"space-y-2\">\n              <li><Link to=\"/menu\" className=\"text-brand-cream/80 hover:text-brand-gold transition-colors\">Menu</Link></li>\n              <li><Link to=\"/about\" className=\"text-brand-cream/80 hover:text-brand-gold transition-colors\">About Us</Link></li>\n              <li><Link to=\"/gallery\" className=\"text-brand-cream/80 hover:text-brand-gold transition-colors\">Gallery</Link></li>\n              <li><Link to=\"/contact\" className=\"text-brand-cream/80 hover:text-brand-gold transition-colors\">Contact</Link></li>\n            </ul>\n          </div>\n\n          <div>\n            <h4 className=\"font-serif text-xl mb-4 text-white\">Contact</h4>\n            <ul className=\"space-y-3\">\n              <li className=\"flex items-start gap-2\">\n                <MapPin className=\"h-4 w-4 text-brand-gold mt-1 shrink-0\" />\n                <span className=\"text-sm\">123 Main St, Portland, OR 97201</span>\n              </li>\n              <li className=\"flex items-center gap-2\">\n                <Phone className=\"h-4 w-4 text-brand-gold shrink-0\" />\n                <span className=\"text-sm\">(555) 123-4567</span>\n              </li>\n              <li className=\"flex items-center gap-2\">\n                <Mail className=\"h-4 w-4 text-brand-gold shrink-0\" />\n                <span className=\"text-sm\">hello@greenleafcoffee.com</span>\n              </li>\n            </ul>\n          </div>\n\n          <div>\n            <h4 className=\"font-serif text-xl mb-4 text-white\">Hours</h4>\n            <p className=\"text-sm mb-4\">\n              Mon-Fri: 7am - 7pm<br />\n              Sat-Sun: 8am - 8pm\n            </p>\n            <div className=\"flex gap-4\">\n              <a href=\"#\" className=\"text-brand-cream/80 hover:text-brand-gold transition-colors\">\n                <Instagram className=\"h-6 w-6\" />\n              </a>\n              <a href=\"#\" className=\"text-brand-cream/80 hover:text-brand-gold transition-colors\">\n                <Facebook className=\"h-6 w-6\" />\n              </a>\n              <a href=\"#\" className=\"text-brand-cream/80 hover:text-brand-gold transition-colors\">\n                <Twitter className=\"h-6 w-6\" />\n              </a>\n            </div>\n          </div>\n        </div>\n\n        <div className=\"border-t border-brand-cream/20 mt-8 pt-8 text-center text-sm text-brand-cream/60\">\n          <p>\u00a9 2024 Greenleaf Coffee. All rights reserved. | Mock business for portfolio purposes</p>\n        </div>\n      </div>\n    </footer>\n  );\n}\n",
+      "role": "COMPONENT",
+      "language": "typescript",
+      "size": 3340,
+      "order": 10
+    },
+    {
+      "path": "components/layout/Navbar.tsx",
+      "content": "\nimport { useState, useEffect } from 'react';\nimport { Link, useLocation } from 'react-router-dom';\nimport { Menu, X, Coffee } from 'lucide-react';\nimport { motion, AnimatePresence } from 'framer-motion';\nimport clsx from 'clsx';\n\nconst NAV_LINKS = [\n  { name: 'Home', path: '/' },\n  { name: 'Menu', path: '/menu' },\n  { name: 'About', path: '/about' },\n  { name: 'Gallery', path: '/gallery' },\n  { name: 'Contact', path: '/contact' },\n];\n\nexport function Navbar() {\n  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);\n  const [isScrolled, setIsScrolled] = useState(false);\n  const location = useLocation();\n\n  useEffect(() => {\n    const handleScroll = () => {\n      setIsScrolled(window.scrollY > 10);\n    };\n    window.addEventListener('scroll', handleScroll);\n    return () => window.removeEventListener('scroll', handleScroll);\n  }, []);\n\n  return (\n    <nav className={clsx(\n      \"fixed top-0 w-full z-50 transition-all duration-300\",\n      isScrolled || mobileMenuOpen ? \"bg-white/95 backdrop-blur-sm shadow-md\" : \"bg-transparent\"\n    )}>\n      <div className=\"max-w-7xl mx-auto px-4 sm:px-6 lg:px-8\">\n        <div className=\"flex justify-between items-center h-20\">\n          <Link to=\"/\" className=\"flex items-center gap-2\">\n            <Coffee className={clsx(\"h-8 w-8 transition-colors\", isScrolled ? \"text-brand-gold\" : \"text-white md:text-brand-gold\")} />\n            <span className={clsx(\"font-serif text-2xl transition-colors\", isScrolled ? \"text-brand-coffee\" : \"text-white md:text-brand-coffee\")}>\n              Greenleaf Coffee\n            </span>\n          </Link>\n\n          <div className=\"hidden md:flex gap-8\">\n            {NAV_LINKS.map((link) => (\n              <Link\n                key={link.path}\n                to={link.path}\n                className={clsx(\n                  \"text-lg transition-colors relative after:content-[''] after:absolute after:left-0 after:bottom-[-4px] after:w-full after:h-[2px] after:bg-brand-gold after:scale-x-0 after:origin-left after:transition-transform hover:after:scale-x-100\",\n                  location.pathname === link.path\n                    ? isScrolled ? 'text-brand-gold font-medium after:scale-x-100' : 'text-white md:text-brand-gold font-medium after:scale-x-100'\n                    : isScrolled ? 'text-brand-coffee hover:text-brand-gold' : 'text-white/80 hover:text-white md:text-brand-coffee md:hover:text-brand-gold'\n                )}\n              >\n                {link.name}\n              </Link>\n            ))}\n          </div>\n\n          <button\n            className=\"md:hidden z-10\"\n            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}\n          >\n            {mobileMenuOpen ? (\n              <X className=\"h-6 w-6 text-brand-coffee\" />\n            ) : (\n              <Menu className={clsx(\"h-6 w-6 transition-colors\", isScrolled ? \"text-brand-coffee\" : \"text-white\")} />\n            )}\n          </button>\n        </div>\n      </div>\n\n      <AnimatePresence>\n        {mobileMenuOpen && (\n          <motion.div\n            initial={{ opacity: 0, height: 0 }}\n            animate={{ opacity: 1, height: 'auto' }}\n            exit={{ opacity: 0, height: 0 }}\n            className=\"md:hidden bg-white border-t border-elegant-medium\"\n          >\n            <div className=\"px-4 py-4 space-y-4\">\n              {NAV_LINKS.map((link) => (\n                <Link\n                  key={link.path}\n                  to={link.path}\n                  onClick={() => setMobileMenuOpen(false)}\n                  className={`block text-lg ${\n                    location.pathname === link.path\n                      ? 'text-brand-gold font-medium'\n                      : 'text-brand-coffee'\n                  }`}\n                >\n                  {link.name}\n                </Link>\n              ))}\n            </div>\n          </motion.div>\n        )}\n      </AnimatePresence>\n    </nav>\n  );\n}\n",
+      "role": "COMPONENT",
+      "language": "typescript",
+      "size": 3905,
+      "order": 11
+    },
+    {
+      "path": "components/layout/PageLayout.tsx",
+      "content": "\nimport React from 'react';\nimport { Outlet } from 'react-router-dom';\nimport { Navbar } from './Navbar';\nimport { Footer } from './Footer';\n\nexport function PageLayout() {\n  return (\n    <div className=\"flex flex-col min-h-screen bg-brand-cream\">\n      <Navbar />\n      <main className=\"flex-grow pt-20\">\n        <Outlet />\n      </main>\n      <Footer />\n    </div>\n  );\n}\n",
+      "role": "COMPONENT",
+      "language": "typescript",
+      "size": 374,
+      "order": 12
+    },
+    {
+      "path": "components/common/AnimatedSection.tsx",
+      "content": "import React, { ReactNode, useRef } from 'react';\nimport { motion, useInView } from 'framer-motion';\n\ninterface AnimatedSectionProps {\n  children: ReactNode;\n  delay?: number;\n  className?: string;\n}\n\n// FIX: Added React.FC type to handle children and key props correctly in JSX.\nexport const AnimatedSection: React.FC<AnimatedSectionProps> = ({ children, delay = 0, className }) => {\n  const ref = useRef(null);\n  const isInView = useInView(ref, { once: true, amount: 0.2 });\n\n  return (\n    <motion.div\n      ref={ref}\n      className={className}\n      initial={{ opacity: 0, y: 50 }}\n      animate={isInView ? { opacity: 1, y: 0 } : {}}\n      transition={{ duration: 0.6, delay }}\n    >\n      {children}\n    </motion.div>\n  );\n};",
+      "role": "COMPONENT",
+      "language": "typescript",
+      "size": 732,
+      "order": 13
+    },
+    {
+      "path": "components/common/Button.tsx",
+      "content": "\nimport React from 'react';\nimport { cva, type VariantProps } from 'class-variance-authority';\nimport clsx from 'clsx';\n\nconst buttonVariants = cva(\n  'inline-flex items-center justify-center rounded-full font-semibold transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2',\n  {\n    variants: {\n      variant: {\n        primary: 'bg-brand-gold text-white hover:bg-brand-gold/90 focus:ring-brand-gold',\n        outline: 'border-2 border-brand-gold text-brand-gold hover:bg-brand-gold hover:text-white',\n        outlineWhite: 'border-2 border-white text-white hover:bg-white hover:text-brand-coffee',\n      },\n      size: {\n        md: 'px-6 py-2 text-base',\n        lg: 'px-8 py-3 text-lg',\n      },\n    },\n    defaultVariants: {\n      variant: 'primary',\n      size: 'md',\n    },\n  }\n);\n\nexport interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement>, VariantProps<typeof buttonVariants> {}\n\nexport const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(\n  ({ className, variant, size, ...props }, ref) => {\n    return (\n      <button\n        className={clsx(buttonVariants({ variant, size, className }))}\n        ref={ref}\n        {...props}\n      />\n    );\n  }\n);\nButton.displayName = 'Button';\n",
+      "role": "COMPONENT",
+      "language": "typescript",
+      "size": 1252,
+      "order": 14
+    },
+    {
+      "path": "components/common/Input.tsx",
+      "content": "\nimport React from 'react';\nimport clsx from 'clsx';\n\ninterface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {\n  error?: string;\n}\n\nexport const Input = React.forwardRef<HTMLInputElement, InputProps>(\n  ({ className, error, ...props }, ref) => {\n    return (\n      <div>\n        <input\n          className={clsx(\n            \"w-full px-4 py-3 border border-elegant-medium rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-gold transition-colors\",\n            error ? \"border-red-500 focus:ring-red-500\" : \"\",\n            className\n          )}\n          ref={ref}\n          {...props}\n        />\n        {error && <p className=\"text-sm text-red-600 mt-1\">{error}</p>}\n      </div>\n    );\n  }\n);\nInput.displayName = 'Input';\n",
+      "role": "COMPONENT",
+      "language": "typescript",
+      "size": 752,
+      "order": 15
+    },
+    {
+      "path": "components/home/CallToAction.tsx",
+      "content": "\nimport React from 'react';\nimport { Link } from 'react-router-dom';\nimport { ArrowRight } from 'lucide-react';\nimport { Button } from '../common/Button';\nimport { AnimatedSection } from '../common/AnimatedSection';\n\nexport function CallToAction() {\n  return (\n    <section className=\"py-20 bg-brand-sage\">\n      <div className=\"max-w-4xl mx-auto px-4 text-center\">\n        <AnimatedSection>\n          <h2 className=\"font-serif text-4xl md:text-5xl text-white mb-6\">\n            Join Our Community\n          </h2>\n          <p className=\"text-xl text-brand-cream mb-8\">\n            Visit us today for an unforgettable coffee experience. We can't wait to serve you.\n          </p>\n          <Link to=\"/contact\">\n            <Button variant=\"outlineWhite\" size=\"lg\">\n              Find Us\n              <ArrowRight className=\"ml-2 h-5 w-5\" />\n            </Button>\n          </Link>\n        </AnimatedSection>\n      </div>\n    </section>\n  );\n}\n",
+      "role": "COMPONENT",
+      "language": "typescript",
+      "size": 943,
+      "order": 16
+    },
+    {
+      "path": "components/home/Features.tsx",
+      "content": "\nimport React from 'react';\nimport { Coffee, Users, Leaf, Heart } from 'lucide-react';\nimport { AnimatedSection } from '../common/AnimatedSection';\n\nconst FEATURES = [\n  { icon: Coffee, title: 'Artisanal Coffee', description: 'Sourced from sustainable farms, roasted fresh weekly, brewed with precision.' },\n  { icon: Users, title: 'Community Space', description: 'A warm, welcoming environment for work, conversation, and connection.' },\n  { icon: Leaf, title: 'Sustainable Practices', description: 'Eco-friendly packaging, local partnerships, zero-waste commitment.' },\n  { icon: Heart, title: 'Made with Love', description: 'Every cup crafted by passionate baristas who care about quality.' },\n];\n\nexport function Features() {\n  return (\n    <section className=\"py-20 bg-brand-cream\">\n      <div className=\"max-w-7xl mx-auto px-4 sm:px-6 lg:px-8\">\n        <AnimatedSection>\n          <h2 className=\"font-serif text-4xl md:text-5xl text-brand-coffee text-center mb-16\">\n            What Makes Us Special\n          </h2>\n        </AnimatedSection>\n\n        <div className=\"grid md:grid-cols-2 lg:grid-cols-4 gap-8\">\n          {FEATURES.map((feature, index) => (\n            <AnimatedSection key={index} delay={index * 0.1}>\n              <div className=\"bg-white p-8 rounded-lg shadow-elegant hover:shadow-elegant-lg transition-shadow h-full\">\n                <div className=\"w-16 h-16 bg-brand-gold/20 rounded-full flex items-center justify-center mb-6\">\n                  <feature.icon className=\"h-8 w-8 text-brand-gold\" />\n                </div>\n                <h3 className=\"font-serif text-2xl text-brand-coffee mb-4\">\n                  {feature.title}\n                </h3>\n                <p className=\"text-elegant-dark leading-relaxed\">\n                  {feature.description}\n                </p>\n              </div>\n            </AnimatedSection>\n          ))}\n        </div>\n      </div>\n    </section>\n  );\n}\n",
+      "role": "COMPONENT",
+      "language": "typescript",
+      "size": 1926,
+      "order": 17
+    },
+    {
+      "path": "components/home/GalleryPreview.tsx",
+      "content": "\nimport React from 'react';\nimport { motion } from 'framer-motion';\nimport { Link } from 'react-router-dom';\nimport { Button } from '../common/Button';\nimport { ArrowRight } from 'lucide-react';\nimport { AnimatedSection } from '../common/AnimatedSection';\n\nconst PREVIEW_IMAGES = [\n  'https://picsum.photos/id/225/600/600',\n  'https://picsum.photos/id/312/600/600',\n  'https://picsum.photos/id/1060/600/600',\n  'https://picsum.photos/id/431/600/600',\n  'https://picsum.photos/id/342/600/600',\n  'https://picsum.photos/id/20/600/600',\n];\n\nexport function GalleryPreview() {\n  return (\n    <section className=\"py-20 bg-elegant-light\">\n      <div className=\"max-w-7xl mx-auto px-4 sm:px-6 lg:px-8\">\n        <AnimatedSection className=\"text-center mb-12\">\n          <h2 className=\"font-serif text-4xl md:text-5xl text-brand-coffee mb-4\">\n            Experience Greenleaf Coffee\n          </h2>\n          <p className=\"text-xl text-elegant-dark max-w-2xl mx-auto\">\n            A visual journey through our craft, community, and cozy corners.\n          </p>\n        </AnimatedSection>\n\n        <motion.div \n          className=\"grid grid-cols-2 md:grid-cols-3 gap-4 mb-12\"\n          variants={{\n            hidden: {},\n            visible: { transition: { staggerChildren: 0.1 } }\n          }}\n          initial=\"hidden\"\n          whileInView=\"visible\"\n          viewport={{ once: true, amount: 0.2 }}\n        >\n          {PREVIEW_IMAGES.map((image, index) => (\n            <motion.div\n              key={index}\n              className=\"aspect-square overflow-hidden rounded-lg shadow-elegant\"\n              whileHover={{ scale: 1.05, zIndex: 10 }}\n              transition={{ duration: 0.3 }}\n              variants={{\n                hidden: { opacity: 0, y: 30 },\n                visible: { opacity: 1, y: 0 }\n              }}\n            >\n              <img\n                src={image}\n                alt={`Gallery preview ${index + 1}`}\n                className=\"w-full h-full object-cover\"\n              />\n            </motion.div>\n          ))}\n        </motion.div>\n\n        <AnimatedSection className=\"text-center\">\n          <Link to=\"/gallery\">\n            <Button variant=\"primary\" size=\"lg\">\n              View Full Gallery\n              <ArrowRight className=\"ml-2 h-5 w-5\" />\n            </Button>\n          </Link>\n        </AnimatedSection>\n      </div>\n    </section>\n  );\n}\n",
+      "role": "COMPONENT",
+      "language": "typescript",
+      "size": 2391,
+      "order": 18
+    },
+    {
+      "path": "components/home/Hero.tsx",
+      "content": "\nimport React from 'react';\nimport { motion } from 'framer-motion';\nimport { ArrowRight } from 'lucide-react';\nimport { Link } from 'react-router-dom';\nimport { Button } from '../common/Button';\n\nexport function Hero() {\n  return (\n    <section className=\"relative h-screen flex items-center justify-center overflow-hidden\">\n      <motion.div\n        className=\"absolute inset-0 z-0 bg-cover bg-center\"\n        style={{\n          backgroundImage: `url('https://picsum.photos/id/1060/1920/1080')`,\n        }}\n        initial={{ scale: 1.1, opacity: 0.8 }}\n        animate={{ scale: 1, opacity: 1 }}\n        transition={{ duration: 10, ease: 'easeOut' }}\n      >\n        <div className=\"absolute inset-0 bg-brand-coffee/40\" />\n      </motion.div>\n\n      <div className=\"relative z-10 text-center text-white px-4\">\n        <motion.div\n          initial={{ opacity: 0, y: 30 }}\n          animate={{ opacity: 1, y: 0 }}\n          transition={{ duration: 0.8, delay: 0.2 }}\n        >\n          <h1 className=\"font-serif text-6xl md:text-7xl lg:text-8xl font-bold mb-6\">\n            Greenleaf Coffee\n          </h1>\n          <p className=\"text-xl md:text-2xl mb-8 text-brand-cream font-light tracking-wide max-w-2xl mx-auto\">\n            Crafted Coffee, Community Vibes\n          </p>\n          <div className=\"flex flex-col sm:flex-row gap-4 justify-center\">\n            <Link to=\"/menu\">\n              <Button variant=\"primary\" size=\"lg\" className=\"w-full sm:w-auto\">\n                View Menu\n                <ArrowRight className=\"ml-2 h-5 w-5\" />\n              </Button>\n            </Link>\n            <Link to=\"/contact\">\n              <Button variant=\"outlineWhite\" size=\"lg\" className=\"w-full sm:w-auto\">\n                Visit Us\n              </Button>\n            </Link>\n          </div>\n        </motion.div>\n      </div>\n\n      <motion.div\n        className=\"absolute bottom-8 left-1/2 -translate-x-1/2\"\n        animate={{ y: [0, 10, 0] }}\n        transition={{ repeat: Infinity, duration: 1.5 }}\n      >\n        <div className=\"w-6 h-10 border-2 border-white/50 rounded-full flex items-start justify-center p-1\">\n          <motion.div \n            className=\"w-1 h-2 bg-white/50 rounded-full\"\n            animate={{ y: [0, 12, 0] }}\n            transition={{ repeat: Infinity, duration: 1.5, ease: \"easeInOut\" }}\n            />\n        </div>\n      </motion.div>\n    </section>\n  );\n}\n",
+      "role": "COMPONENT",
+      "language": "typescript",
+      "size": 2394,
+      "order": 19
+    },
+    {
+      "path": "components/home/Testimonials.tsx",
+      "content": "\nimport React from 'react';\nimport { Quote } from 'lucide-react';\nimport { AnimatedSection } from '../common/AnimatedSection';\nimport { TESTIMONIALS } from '../../data/testimonials';\n\nexport function Testimonials() {\n  return (\n    <section className=\"py-20 bg-brand-coffee text-brand-cream bg-coffee-texture\">\n      <div className=\"max-w-7xl mx-auto px-4 sm:px-6 lg:px-8\">\n        <AnimatedSection>\n          <h2 className=\"font-serif text-4xl md:text-5xl text-center mb-16 text-white\">\n            What Our Customers Say\n          </h2>\n        </AnimatedSection>\n\n        <div className=\"grid md:grid-cols-3 gap-8\">\n          {TESTIMONIALS.map((testimonial, index) => (\n            <AnimatedSection key={index} delay={index * 0.15}>\n              <div className=\"bg-white/5 p-8 rounded-lg backdrop-blur-sm h-full flex flex-col\">\n                <Quote className=\"h-10 w-10 text-brand-gold mb-4\" />\n                <p className=\"text-lg mb-6 italic leading-relaxed flex-grow\">\n                  \"{testimonial.content}\"\n                </p>\n                <div>\n                  <div className=\"flex gap-1 mb-2\">\n                    {[...Array(testimonial.rating)].map((_, i) => (\n                      <span key={i} className=\"text-brand-gold\">\u2605</span>\n                    ))}\n                    {[...Array(5 - testimonial.rating)].map((_, i) => (\n                      <span key={i} className=\"text-brand-gold/30\">\u2605</span>\n                    ))}\n                  </div>\n                  <p className=\"font-serif text-xl text-brand-gold\">\n                    {testimonial.name}\n                  </p>\n                  <p className=\"text-sm text-brand-cream/70\">\n                    {testimonial.role}\n                  </p>\n                </div>\n              </div>\n            </AnimatedSection>\n          ))}\n        </div>\n      </div>\n    </section>\n  );\n}\n",
+      "role": "TEST",
+      "language": "typescript",
+      "size": 1872,
+      "order": 20
+    },
+    {
+      "path": "components/menu/MenuItem.tsx",
+      "content": "import React from 'react';\nimport { MenuItem as MenuItemType } from '../../data/menu';\n\ninterface MenuItemProps {\n  item: MenuItemType;\n}\n\n// FIX: Added React.FC type to handle the key prop correctly in JSX.\nexport const MenuItem: React.FC<MenuItemProps> = ({ item }) => {\n  return (\n    <div className=\"py-2\">\n      <div className=\"flex justify-between items-baseline\">\n        <h3 className=\"font-serif text-xl text-brand-coffee\">{item.name}</h3>\n        <div className=\"flex-grow border-b border-dashed border-elegant-medium mx-2\"></div>\n        <span className=\"text-lg font-semibold text-brand-coffee\">${item.price.toFixed(2)}</span>\n      </div>\n      <p className=\"text-elegant-dark mt-1\">{item.description}</p>\n    </div>\n  );\n};",
+      "role": "COMPONENT",
+      "language": "typescript",
+      "size": 737,
+      "order": 21
+    },
+    {
+      "path": "components/menu/MenuSection.tsx",
+      "content": "\nimport React from 'react';\nimport { MenuItem as MenuItemType } from '../../data/menu';\nimport { MenuItem } from './MenuItem';\nimport { AnimatedSection } from '../common/AnimatedSection';\n\ninterface MenuSectionProps {\n  title: string;\n  items: MenuItemType[];\n  icon: React.ElementType;\n}\n\nexport function MenuSection({ title, items, icon: Icon }: MenuSectionProps) {\n  return (\n    <AnimatedSection className=\"mb-16\">\n      <div className=\"flex items-center gap-4 mb-8\">\n        <Icon className=\"h-10 w-10 text-brand-gold\" />\n        <h2 className=\"font-serif text-4xl text-brand-coffee\">{title}</h2>\n      </div>\n      <div className=\"grid md:grid-cols-2 gap-x-8 gap-y-6\">\n        {items.map(item => (\n          <MenuItem key={item.id} item={item} />\n        ))}\n      </div>\n    </AnimatedSection>\n  );\n}\n",
+      "role": "COMPONENT",
+      "language": "typescript",
+      "size": 808,
+      "order": 22
+    },
+    {
+      "path": "components/gallery/GalleryGrid.tsx",
+      "content": "\nimport React, { useState } from 'react';\nimport Lightbox from 'yet-another-react-lightbox';\nimport 'yet-another-react-lightbox/styles.css';\nimport { motion, AnimatePresence } from 'framer-motion';\nimport { GALLERY_IMAGES } from '../../data/gallery';\n\nconst FILTERS = ['all', 'coffee', 'pastries', 'atmosphere'] as const;\ntype FilterType = typeof FILTERS[number];\n\nexport function GalleryGrid() {\n  const [filter, setFilter] = useState<FilterType>('all');\n  const [lightboxOpen, setLightboxOpen] = useState(false);\n  const [lightboxIndex, setLightboxIndex] = useState(0);\n\n  const filteredImages =\n    filter === 'all'\n      ? GALLERY_IMAGES\n      : GALLERY_IMAGES.filter((img) => img.category === filter);\n\n  const lightboxSlides = filteredImages.map((img) => ({ src: img.src }));\n\n  const handleImageClick = (index: number) => {\n    setLightboxIndex(index);\n    setLightboxOpen(true);\n  }\n\n  return (\n    <div>\n      <div className=\"flex flex-wrap gap-4 justify-center mb-12\">\n        {FILTERS.map((category) => (\n          <button\n            key={category}\n            onClick={() => setFilter(category)}\n            className={`px-6 py-2 rounded-full transition-colors font-semibold ${\n              filter === category\n                ? 'bg-brand-gold text-white shadow-md'\n                : 'bg-elegant-medium text-brand-coffee hover:bg-brand-gold/20'\n            }`}\n          >\n            {category.charAt(0).toUpperCase() + category.slice(1)}\n          </button>\n        ))}\n      </div>\n\n      <motion.div layout className=\"grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4\">\n        <AnimatePresence>\n          {filteredImages.map((image, index) => (\n            <motion.div\n              key={image.src}\n              layout\n              initial={{ opacity: 0, scale: 0.8 }}\n              animate={{ opacity: 1, scale: 1 }}\n              exit={{ opacity: 0, scale: 0.8 }}\n              transition={{ duration: 0.3 }}\n              className=\"aspect-square overflow-hidden rounded-lg cursor-pointer shadow-elegant\"\n              whileHover={{ scale: 1.05 }}\n              onClick={() => handleImageClick(index)}\n            >\n              <img\n                src={image.src}\n                alt={image.alt}\n                className=\"w-full h-full object-cover\"\n              />\n            </motion.div>\n          ))}\n        </AnimatePresence>\n      </motion.div>\n\n      <Lightbox\n        open={lightboxOpen}\n        close={() => setLightboxOpen(false)}\n        slides={lightboxSlides}\n        index={lightboxIndex}\n        styles={{ container: { backgroundColor: \"rgba(30, 20, 10, .9)\" } }}\n      />\n    </div>\n  );\n}\n",
+      "role": "COMPONENT",
+      "language": "typescript",
+      "size": 2640,
+      "order": 23
+    },
+    {
+      "path": "components/contact/ContactForm.tsx",
+      "content": "\nimport React from 'react';\nimport { useForm } from 'react-hook-form';\nimport { zodResolver } from '@hookform/resolvers/zod';\nimport { z } from 'zod';\nimport { Send, CheckCircle } from 'lucide-react';\nimport { Button } from '../common/Button';\nimport { Input } from '../common/Input';\nimport { useState } from 'react';\nimport { motion, AnimatePresence } from 'framer-motion';\n\nconst contactSchema = z.object({\n  name: z.string().min(2, 'Name must be at least 2 characters'),\n  email: z.string().email('Please enter a valid email'),\n  phone: z.string().optional(),\n  subject: z.string().min(5, 'Subject must be at least 5 characters'),\n  message: z.string().min(10, 'Message must be at least 10 characters'),\n});\n\ntype ContactFormData = z.infer<typeof contactSchema>;\n\nexport function ContactForm() {\n  const [submitted, setSubmitted] = useState(false);\n\n  const {\n    register,\n    handleSubmit,\n    formState: { errors, isSubmitting },\n    reset,\n  } = useForm<ContactFormData>({\n    resolver: zodResolver(contactSchema),\n  });\n\n  const onSubmit = async (data: ContactFormData) => {\n    console.log('Form submitted:', data);\n    // Simulate API call\n    await new Promise(resolve => setTimeout(resolve, 1000));\n    setSubmitted(true);\n    reset();\n  };\n\n  return (\n    <div className=\"bg-white p-8 sm:p-10 rounded-lg shadow-elegant-lg\">\n      <h3 className=\"font-serif text-3xl text-brand-coffee mb-6\">\n        Get In Touch\n      </h3>\n      <AnimatePresence mode=\"wait\">\n        {submitted ? (\n          <motion.div\n            key=\"success\"\n            initial={{ opacity: 0, y: 20 }}\n            animate={{ opacity: 1, y: 0 }}\n            exit={{ opacity: 0, y: -20 }}\n            className=\"py-12 text-center\"\n          >\n            <div className=\"w-16 h-16 bg-brand-sage/20 rounded-full flex items-center justify-center mx-auto mb-4\">\n              <CheckCircle className=\"h-8 w-8 text-brand-sage\" />\n            </div>\n            <h4 className=\"text-2xl font-serif text-brand-coffee mb-2\">\n              Message Sent!\n            </h4>\n            <p className=\"text-elegant-dark\">\n              Thank you for reaching out. We'll get back to you soon.\n            </p>\n          </motion.div>\n        ) : (\n          <motion.form\n            key=\"form\"\n            initial={{ opacity: 0 }}\n            animate={{ opacity: 1 }}\n            exit={{ opacity: 0 }}\n            onSubmit={handleSubmit(onSubmit)}\n            className=\"space-y-6\"\n          >\n            <Input {...register('name')} placeholder=\"Name *\" error={errors.name?.message} />\n            <Input {...register('email')} type=\"email\" placeholder=\"Email *\" error={errors.email?.message} />\n            <Input {...register('phone')} type=\"tel\" placeholder=\"Phone (Optional)\" />\n            <Input {...register('subject')} placeholder=\"Subject *\" error={errors.subject?.message} />\n            <div>\n              <textarea\n                {...register('message')}\n                rows={5}\n                placeholder=\"Message *\"\n                className={`w-full px-4 py-3 border border-elegant-medium rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-gold transition-colors ${errors.message ? 'border-red-500 focus:ring-red-500' : ''}`}\n              />\n              {errors.message && (\n                <p className=\"text-sm text-red-600 mt-1\">{errors.message.message}</p>\n              )}\n            </div>\n            <Button type=\"submit\" variant=\"primary\" size=\"lg\" className=\"w-full\" disabled={isSubmitting}>\n              {isSubmitting ? (\n                <div className=\"w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2\"></div>\n              ) : (\n                <Send className=\"mr-2 h-5 w-5\" />\n              )}\n              {isSubmitting ? 'Sending...' : 'Send Message'}\n            </Button>\n          </motion.form>\n        )}\n      </AnimatePresence>\n    </div>\n  );\n}\n",
+      "role": "COMPONENT",
+      "language": "typescript",
+      "size": 3908,
+      "order": 24
+    },
+    {
+      "path": "components/contact/ContactInfo.tsx",
+      "content": "\nimport React from 'react';\nimport { MapPin, Phone, Mail, Clock } from 'lucide-react';\n\nexport function ContactInfo() {\n  const infoItems = [\n    { icon: MapPin, title: 'Address', lines: ['123 Main St', 'Portland, OR 97201'] },\n    { icon: Phone, title: 'Phone', lines: ['(555) 123-4567'] },\n    { icon: Mail, title: 'Email', lines: ['hello@greenleafcoffee.com'] },\n    { icon: Clock, title: 'Hours', lines: ['Mon-Fri: 7am - 7pm', 'Sat-Sun: 8am - 8pm'] },\n  ];\n\n  return (\n    <div className=\"space-y-8\">\n      {infoItems.map((item, index) => (\n        <div key={index} className=\"flex items-start gap-4\">\n          <div className=\"w-12 h-12 bg-brand-gold/20 rounded-full flex items-center justify-center shrink-0\">\n            <item.icon className=\"h-6 w-6 text-brand-gold\" />\n          </div>\n          <div>\n            <h4 className=\"font-serif text-xl text-brand-coffee mb-1\">{item.title}</h4>\n            {item.lines.map((line, i) => (\n              <p key={i} className=\"text-elegant-dark\">{line}</p>\n            ))}\n          </div>\n        </div>\n      ))}\n    </div>\n  );\n}\n",
+      "role": "COMPONENT",
+      "language": "typescript",
+      "size": 1084,
+      "order": 25
+    },
+    {
+      "path": "components/contact/LocationMap.tsx",
+      "content": "\nimport React from 'react';\n\nexport function LocationMap() {\n  return (\n    <div className=\"rounded-lg overflow-hidden shadow-elegant h-96\">\n      <iframe\n        title=\"Greenleaf Coffee Location\"\n        src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2795.494747352378!2d-122.6789131844406!3d45.52071397910115!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x54950a0b7b1b0f3b%3A0x84f8f4f6e4a6a1e5!2sPioneer%20Courthouse%20Square!5e0!3m2!1sen!2sus!4v1678886400000!5m2!1sen!2sus\"\n        width=\"100%\"\n        height=\"100%\"\n        style={{ border: 0 }}\n        allowFullScreen={false}\n        loading=\"lazy\"\n        referrerPolicy=\"no-referrer-when-downgrade\"\n      ></iframe>\n    </div>\n  );\n}\n",
+      "role": "COMPONENT",
+      "language": "typescript",
+      "size": 709,
+      "order": 26
+    },
+    {
+      "path": "data/gallery.ts",
+      "content": "\nexport interface GalleryImage {\n  src: string;\n  alt: string;\n  category: 'coffee' | 'pastries' | 'atmosphere';\n}\n\nexport const GALLERY_IMAGES: GalleryImage[] = [\n  { src: 'https://picsum.photos/id/225/800/800', alt: 'Latte art', category: 'coffee' },\n  { src: 'https://picsum.photos/id/312/800/800', alt: 'Freshly baked croissants', category: 'pastries' },\n  { src: 'https://picsum.photos/id/1060/800/800', alt: 'Cozy coffee shop interior', category: 'atmosphere' },\n  { src: 'https://picsum.photos/id/431/800/800', alt: 'Pour over coffee brewing', category: 'coffee' },\n  { src: 'https://picsum.photos/id/342/800/800', alt: 'Assortment of delicious pastries', category: 'pastries' },\n  { src: 'https://picsum.photos/id/20/800/800', alt: 'Friends enjoying coffee', category: 'atmosphere' },\n  { src: 'https://picsum.photos/id/326/800/800', alt: 'Espresso shot being pulled', category: 'coffee' },\n  { src: 'https://picsum.photos/id/405/800/800', alt: 'Chocolate muffins', category: 'pastries' },\n  { src: 'https://picsum.photos/id/175/800/800', alt: 'Outdoor seating area', category: 'atmosphere' },\n  { src: 'https://picsum.photos/id/30/800/800', alt: 'Iced coffee on a summer day', category: 'coffee' },\n  { src: 'https://picsum.photos/id/367/800/800', alt: 'Colorful macarons', category: 'pastries' },\n  { src: 'https://picsum.photos/id/1078/800/800', alt: 'Barista at work', category: 'atmosphere' },\n];\n",
+      "role": "COMPONENT",
+      "language": "typescript",
+      "size": 1410,
+      "order": 27
+    },
+    {
+      "path": "data/menu.ts",
+      "content": "\nexport interface MenuItem {\n  id: string;\n  name: string;\n  description: string;\n  price: number;\n  category: 'coffee' | 'pastries' | 'tea';\n}\n\nexport const MENU_ITEMS: MenuItem[] = [\n  // Coffee\n  { id: 'coffee-1', name: 'Espresso', description: 'Rich, bold shot of pure coffee essence', price: 3.50, category: 'coffee' },\n  { id: 'coffee-2', name: 'Pour Over', description: 'Hand-crafted, single-origin coffee brewed to perfection', price: 5.00, category: 'coffee' },\n  { id: 'coffee-3', name: 'Latte', description: 'Smooth espresso with steamed milk and microfoam', price: 4.75, category: 'coffee' },\n  { id: 'coffee-4', name: 'Cappuccino', description: 'Equal parts espresso, steamed milk, and foam', price: 4.50, category: 'coffee' },\n  { id: 'coffee-5', name: 'Americano', description: 'Espresso shots topped with hot water', price: 3.75, category: 'coffee' },\n  { id: 'coffee-6', name: 'Mocha', description: 'Espresso with steamed milk and chocolate', price: 5.25, category: 'coffee' },\n  \n  // Pastries\n  { id: 'pastry-1', name: 'Butter Croissant', description: 'Flaky, buttery, baked fresh daily', price: 4.00, category: 'pastries' },\n  { id: 'pastry-2', name: 'Almond Scone', description: 'Tender scone with roasted almonds and honey glaze', price: 4.50, category: 'pastries' },\n  { id: 'pastry-3', name: 'Blueberry Muffin', description: 'Moist muffin bursting with fresh blueberries', price: 3.75, category: 'pastries' },\n  { id: 'pastry-4', name: 'Pain au Chocolat', description: 'Classic chocolate-filled croissant', price: 4.25, category: 'pastries' },\n  { id: 'pastry-5', name: 'Cinnamon Roll', description: 'Soft, gooey, with cream cheese frosting', price: 4.75, category: 'pastries' },\n\n  // Tea\n  { id: 'tea-1', name: 'Earl Grey', description: 'Classic black tea with bergamot', price: 3.50, category: 'tea' },\n  { id: 'tea-2', name: 'Green Jasmine', description: 'Delicate green tea with jasmine flowers', price: 3.75, category: 'tea' },\n  { id: 'tea-3', name: 'Chamomile', description: 'Soothing caffeine-free herbal tea', price: 3.50, category: 'tea' },\n  { id: 'tea-4', name: 'Matcha Latte', description: 'Ceremonial grade matcha with steamed milk', price: 5.50, category: 'tea' },\n];\n",
+      "role": "COMPONENT",
+      "language": "typescript",
+      "size": 2208,
+      "order": 28
+    },
+    {
+      "path": "data/testimonials.ts",
+      "content": "\nexport interface Testimonial {\n    name: string;\n    role: string;\n    content: string;\n    rating: number;\n}\n\nexport const TESTIMONIALS: Testimonial[] = [\n  {\n    name: 'Sarah Johnson',\n    role: 'Regular Customer',\n    content: 'Greenleaf Coffee has become my second home. The coffee is exceptional, and the atmosphere is perfect for getting work done.',\n    rating: 5,\n  },\n  {\n    name: 'Michael Chen',\n    role: 'Coffee Enthusiast',\n    content: 'Best pour-over in Portland, hands down. The baristas really know their craft and are happy to talk about the beans.',\n    rating: 5,\n  },\n  {\n    name: 'Emma Davis',\n    role: 'Local Resident',\n    content: 'Love the community vibe here. It\\'s a great place to meet friends or just relax with a book and a delicious pastry.',\n    rating: 5,\n  },\n];\n",
+      "role": "TEST",
+      "language": "typescript",
+      "size": 802,
+      "order": 29
+    },
+    {
+      "path": "pages/About.tsx",
+      "content": "\nimport React from 'react';\nimport { AnimatedSection } from '../components/common/AnimatedSection';\nimport { motion } from 'framer-motion';\nimport { Award, Globe, Heart } from 'lucide-react';\n\nexport function About() {\n  return (\n    <div className=\"bg-brand-cream py-20\">\n      <div className=\"max-w-5xl mx-auto px-4 sm:px-6 lg:px-8\">\n        <AnimatedSection className=\"text-center mb-16\">\n          <h1 className=\"font-serif text-5xl md:text-6xl text-brand-coffee mb-4\">Our Story</h1>\n          <p className=\"text-xl text-elegant-dark max-w-3xl mx-auto\">\n            From a simple dream to a beloved community hub, this is the story of Greenleaf Coffee.\n          </p>\n        </AnimatedSection>\n\n        <div className=\"grid md:grid-cols-2 gap-12 items-center mb-20\">\n          <AnimatedSection>\n            <motion.div \n              className=\"rounded-lg overflow-hidden shadow-elegant-lg\"\n              whileHover={{ scale: 1.03 }}\n            >\n              <img src=\"https://picsum.photos/id/1078/600/700\" alt=\"Barista smiling\" className=\"w-full h-full object-cover\" />\n            </motion.div>\n          </AnimatedSection>\n          <AnimatedSection delay={0.2}>\n            <h2 className=\"font-serif text-3xl text-brand-coffee mb-4\">Founded on Passion</h2>\n            <p className=\"text-elegant-dark leading-relaxed mb-4\">\n              Greenleaf Coffee was born from a lifelong passion for coffee and community. Our founder, Jane Doe, traveled the world exploring coffee farms and learning the art of the perfect brew. She returned to Portland with a vision: to create a space that not only served exceptional coffee but also fostered connection and warmth.\n            </p>\n            <p className=\"text-elegant-dark leading-relaxed\">\n              Opened in 2022, Greenleaf Coffee quickly became a local favorite, known for its meticulous pour-overs, cozy atmosphere, and the friendly faces behind the counter.\n            </p>\n          </AnimatedSection>\n        </div>\n\n        <AnimatedSection className=\"text-center mb-16\">\n           <h2 className=\"font-serif text-4xl text-brand-coffee mb-12\">Our Core Values</h2>\n           <div className=\"grid sm:grid-cols-3 gap-8\">\n              <div className=\"flex flex-col items-center\">\n                <div className=\"w-20 h-20 bg-brand-gold/20 rounded-full flex items-center justify-center mb-4\">\n                    <Award className=\"w-10 h-10 text-brand-gold\" />\n                </div>\n                <h3 className=\"font-serif text-2xl text-brand-coffee mb-2\">Quality</h3>\n                <p className=\"text-elegant-dark\">Sourcing the finest beans and ingredients is non-negotiable.</p>\n              </div>\n              <div className=\"flex flex-col items-center\">\n                <div className=\"w-20 h-20 bg-brand-sage/20 rounded-full flex items-center justify-center mb-4\">\n                    <Globe className=\"w-10 h-10 text-brand-sage\" />\n                </div>\n                <h3 className=\"font-serif text-2xl text-brand-coffee mb-2\">Sustainability</h3>\n                <p className=\"text-elegant-dark\">Caring for our planet is at the heart of every decision we make.</p>\n              </div>\n              <div className=\"flex flex-col items-center\">\n                <div className=\"w-20 h-20 bg-brand-coffee/20 rounded-full flex items-center justify-center mb-4\">\n                    <Heart className=\"w-10 h-10 text-brand-coffee\" />\n                </div>\n                <h3 className=\"font-serif text-2xl text-brand-coffee mb-2\">Community</h3>\n                <p className=\"text-elegant-dark\">Creating a welcoming space for everyone to connect and belong.</p>\n              </div>\n           </div>\n        </AnimatedSection>\n      </div>\n    </div>\n  );\n}\n",
+      "role": "COMPONENT",
+      "language": "typescript",
+      "size": 3744,
+      "order": 30
+    },
+    {
+      "path": "pages/Contact.tsx",
+      "content": "\nimport React from 'react';\nimport { ContactForm } from '../components/contact/ContactForm';\nimport { LocationMap } from '../components/contact/LocationMap';\nimport { ContactInfo } from '../components/contact/ContactInfo';\nimport { AnimatedSection } from '../components/common/AnimatedSection';\n\nexport function Contact() {\n  return (\n    <div className=\"bg-brand-cream py-20\">\n      <div className=\"max-w-6xl mx-auto px-4 sm:px-6 lg:px-8\">\n        <AnimatedSection className=\"text-center mb-16\">\n          <h1 className=\"font-serif text-5xl md:text-6xl text-brand-coffee mb-4\">Contact Us</h1>\n          <p className=\"text-xl text-elegant-dark max-w-2xl mx-auto\">\n            We'd love to hear from you. Send us a message or stop by the shop!\n          </p>\n        </AnimatedSection>\n\n        <div className=\"grid lg:grid-cols-2 gap-12\">\n          <AnimatedSection>\n            <ContactForm />\n          </AnimatedSection>\n          <AnimatedSection delay={0.2} className=\"space-y-12\">\n            <ContactInfo />\n            <LocationMap />\n          </AnimatedSection>\n        </div>\n      </div>\n    </div>\n  );\n}\n",
+      "role": "COMPONENT",
+      "language": "typescript",
+      "size": 1118,
+      "order": 31
+    },
+    {
+      "path": "pages/Gallery.tsx",
+      "content": "\nimport React from 'react';\nimport { GalleryGrid } from '../components/gallery/GalleryGrid';\nimport { AnimatedSection } from '../components/common/AnimatedSection';\n\nexport function Gallery() {\n  return (\n    <div className=\"bg-elegant-light py-20\">\n      <div className=\"max-w-7xl mx-auto px-4 sm:px-6 lg:px-8\">\n        <AnimatedSection className=\"text-center mb-16\">\n          <h1 className=\"font-serif text-5xl md:text-6xl text-brand-coffee mb-4\">Our Gallery</h1>\n          <p className=\"text-xl text-elegant-dark max-w-2xl mx-auto\">\n            A collection of moments that capture the essence of Greenleaf Coffee.\n          </p>\n        </AnimatedSection>\n        <GalleryGrid />\n      </div>\n    </div>\n  );\n}\n",
+      "role": "COMPONENT",
+      "language": "typescript",
+      "size": 716,
+      "order": 32
+    },
+    {
+      "path": "pages/Home.tsx",
+      "content": "\nimport React from 'react';\nimport { Hero } from '../components/home/Hero';\nimport { Features } from '../components/home/Features';\nimport { GalleryPreview } from '../components/home/GalleryPreview';\nimport { Testimonials } from '../components/home/Testimonials';\nimport { CallToAction } from '../components/home/CallToAction';\n\nexport function Home() {\n  return (\n    <div>\n      <Hero />\n      <Features />\n      <GalleryPreview />\n      <Testimonials />\n      <CallToAction />\n    </div>\n  );\n}\n",
+      "role": "COMPONENT",
+      "language": "typescript",
+      "size": 498,
+      "order": 33
+    },
+    {
+      "path": "pages/Menu.tsx",
+      "content": "\nimport React from 'react';\nimport { MENU_ITEMS } from '../data/menu';\nimport { MenuSection } from '../components/menu/MenuSection';\nimport { Coffee, Cake, Leaf } from 'lucide-react';\nimport { AnimatedSection } from '../components/common/AnimatedSection';\n\nexport function Menu() {\n  const coffeeItems = MENU_ITEMS.filter(item => item.category === 'coffee');\n  const pastryItems = MENU_ITEMS.filter(item => item.category === 'pastries');\n  const teaItems = MENU_ITEMS.filter(item => item.category === 'tea');\n\n  return (\n    <div className=\"bg-elegant-light py-20\">\n      <div className=\"max-w-4xl mx-auto px-4 sm:px-6 lg:px-8\">\n        <AnimatedSection className=\"text-center mb-16\">\n          <h1 className=\"font-serif text-5xl md:text-6xl text-brand-coffee mb-4\">Our Menu</h1>\n          <p className=\"text-xl text-elegant-dark\">\n            Handcrafted beverages and freshly baked goods, made with love.\n          </p>\n        </AnimatedSection>\n\n        <MenuSection title=\"Coffee\" items={coffeeItems} icon={Coffee} />\n        <MenuSection title=\"Pastries\" items={pastryItems} icon={Cake} />\n        <MenuSection title=\"Tea & More\" items={teaItems} icon={Leaf} />\n      </div>\n    </div>\n  );\n}\n",
+      "role": "COMPONENT",
+      "language": "typescript",
+      "size": 1199,
+      "order": 34
+    }
+  ],
+  "frontend_deps": {
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "react-router-dom": "^7.9.6",
+    "lucide-react": "^0.553.0",
+    "framer-motion": "^12.23.24",
+    "clsx": "^2.1.1",
+    "class-variance-authority": "^0.7.1",
+    "yet-another-react-lightbox": "^3.25.0",
+    "react-hook-form": "^7.66.0",
+    "@hookform/resolvers": "^5.2.2",
+    "zod": "^4.1.12"
+  },
+  "backend_deps": {},
+  "created_at": "1772068059",
+  "version": 1,
+  "category": "landing"
+}

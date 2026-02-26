@@ -1,0 +1,179 @@
+{
+  "id": "9ae76e0883fb",
+  "name": "knowledge-graph-factory",
+  "description": "Knowledge graph builder with React Flow, chat panel, and WebSocket sync",
+  "stack": "react-only",
+  "complexity": "STANDARD",
+  "files": [
+    {
+      "path": ".env.local",
+      "content": "GEMINI_API_KEY=PLACEHOLDER_API_KEY\n",
+      "role": "COMPONENT",
+      "language": "text",
+      "size": 35,
+      "order": 0
+    },
+    {
+      "path": ".gitignore",
+      "content": "# Logs\nlogs\n*.log\nnpm-debug.log*\nyarn-debug.log*\nyarn-error.log*\npnpm-debug.log*\nlerna-debug.log*\n\nnode_modules\ndist\ndist-ssr\n*.local\n\n# Editor directories and files\n.vscode/*\n!.vscode/extensions.json\n.idea\n.DS_Store\n*.suo\n*.ntvs*\n*.njsproj\n*.sln\n*.sw?\n",
+      "role": "COMPONENT",
+      "language": "text",
+      "size": 253,
+      "order": 1
+    },
+    {
+      "path": "App.tsx",
+      "content": "\nimport React from 'react';\nimport Layout from './components/Layout';\nimport 'reactflow/dist/style.css';\n\n\nfunction App() {\n  return (\n    <div className=\"h-screen w-screen bg-gray-900 text-white font-sans\">\n      <Layout />\n    </div>\n  );\n}\n\nexport default App;\n",
+      "role": "COMPONENT",
+      "language": "typescript",
+      "size": 264,
+      "order": 2
+    },
+    {
+      "path": "README.md",
+      "content": "<div align=\"center\">\n<img width=\"1200\" height=\"475\" alt=\"GHBanner\" src=\"https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6\" />\n</div>\n\n# Run and deploy your AI Studio app\n\nThis contains everything you need to run your app locally.\n\nView your app in AI Studio: https://ai.studio/apps/drive/1GvQItQYJMa-PfUaQ2TRaMtZ5CPIoON6k\n\n## Run Locally\n\n**Prerequisites:**  Node.js\n\n\n1. Install dependencies:\n   `npm install`\n2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key\n3. Run the app:\n   `npm run dev`\n",
+      "role": "COMPONENT",
+      "language": "markdown",
+      "size": 553,
+      "order": 3
+    },
+    {
+      "path": "index.html",
+      "content": "\n<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"UTF-8\" />\n    <link rel=\"icon\" type=\"image/svg+xml\" href=\"/vite.svg\" />\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n    <title>Knowledge Graph Factory</title>\n    <script src=\"https://cdn.tailwindcss.com\"></script>\n    <style>\n      /* For reactflow attribution */\n      .react-flow__attribution {\n        background: rgba(255, 255, 255, 0.1) !important;\n        padding: 2px 4px !important;\n        font-size: 10px !important;\n        border-radius: 3px;\n      }\n      .react-flow__attribution a {\n        color: #9ca3af !important;\n      }\n    </style>\n  <script type=\"importmap\">\n{\n  \"imports\": {\n    \"react\": \"https://aistudiocdn.com/react@^19.2.0\",\n    \"react/\": \"https://aistudiocdn.com/react@^19.2.0/\",\n    \"reactflow/\": \"https://aistudiocdn.com/reactflow@^11.11.4/\",\n    \"reactflow\": \"https://aistudiocdn.com/reactflow@^11.11.4\",\n    \"react-dom/\": \"https://aistudiocdn.com/react-dom@^19.2.0/\",\n    \"axios\": \"https://aistudiocdn.com/axios@^1.13.1\"\n  }\n}\n</script>\n<link rel=\"stylesheet\" href=\"/index.css\">\n</head>\n  <body class=\"bg-gray-900 text-white\">\n    <div id=\"root\"></div>\n    <script type=\"module\" src=\"/index.tsx\"></script>\n  </body>\n</html>\n",
+      "role": "COMPONENT",
+      "language": "html",
+      "size": 1253,
+      "order": 4
+    },
+    {
+      "path": "index.tsx",
+      "content": "\nimport React from 'react';\nimport ReactDOM from 'react-dom/client';\nimport App from './App';\n\nconst rootElement = document.getElementById('root');\nif (!rootElement) {\n  throw new Error(\"Could not find root element to mount to\");\n}\n\nconst root = ReactDOM.createRoot(rootElement);\nroot.render(\n  <React.StrictMode>\n    <App />\n  </React.StrictMode>\n);\n",
+      "role": "ENTRY",
+      "language": "typescript",
+      "size": 351,
+      "order": 5
+    },
+    {
+      "path": "metadata.json",
+      "content": "{\n  \"name\": \"Knowledge Graph Factory\",\n  \"description\": \"An interactive frontend to visualize and chat with a knowledge graph. This application provides a graph view using React Flow, a real-time chat panel, and a detailed inspection panel for nodes and edges, all interacting with a backend API.\",\n  \"requestFramePermissions\": []\n}",
+      "role": "COMPONENT",
+      "language": "json",
+      "size": 332,
+      "order": 6
+    },
+    {
+      "path": "package.json",
+      "content": "{\n  \"name\": \"knowledge-graph-factory\",\n  \"private\": true,\n  \"version\": \"0.0.0\",\n  \"type\": \"module\",\n  \"scripts\": {\n    \"dev\": \"vite\",\n    \"build\": \"vite build\",\n    \"preview\": \"vite preview\"\n  },\n  \"dependencies\": {\n    \"react\": \"^19.2.0\",\n    \"reactflow\": \"^11.11.4\",\n    \"react-dom\": \"^19.2.0\",\n    \"axios\": \"^1.13.1\"\n  },\n  \"devDependencies\": {\n    \"@types/node\": \"^22.14.0\",\n    \"@vitejs/plugin-react\": \"^5.0.0\",\n    \"typescript\": \"~5.8.2\",\n    \"vite\": \"^6.2.0\"\n  }\n}\n",
+      "role": "CONFIG",
+      "language": "json",
+      "size": 472,
+      "order": 7
+    },
+    {
+      "path": "tsconfig.json",
+      "content": "{\n  \"compilerOptions\": {\n    \"target\": \"ES2022\",\n    \"experimentalDecorators\": true,\n    \"useDefineForClassFields\": false,\n    \"module\": \"ESNext\",\n    \"lib\": [\n      \"ES2022\",\n      \"DOM\",\n      \"DOM.Iterable\"\n    ],\n    \"skipLibCheck\": true,\n    \"types\": [\n      \"node\"\n    ],\n    \"moduleResolution\": \"bundler\",\n    \"isolatedModules\": true,\n    \"moduleDetection\": \"force\",\n    \"allowJs\": true,\n    \"jsx\": \"react-jsx\",\n    \"paths\": {\n      \"@/*\": [\n        \"./*\"\n      ]\n    },\n    \"allowImportingTsExtensions\": true,\n    \"noEmit\": true\n  }\n}",
+      "role": "CONFIG",
+      "language": "json",
+      "size": 542,
+      "order": 8
+    },
+    {
+      "path": "types.ts",
+      "content": "\nexport interface ApiNode {\n  id: string;\n  type: string;\n  name: string;\n  description: string;\n  complexity?: string;\n  examples?: string[];\n}\n\nexport interface ApiEdge {\n  id: string;\n  from_node: string;\n  to_node: string;\n  type: string;\n  weight?: number;\n  description?: string;\n}\n\nexport interface ApiMessage {\n  sender: 'user' | 'claude';\n  message: string;\n  highlight_nodes?: string[];\n  timestamp: string;\n}\n\nexport interface AppContext {\n  active_node: string | null;\n  selected_nodes: string[];\n  view_mode: 'graph' | 'table';\n}\n\nexport type DetailItem = {\n    type: 'node' | 'edge';\n    data: ApiNode | ApiEdge;\n};\n",
+      "role": "TYPE",
+      "language": "typescript",
+      "size": 630,
+      "order": 9
+    },
+    {
+      "path": "vite.config.ts",
+      "content": "import path from 'path';\nimport { defineConfig, loadEnv } from 'vite';\nimport react from '@vitejs/plugin-react';\n\nexport default defineConfig(({ mode }) => {\n    const env = loadEnv(mode, '.', '');\n    return {\n      server: {\n        port: 3000,\n        host: '0.0.0.0',\n      },\n      plugins: [react()],\n      define: {\n        'process.env.API_KEY': JSON.stringify(env.GEMINI_API_KEY),\n        'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY)\n      },\n      resolve: {\n        alias: {\n          '@': path.resolve(__dirname, '.'),\n        }\n      }\n    };\n});\n",
+      "role": "CONFIG",
+      "language": "typescript",
+      "size": 580,
+      "order": 10
+    },
+    {
+      "path": "components/ChatPanel.tsx",
+      "content": "\nimport React, { useState, useEffect, useRef, useCallback } from 'react';\nimport { SendIcon, BotIcon, UserIcon } from './Icons';\nimport { sendMessage, fetchMessages } from '../services/apiClient';\nimport { connectWebSocket } from '../services/websocket';\nimport type { ApiMessage, AppContext } from '../types';\nimport type { WebSocketMessage } from '../services/websocket';\n\ninterface ChatPanelProps {\n  context: Partial<AppContext>;\n  onHighlightNodes: (nodeIds: string[]) => void;\n}\n\nconst ChatPanel: React.FC<ChatPanelProps> = ({ context, onHighlightNodes }) => {\n  const [messages, setMessages] = useState<ApiMessage[]>([]);\n  const [input, setInput] = useState('');\n  const [isSending, setIsSending] = useState(false);\n  const messagesEndRef = useRef<HTMLDivElement>(null);\n\n  const scrollToBottom = () => {\n    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });\n  };\n\n  useEffect(() => {\n    scrollToBottom();\n  }, [messages]);\n\n  const loadMessages = useCallback(async () => {\n    try {\n      const data = await fetchMessages();\n      setMessages(data.messages.sort((a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()));\n    } catch (error) {\n      console.error(\"Failed to load messages\", error);\n    }\n  }, []);\n\n  useEffect(() => {\n    loadMessages();\n    \n    const ws = connectWebSocket((data: WebSocketMessage) => {\n      if (data.type === 'claude_response') {\n        const newMessage: ApiMessage = {\n          sender: 'claude',\n          message: data.message,\n          highlight_nodes: data.highlight_nodes || [],\n          timestamp: new Date().toISOString(),\n        };\n        setMessages(prev => [...prev, newMessage]);\n\n        if (data.highlight_nodes) {\n          onHighlightNodes(data.highlight_nodes);\n        }\n      }\n    });\n\n    return () => {\n      ws.close();\n    };\n    // eslint-disable-next-line react-hooks/exhaustive-deps\n  }, []);\n  \n  const handleSend = async () => {\n    if (input.trim() === '' || isSending) return;\n\n    const userMessage: ApiMessage = {\n      sender: 'user',\n      message: input.trim(),\n      timestamp: new Date().toISOString(),\n    };\n\n    setMessages(prev => [...prev, userMessage]);\n    setInput('');\n    setIsSending(true);\n\n    try {\n      await sendMessage(userMessage.message, context);\n      // We don't add the claude response here, as it will come via WebSocket\n    } catch (error) {\n      console.error('Failed to send message:', error);\n      const errorMessage: ApiMessage = {\n        sender: 'claude',\n        message: 'Sorry, I encountered an error. Please try again.',\n        timestamp: new Date().toISOString(),\n      };\n      setMessages(prev => [...prev, errorMessage]);\n    } finally {\n      setIsSending(false);\n    }\n  };\n\n  return (\n    <div className=\"flex flex-col h-full bg-gray-800 text-white\">\n      <div className=\"p-4 border-b border-gray-700\">\n        <h2 className=\"text-xl font-semibold\">Collaboration Chat</h2>\n      </div>\n      \n      <div className=\"flex-1 overflow-y-auto p-4 space-y-4\">\n        {messages.map((msg, i) => (\n          <div key={i} className={`flex items-start gap-3 ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>\n             {msg.sender === 'claude' && <div className=\"p-2 bg-purple-600 rounded-full\"><BotIcon className=\"w-5 h-5\" /></div>}\n            <div className={`max-w-md p-3 rounded-lg ${msg.sender === 'user' ? 'bg-blue-600 rounded-br-none' : 'bg-gray-700 rounded-bl-none'}`}>\n              <p className=\"text-sm\">{msg.message}</p>\n              {msg.highlight_nodes && msg.highlight_nodes.length > 0 && (\n                 <div className=\"mt-2 text-xs text-gray-400\">\n                    <span className=\"font-bold\">Mentioned Nodes:</span> {msg.highlight_nodes.join(', ')}\n                </div>\n              )}\n            </div>\n             {msg.sender === 'user' && <div className=\"p-2 bg-blue-600 rounded-full\"><UserIcon className=\"w-5 h-5\" /></div>}\n          </div>\n        ))}\n        <div ref={messagesEndRef} />\n      </div>\n\n      <div className=\"p-4 border-t border-gray-700 bg-gray-800\">\n        <div className=\"flex items-center bg-gray-700 rounded-lg\">\n          <input\n            type=\"text\"\n            className=\"flex-1 bg-transparent p-3 text-white placeholder-gray-400 focus:outline-none\"\n            placeholder=\"Ask about the graph...\"\n            value={input}\n            onChange={(e) => setInput(e.target.value)}\n            onKeyPress={(e) => e.key === 'Enter' && handleSend()}\n            disabled={isSending}\n          />\n          <button \n            onClick={handleSend}\n            disabled={isSending || input.trim() === ''}\n            className=\"p-3 text-white disabled:text-gray-500 hover:text-blue-400 transition-colors\"\n          >\n            <SendIcon className=\"w-5 h-5\" />\n          </button>\n        </div>\n      </div>\n    </div>\n  );\n};\n\nexport default ChatPanel;\n",
+      "role": "COMPONENT",
+      "language": "typescript",
+      "size": 4889,
+      "order": 11
+    },
+    {
+      "path": "components/ContextBar.tsx",
+      "content": "\nimport React, { useState, useEffect } from 'react';\nimport { fetchHealth, fetchNode } from '../services/apiClient';\nimport type { ApiNode } from '../types';\n\ninterface ContextBarProps {\n  activeNodeId: string | null;\n}\n\nconst ContextBar: React.FC<ContextBarProps> = ({ activeNodeId }) => {\n  const [activeNode, setActiveNode] = useState<ApiNode | null>(null);\n  const [healthStatus, setHealthStatus] = useState<{status: string, nodes: number, edges: number} | null>(null);\n\n  useEffect(() => {\n    if (activeNodeId) {\n      fetchNode(activeNodeId)\n        .then(setActiveNode)\n        .catch(err => {\n          console.error(\"Failed to fetch active node details\", err);\n          setActiveNode(null);\n        });\n    } else {\n      setActiveNode(null);\n    }\n  }, [activeNodeId]);\n\n  useEffect(() => {\n    fetchHealth()\n      .then(setHealthStatus)\n      .catch(err => console.error(\"Failed to fetch health status\", err));\n  }, []);\n\n  return (\n    <div className=\"w-full bg-gray-900 border-b border-gray-700 p-2 flex items-center justify-between text-xs text-gray-400 z-20\">\n      <div className=\"flex items-center gap-4\">\n        <h1 className=\"text-sm font-bold text-white\">Knowledge Graph Factory</h1>\n         {healthStatus && (\n          <div className=\"flex items-center gap-1\">\n            <div className={`w-2 h-2 rounded-full ${healthStatus.status === 'healthy' ? 'bg-green-500' : 'bg-red-500'}`}></div>\n            <span>API Status: {healthStatus.status}</span>\n             <span className=\"pl-2\">| Nodes: {healthStatus.nodes} | Edges: {healthStatus.edges}</span>\n          </div>\n        )}\n      </div>\n      <div className=\"flex-1 text-center px-4 truncate\">\n        <span>Active Context: </span>\n        {activeNode ? (\n          <span className=\"font-semibold text-white bg-blue-600 px-2 py-1 rounded\">{activeNode.name}</span>\n        ) : (\n          <span className=\"italic\">None selected</span>\n        )}\n      </div>\n      <div className=\"w-1/4\"></div>\n    </div>\n  );\n};\n\nexport default ContextBar;\n",
+      "role": "COMPONENT",
+      "language": "typescript",
+      "size": 2022,
+      "order": 12
+    },
+    {
+      "path": "components/DetailPanel.tsx",
+      "content": "\nimport React from 'react';\nimport { XIcon } from './Icons';\nimport { getNodeColor } from '../utils/colors';\nimport type { DetailItem, ApiNode, ApiEdge } from '../types';\n\ninterface DetailPanelProps {\n  item: DetailItem | null;\n  onClose: () => void;\n}\n\nconst DetailPanel: React.FC<DetailPanelProps> = ({ item, onClose }) => {\n  if (!item) return null;\n\n  const isNode = item.type === 'node';\n  const data = item.data as ApiNode | ApiEdge;\n  const color = isNode ? getNodeColor((data as ApiNode).type) : '#6b7280';\n\n  const renderField = (label: string, value: any) => {\n    if (!value) return null;\n    return (\n      <div className=\"mb-3\">\n        <h4 className=\"text-xs text-gray-400 font-semibold uppercase\">{label}</h4>\n        {Array.isArray(value) ? (\n            <div className=\"flex flex-wrap gap-2 mt-1\">\n                {value.map((v, i) => (\n                    <span key={i} className=\"text-sm bg-gray-700 px-2 py-1 rounded-md\">{v}</span>\n                ))}\n            </div>\n        ) : (\n            <p className=\"text-sm text-gray-200\">{value}</p>\n        )}\n      </div>\n    );\n  };\n\n  return (\n    <div className={`absolute right-0 top-0 h-full w-96 bg-gray-800/80 backdrop-blur-sm border-l border-gray-700 shadow-2xl transition-transform transform ${item ? 'translate-x-0' : 'translate-x-full'} duration-300 ease-in-out z-10 flex flex-col`}>\n      <div className=\"p-4 border-b border-gray-700 flex justify-between items-center\" style={{ borderLeft: `4px solid ${color}`}}>\n        <h2 className=\"text-lg font-bold capitalize\">{item.type} Details</h2>\n        <button onClick={onClose} className=\"p-1 rounded-full hover:bg-gray-700\">\n          <XIcon className=\"w-5 h-5 text-gray-400\" />\n        </button>\n      </div>\n\n      <div className=\"p-4 overflow-y-auto flex-1\">\n        {renderField('Name', isNode ? (data as ApiNode).name : (data as ApiEdge).id)}\n        {renderField('Type', data.type)}\n        {renderField('Description', data.description)}\n        {isNode && renderField('Complexity', (data as ApiNode).complexity)}\n        {isNode && renderField('Examples', (data as ApiNode).examples)}\n        {!isNode && renderField('From Node', (data as ApiEdge).from_node)}\n        {!isNode && renderField('To Node', (data as ApiEdge).to_node)}\n        {!isNode && renderField('Weight', (data as ApiEdge).weight)}\n      </div>\n    </div>\n  );\n};\n\nexport default DetailPanel;\n",
+      "role": "COMPONENT",
+      "language": "typescript",
+      "size": 2397,
+      "order": 13
+    },
+    {
+      "path": "components/GraphView.tsx",
+      "content": "\nimport React, { useState, useEffect, useCallback, useMemo } from 'react';\nimport ReactFlow, {\n  Background,\n  Controls,\n  MiniMap,\n  useNodesState,\n  useEdgesState,\n  Node,\n  Edge,\n  MarkerType,\n} from 'reactflow';\nimport { fetchNodes, fetchEdges } from '../services/apiClient';\nimport { getNodeColor } from '../utils/colors';\nimport type { ApiNode, ApiEdge } from '../types';\n\ninterface GraphViewProps {\n  onElementClick: (element: Node | Edge, type: 'node' | 'edge') => void;\n  onPaneClick: () => void;\n  highlightNodes?: string[];\n}\n\nconst GraphView: React.FC<GraphViewProps> = ({ onElementClick, onPaneClick, highlightNodes = [] }) => {\n  const [nodes, setNodes, onNodesChange] = useNodesState([]);\n  const [edges, setEdges, onEdgesChange] = useEdgesState([]);\n  const [isLoading, setIsLoading] = useState(true);\n\n  const loadGraph = useCallback(async () => {\n    setIsLoading(true);\n    try {\n      const [nodesData, edgesData] = await Promise.all([\n        fetchNodes({ limit: 200 }),\n        fetchEdges({ limit: 500 }),\n      ]);\n\n      const flowNodes = nodesData.nodes.map((node: ApiNode) => ({\n        id: node.id,\n        data: { label: node.name, nodeData: node },\n        position: { x: Math.random() * 1000, y: Math.random() * 800 },\n        style: {\n          background: getNodeColor(node.type),\n          color: 'white',\n          border: '2px solid #2d3748',\n          borderRadius: '8px',\n          padding: '10px 15px',\n          fontSize: '12px',\n          boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)'\n        },\n      }));\n\n      const flowEdges = edgesData.edges.map((edge: ApiEdge) => ({\n        id: edge.id,\n        source: edge.from_node,\n        target: edge.to_node,\n        data: { edgeData: edge },\n        type: 'smoothstep',\n        animated: false,\n        markerEnd: {\n          type: MarkerType.ArrowClosed,\n          width: 20,\n          height: 20,\n          color: '#a0aec0',\n        },\n        style: {\n          strokeWidth: 1.5,\n          stroke: '#a0aec0',\n        },\n      }));\n\n      setNodes(flowNodes);\n      setEdges(flowEdges);\n    } catch (error) {\n      console.error('Failed to load graph data:', error);\n    } finally {\n      setIsLoading(false);\n    }\n  }, [setNodes, setEdges]);\n\n  useEffect(() => {\n    loadGraph();\n    // eslint-disable-next-line react-hooks/exhaustive-deps\n  }, []);\n  \n  const memoizedNodes = useMemo(() => {\n    return nodes.map(node => ({\n      ...node,\n      style: {\n        ...node.style,\n        border: highlightNodes.includes(node.id) ? '3px solid #8b5cf6' : '2px solid #2d3748',\n        boxShadow: highlightNodes.includes(node.id) ? '0 0 15px #8b5cf6' : node.style?.boxShadow\n      },\n    }));\n  }, [nodes, highlightNodes]);\n\n  const handleNodeClick = useCallback((_: React.MouseEvent, node: Node) => {\n    onElementClick(node, 'node');\n  }, [onElementClick]);\n\n  const handleEdgeClick = useCallback((_: React.MouseEvent, edge: Edge) => {\n    onElementClick(edge, 'edge');\n  }, [onElementClick]);\n\n  if (isLoading) {\n    return (\n      <div className=\"flex items-center justify-center h-full bg-gray-900\">\n        <div className=\"text-gray-400\">Loading Knowledge Graph...</div>\n      </div>\n    );\n  }\n\n  return (\n    <ReactFlow\n      nodes={memoizedNodes}\n      edges={edges}\n      onNodesChange={onNodesChange}\n      onEdgesChange={onEdgesChange}\n      onNodeClick={handleNodeClick}\n      onEdgeClick={handleEdgeClick}\n      onPaneClick={onPaneClick}\n      fitView\n      className=\"bg-gray-800\"\n    >\n      <Background color=\"#4a5568\" gap={16} />\n      <Controls />\n      <MiniMap nodeColor={n => getNodeColor(n.data.nodeData.type)} pannable zoomable />\n    </ReactFlow>\n  );\n};\n\nexport default GraphView;\n",
+      "role": "COMPONENT",
+      "language": "typescript",
+      "size": 3726,
+      "order": 14
+    },
+    {
+      "path": "components/Icons.tsx",
+      "content": "\nimport React from 'react';\n\nexport const SendIcon = (props: React.SVGProps<SVGSVGElement>) => (\n  <svg\n    xmlns=\"http://www.w3.org/2000/svg\"\n    width=\"24\"\n    height=\"24\"\n    viewBox=\"0 0 24 24\"\n    fill=\"none\"\n    stroke=\"currentColor\"\n    strokeWidth=\"2\"\n    strokeLinecap=\"round\"\n    strokeLinejoin=\"round\"\n    {...props}\n  >\n    <line x1=\"22\" y1=\"2\" x2=\"11\" y2=\"13\" />\n    <polygon points=\"22 2 15 22 11 13 2 9 22 2\" />\n  </svg>\n);\n\nexport const XIcon = (props: React.SVGProps<SVGSVGElement>) => (\n  <svg\n    xmlns=\"http://www.w3.org/2000/svg\"\n    width=\"24\"\n    height=\"24\"\n    viewBox=\"0 0 24 24\"\n    fill=\"none\"\n    stroke=\"currentColor\"\n    strokeWidth=\"2\"\n    strokeLinecap=\"round\"\n    strokeLinejoin=\"round\"\n    {...props}\n  >\n    <line x1=\"18\" y1=\"6\" x2=\"6\" y2=\"18\" />\n    <line x1=\"6\" y1=\"6\" x2=\"18\" y2=\"18\" />\n  </svg>\n);\n\nexport const BotIcon = (props: React.SVGProps<SVGSVGElement>) => (\n    <svg \n        xmlns=\"http://www.w3.org/2000/svg\" \n        width=\"24\" \n        height=\"24\" \n        viewBox=\"0 0 24 24\" \n        fill=\"none\" \n        stroke=\"currentColor\" \n        strokeWidth=\"2\" \n        strokeLinecap=\"round\" \n        strokeLinejoin=\"round\"\n        {...props}\n    >\n        <path d=\"M12 8V4H8\"/>\n        <rect width=\"16\" height=\"12\" x=\"4\" y=\"8\" rx=\"2\"/>\n        <path d=\"M2 14h2\"/><path d=\"M20 14h2\"/>\n        <path d=\"M15 13v2\"/>\n        <path d=\"M9 13v2\"/>\n    </svg>\n);\n\nexport const UserIcon = (props: React.SVGProps<SVGSVGElement>) => (\n    <svg \n        xmlns=\"http://www.w3.org/2000/svg\" \n        width=\"24\" \n        height=\"24\" \n        viewBox=\"0 0 24 24\" \n        fill=\"none\" \n        stroke=\"currentColor\" \n        strokeWidth=\"2\" \n        strokeLinecap=\"round\" \n        strokeLinejoin=\"round\"\n        {...props}\n    >\n        <path d=\"M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2\"/>\n        <circle cx=\"12\" cy=\"7\" r=\"4\"/>\n    </svg>\n);\n\n",
+      "role": "COMPONENT",
+      "language": "typescript",
+      "size": 1874,
+      "order": 15
+    },
+    {
+      "path": "components/Layout.tsx",
+      "content": "\nimport React, { useState, useCallback, useEffect } from 'react';\nimport type { Node, Edge } from 'reactflow';\nimport type { DetailItem, AppContext } from '../types';\nimport { updateContext } from '../services/apiClient';\nimport GraphView from './GraphView';\nimport ChatPanel from './ChatPanel';\nimport DetailPanel from './DetailPanel';\nimport ContextBar from './ContextBar';\n\nconst Layout: React.FC = () => {\n  const [selectedItem, setSelectedItem] = useState<DetailItem | null>(null);\n  const [highlightNodes, setHighlightNodes] = useState<string[]>([]);\n  const [context, setContext] = useState<AppContext>({\n    active_node: null,\n    selected_nodes: [],\n    view_mode: 'graph',\n  });\n  \n  const handleElementClick = useCallback((element: Node | Edge, type: 'node' | 'edge') => {\n    const itemData = type === 'node' ? element.data.nodeData : element.data.edgeData;\n    setSelectedItem({ type, data: itemData });\n    \n    if (type === 'node') {\n        const newContext: AppContext = {\n            active_node: element.id,\n            selected_nodes: [element.id], // For now, only single selection\n            view_mode: 'graph'\n        };\n        setContext(newContext);\n        updateContext(newContext).catch(err => console.error(\"Failed to update context\", err));\n    }\n  }, []);\n\n  const handlePaneClick = useCallback(() => {\n    setSelectedItem(null);\n    const newContext: AppContext = { ...context, active_node: null, selected_nodes: [] };\n    setContext(newContext);\n    updateContext(newContext).catch(err => console.error(\"Failed to update context\", err));\n  }, [context]);\n\n  const handleCloseDetailPanel = useCallback(() => {\n    setSelectedItem(null);\n  }, []);\n\n  const handleHighlightNodes = useCallback((nodesToHighlight: string[]) => {\n    setHighlightNodes(nodesToHighlight);\n  }, []);\n\n  return (\n    <div className=\"h-screen w-screen flex flex-col bg-gray-900 overflow-hidden\">\n      <ContextBar activeNodeId={context.active_node} />\n      <div className=\"flex flex-1 h-full\">\n        <div className=\"w-1/2 h-full relative border-r border-gray-700\">\n          <GraphView\n            onElementClick={handleElementClick}\n            onPaneClick={handlePaneClick}\n            highlightNodes={highlightNodes}\n          />\n        </div>\n        <div className=\"w-1/2 h-full\">\n          <ChatPanel context={context} onHighlightNodes={handleHighlightNodes} />\n        </div>\n        <DetailPanel item={selectedItem} onClose={handleCloseDetailPanel} />\n      </div>\n    </div>\n  );\n};\n\nexport default Layout;\n",
+      "role": "COMPONENT",
+      "language": "typescript",
+      "size": 2528,
+      "order": 16
+    },
+    {
+      "path": "services/apiClient.ts",
+      "content": "\nimport axios from 'axios';\nimport type { ApiNode, ApiEdge, ApiMessage, AppContext } from '../types';\n\nconst apiClient = axios.create({\n  baseURL: '/api',\n  timeout: 10000,\n});\n\ninterface NodesResponse {\n  total: number;\n  nodes: ApiNode[];\n}\n\ninterface EdgesResponse {\n  total: number;\n  edges: ApiEdge[];\n}\n\ninterface MessagesResponse {\n    messages: ApiMessage[];\n}\n\nexport const fetchHealth = async () => {\n    const response = await apiClient.get('/health');\n    return response.data;\n}\n\nexport const fetchNodes = async (params: { limit?: number } = {}): Promise<NodesResponse> => {\n  const response = await apiClient.get<NodesResponse>('/nodes', { params });\n  return response.data;\n};\n\nexport const fetchEdges = async (params: { limit?: number } = {}): Promise<EdgesResponse> => {\n  const response = await apiClient.get<EdgesResponse>('/edges', { params });\n  return response.data;\n};\n\nexport const fetchNode = async (id: string): Promise<ApiNode> => {\n  const response = await apiClient.get<ApiNode>(`/nodes/${id}`);\n  return response.data;\n};\n\nexport const updateContext = async (context: AppContext) => {\n  const response = await apiClient.post('/context', context);\n  return response.data;\n};\n\nexport const sendMessage = async (message: string, context: Partial<AppContext>) => {\n  const response = await apiClient.post('/chat', { message, context });\n  return response.data;\n};\n\nexport const fetchMessages = async (limit = 50): Promise<MessagesResponse> => {\n  const response = await apiClient.get<MessagesResponse>('/messages', { params: { limit } });\n  return response.data;\n};\n\nexport default apiClient;\n",
+      "role": "SERVICE",
+      "language": "typescript",
+      "size": 1619,
+      "order": 17
+    },
+    {
+      "path": "services/websocket.ts",
+      "content": "\nimport type { ApiMessage } from '../types';\n\nexport interface WebSocketMessage {\n  type: 'claude_response' | 'user_join' | 'user_leave';\n  message: string;\n  highlight_nodes?: string[];\n}\n\nexport const connectWebSocket = (onMessage: (data: WebSocketMessage) => void): WebSocket => {\n  const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';\n  const host = window.location.host;\n  const ws = new WebSocket(`${protocol}//${host}/ws/collaboration`);\n\n  ws.onmessage = (event) => {\n    try {\n      const data = JSON.parse(event.data);\n      onMessage(data);\n    } catch (error) {\n      console.error('Failed to parse WebSocket message:', error);\n    }\n  };\n\n  ws.onerror = (error) => {\n    console.error('WebSocket Error:', error);\n  };\n\n  ws.onclose = () => {\n    console.log('WebSocket connection closed.');\n  };\n\n  ws.onopen = () => {\n    console.log('WebSocket connection established.');\n  };\n\n  return ws;\n};\n",
+      "role": "SERVICE",
+      "language": "typescript",
+      "size": 928,
+      "order": 18
+    },
+    {
+      "path": "utils/colors.ts",
+      "content": "\nexport const getNodeColor = (type: string): string => {\n  const colors: { [key: string]: string } = {\n    feature: '#3b82f6',\n    tool: '#10b981',\n    pattern: '#f59e0b',\n    workflow: '#8b5cf6',\n    command: '#ef4444',\n    primitive: '#6b7280',\n    security: '#ec4899',\n    use_case: '#14b8a6',\n    system: '#f97316',\n  };\n  return colors[type] || '#6b7280'; // Default color\n};\n",
+      "role": "UTIL",
+      "language": "typescript",
+      "size": 381,
+      "order": 19
+    }
+  ],
+  "frontend_deps": {
+    "react": "^19.2.0",
+    "reactflow": "^11.11.4",
+    "react-dom": "^19.2.0",
+    "axios": "^1.13.1"
+  },
+  "backend_deps": {},
+  "created_at": "1772068059",
+  "version": 1,
+  "category": "tool"
+}

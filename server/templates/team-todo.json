@@ -1,0 +1,462 @@
+{
+  "id": "32c862c93fef",
+  "name": "team-todo",
+  "description": "Team task manager with drag-drop, assignments, comments, and keyboard shortcuts",
+  "stack": "react-only",
+  "complexity": "STANDARD",
+  "files": [
+    {
+      "path": "README.md",
+      "content": "<div align=\"center\">\n<img width=\"1200\" height=\"475\" alt=\"GHBanner\" src=\"https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6\" />\n</div>\n\n# Run and deploy your AI Studio app\n\nThis contains everything you need to run your app locally.\n\nView your app in AI Studio: https://ai.studio/apps/drive/1Y4kA2Eskvs7e8Pr6BMfRZdRh7B44alRu\n\n## Run Locally\n\n**Prerequisites:**  Node.js\n\n\n1. Install dependencies:\n   `npm install`\n2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key\n3. Run the app:\n   `npm run dev`\n",
+      "role": "COMPONENT",
+      "language": "markdown",
+      "size": 553,
+      "order": 0
+    },
+    {
+      "path": "index.html",
+      "content": "\n<!doctype html>\n<html lang=\"en\" class=\"dark\">\n  <head>\n    <meta charset=\"UTF-8\" />\n    <link rel=\"icon\" type=\"image/svg+xml\" href=\"/favicon.ico\" />\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n    <title>Team Todo - Collaborative Task Management</title>\n  <script type=\"importmap\">\n{\n  \"imports\": {\n    \"react-dom/\": \"https://aistudiocdn.com/react-dom@^19.2.0/\",\n    \"react/\": \"https://aistudiocdn.com/react@^19.2.0/\",\n    \"react\": \"https://aistudiocdn.com/react@^19.2.0\",\n    \"vite\": \"https://aistudiocdn.com/vite@^7.2.2\",\n    \"react-beautiful-dnd\": \"https://aistudiocdn.com/react-beautiful-dnd@^13.1.1\",\n    \"zustand\": \"https://aistudiocdn.com/zustand@^5.0.8\",\n    \"clsx\": \"https://aistudiocdn.com/clsx@^2.1.1\",\n    \"lucide-react\": \"https://aistudiocdn.com/lucide-react@^0.553.0\",\n    \"@vitejs/plugin-react\": \"https://aistudiocdn.com/@vitejs/plugin-react@^5.1.1\",\n    \"date-fns\": \"https://aistudiocdn.com/date-fns@^4.1.0\"\n  }\n}\n</script>\n</head>\n  <body>\n    <div id=\"root\"></div>\n    <script type=\"module\" src=\"/src/main.tsx\"></script>\n  </body>\n</html>\n",
+      "role": "COMPONENT",
+      "language": "html",
+      "size": 1091,
+      "order": 1
+    },
+    {
+      "path": "index.tsx",
+      "content": "",
+      "role": "ENTRY",
+      "language": "typescript",
+      "size": 0,
+      "order": 2
+    },
+    {
+      "path": "metadata.json",
+      "content": "{\n  \"name\": \"Team Todo\",\n  \"description\": \"A professional, collaborative task management application with a dark theme, drag & drop functionality, and real-time updates. Built with React, TypeScript, and Tailwind CSS.\",\n  \"requestFramePermissions\": []\n}",
+      "role": "COMPONENT",
+      "language": "json",
+      "size": 253,
+      "order": 3
+    },
+    {
+      "path": "package.json",
+      "content": "\n{\n  \"name\": \"team-todo\",\n  \"version\": \"1.0.0\",\n  \"type\": \"module\",\n  \"scripts\": {\n    \"dev\": \"vite\",\n    \"build\": \"vite build\",\n    \"preview\": \"vite preview\"\n  },\n  \"dependencies\": {\n    \"react\": \"^18.2.0\",\n    \"react-dom\": \"^18.2.0\",\n    \"zustand\": \"^4.4.7\",\n    \"react-beautiful-dnd\": \"^13.1.1\",\n    \"date-fns\": \"^3.0.0\",\n    \"lucide-react\": \"^0.292.0\",\n    \"clsx\": \"^2.0.0\"\n  },\n  \"devDependencies\": {\n    \"@types/react\": \"^18.2.0\",\n    \"@types/react-dom\": \"^18.2.0\",\n    \"@types/react-beautiful-dnd\": \"^13.1.6\",\n    \"@vitejs/plugin-react\": \"^4.2.0\",\n    \"vite\": \"^5.0.0\",\n    \"typescript\": \"^5.3.0\",\n    \"tailwindcss\": \"^3.3.0\",\n    \"autoprefixer\": \"^10.4.16\",\n    \"postcss\": \"^8.4.32\"\n  }\n}\n",
+      "role": "CONFIG",
+      "language": "json",
+      "size": 697,
+      "order": 4
+    },
+    {
+      "path": "postcss.config.js",
+      "content": "\nexport default {\n  plugins: {\n    tailwindcss: {},\n    autoprefixer: {},\n  },\n}\n",
+      "role": "CONFIG",
+      "language": "javascript",
+      "size": 81,
+      "order": 5
+    },
+    {
+      "path": "tailwind.config.js",
+      "content": "\n/** @type {import('tailwindcss').Config} */\nexport default {\n  content: [\n    \"./index.html\",\n    \"./src/**/*.{js,ts,jsx,tsx}\",\n  ],\n  darkMode: 'class',\n  theme: {\n    extend: {\n      colors: {\n        // Dark Professional Theme\n        dark: {\n          bg: '#0a0a0f',\n          card: '#13131a',\n          hover: '#1a1a24',\n          border: '#2a2a35',\n        },\n        neon: {\n          cyan: '#00f5ff',\n          purple: '#b794f6',\n          pink: '#ff00ff',\n          green: '#00ff88',\n        },\n        priority: {\n          urgent: '#ff0055',\n          important: '#ff8800',\n          normal: '#00f5ff',\n        },\n      },\n      boxShadow: {\n        neon: '0 0 20px rgba(0, 245, 255, 0.3)',\n        'neon-strong': '0 0 30px rgba(0, 245, 255, 0.5)',\n      },\n    },\n  },\n  plugins: [],\n};\n",
+      "role": "CONFIG",
+      "language": "javascript",
+      "size": 800,
+      "order": 6
+    },
+    {
+      "path": "tsconfig.json",
+      "content": "\n{\n  \"compilerOptions\": {\n    \"target\": \"ES2020\",\n    \"useDefineForClassFields\": true,\n    \"lib\": [\"ES2020\", \"DOM\", \"DOM.Iterable\"],\n    \"module\": \"ESNext\",\n    \"skipLibCheck\": true,\n    \"moduleResolution\": \"bundler\",\n    \"allowImportingTsExtensions\": true,\n    \"resolveJsonModule\": true,\n    \"isolatedModules\": true,\n    \"noEmit\": true,\n    \"jsx\": \"react-jsx\",\n    \"strict\": true,\n    \"noUnusedLocals\": true,\n    \"noUnusedParameters\": true,\n    \"noFallthroughCasesInSwitch\": true,\n    \"baseUrl\": \".\",\n    \"paths\": {\n      \"@/*\": [\"src/*\"]\n    }\n  },\n  \"include\": [\"src\"],\n  \"references\": [{ \"path\": \"./tsconfig.node.json\" }]\n}\n",
+      "role": "CONFIG",
+      "language": "json",
+      "size": 628,
+      "order": 7
+    },
+    {
+      "path": "tsconfig.node.json",
+      "content": "\n{\n  \"compilerOptions\": {\n    \"composite\": true,\n    \"skipLibCheck\": true,\n    \"module\": \"ESNext\",\n    \"moduleResolution\": \"bundler\",\n    \"allowSyntheticDefaultImports\": true\n  },\n  \"include\": [\"vite.config.ts\"]\n}\n",
+      "role": "CONFIG",
+      "language": "json",
+      "size": 214,
+      "order": 8
+    },
+    {
+      "path": "vite.config.ts",
+      "content": "\nimport { defineConfig } from 'vite';\nimport react from '@vitejs/plugin-react';\n\nexport default defineConfig({\n  plugins: [react()],\n  server: {\n    port: 3000,\n    open: true,\n  },\n});\n",
+      "role": "CONFIG",
+      "language": "typescript",
+      "size": 186,
+      "order": 9
+    },
+    {
+      "path": "src/App.tsx",
+      "content": "\nimport { useEffect } from 'react';\nimport { useTasksAPI } from './hooks/useTasksAPI';\nimport { useTeamAPI } from './hooks/useTeamAPI';\nimport { useKeyboardShortcuts } from './hooks/useKeyboardShortcuts';\nimport { Header } from './components/Layout/Header';\nimport { Sidebar } from './components/Layout/Sidebar';\nimport { MainPanel } from './components/Layout/MainPanel';\nimport { TaskDetails } from './components/Tasks/TaskDetails';\nimport { AssignModal } from './components/Team/AssignModal';\nimport { useUIStore } from './store/useUIStore';\nimport { useTaskStore } from './store/useTaskStore';\nimport { clsx } from 'clsx';\n\nfunction App() {\n  const { sidebarOpen, setDetailsPanelOpen } = useUIStore();\n  const selectedTaskId = useTaskStore(state => state.selectedTaskId);\n\n  // Initialize API data\n  useTasksAPI();\n  useTeamAPI();\n  useKeyboardShortcuts();\n\n  useEffect(() => {\n    if (selectedTaskId === null) {\n      setDetailsPanelOpen(false);\n    }\n  }, [selectedTaskId, setDetailsPanelOpen]);\n\n  return (\n    <div className=\"min-h-screen bg-dark-bg text-gray-100 flex flex-col\">\n      <Header />\n      <div className=\"flex flex-1 h-[calc(100vh-4rem)]\">\n        <aside className={clsx(\n          \"transition-all duration-300 ease-in-out border-r border-dark-border\",\n          sidebarOpen ? \"w-80\" : \"w-0\"\n        )}>\n           <Sidebar />\n        </aside>\n\n        <main className=\"flex-1 overflow-auto scrollbar-dark\">\n          <MainPanel />\n        </main>\n\n        <aside className={clsx(\n          \"transition-all duration-300 ease-in-out\",\n          selectedTaskId ? \"w-96\" : \"w-0\"\n        )}>\n          {selectedTaskId && <TaskDetails />}\n        </aside>\n      </div>\n      <AssignModal />\n    </div>\n  );\n}\n\nexport default App;\n",
+      "role": "COMPONENT",
+      "language": "typescript",
+      "size": 1746,
+      "order": 10
+    },
+    {
+      "path": "src/main.tsx",
+      "content": "\nimport React from 'react';\nimport ReactDOM from 'react-dom/client';\nimport App from './App';\nimport './styles/index.css';\n\nconst rootElement = document.getElementById('root');\nif (!rootElement) {\n  throw new Error(\"Could not find root element to mount to\");\n}\n\nconst root = ReactDOM.createRoot(rootElement);\nroot.render(\n  <React.StrictMode>\n    <App />\n  </React.StrictMode>\n);\n",
+      "role": "ENTRY",
+      "language": "typescript",
+      "size": 380,
+      "order": 11
+    },
+    {
+      "path": "src/styles/index.css",
+      "content": "\n@tailwind base;\n@tailwind components;\n@tailwind utilities;\n\n@layer base {\n  body {\n    @apply font-sans antialiased bg-dark-bg text-gray-100;\n  }\n\n  * {\n    @apply border-dark-border;\n  }\n}\n\n@layer components {\n  .glass-card {\n    @apply bg-dark-card/50 backdrop-blur-sm border border-dark-border rounded-lg;\n  }\n\n  .neon-text {\n    @apply text-neon-cyan;\n    text-shadow: 0 0 10px rgba(0, 245, 255, 0.5);\n  }\n\n  .neon-border {\n    @apply border-neon-cyan shadow-neon;\n  }\n\n  .task-item {\n    @apply bg-dark-card border border-dark-border rounded-lg p-4 hover:border-neon-cyan/50 transition-all;\n  }\n\n  .btn-primary {\n    @apply bg-neon-cyan text-dark-bg px-4 py-2 rounded-lg font-semibold hover:shadow-neon-strong transition-all;\n  }\n\n  .btn-secondary {\n    @apply bg-dark-hover text-gray-100 px-4 py-2 rounded-lg border border-dark-border hover:border-neon-purple transition-all;\n  }\n\n  .input-dark {\n    @apply bg-dark-hover border border-dark-border rounded-lg px-3 py-2 text-gray-100 focus:border-neon-cyan focus:outline-none focus:shadow-neon;\n  }\n}\n\n@layer utilities {\n  .scrollbar-dark::-webkit-scrollbar {\n    width: 8px;\n  }\n\n  .scrollbar-dark::-webkit-scrollbar-track {\n    @apply bg-dark-bg;\n  }\n\n  .scrollbar-dark::-webkit-scrollbar-thumb {\n    @apply bg-dark-hover rounded-full;\n  }\n\n  .scrollbar-dark::-webkit-scrollbar-thumb:hover {\n    @apply bg-neon-cyan/30;\n  }\n}\n",
+      "role": "STYLE",
+      "language": "css",
+      "size": 1384,
+      "order": 12
+    },
+    {
+      "path": "src/types/index.ts",
+      "content": "\nexport type Priority = 'urgent' | 'important' | 'normal';\n\nexport interface User {\n  id: string;\n  name: string;\n  email: string;\n  avatar?: string;\n  color: string; // For avatar background\n}\n\nexport interface Category {\n  id: string;\n  name: string;\n  color: string;\n  icon?: string;\n}\n\nexport interface Task {\n  id: string;\n  title: string;\n  description?: string;\n  completed: boolean;\n  priority: Priority;\n  categoryId: string;\n  assignedTo?: string[]; // User IDs\n  dueDate?: string; // ISO date\n  createdBy: string; // User ID\n  createdAt: string;\n  updatedAt: string;\n  order: number; // For drag & drop\n}\n\nexport interface Comment {\n  id: string;\n  taskId: string;\n  userId: string;\n  content: string;\n  createdAt: string;\n}\n\nexport interface FilterState {\n  search: string;\n  categoryId: string | null;\n  priority: Priority | null;\n  assignedTo: string | null;\n  showCompleted: boolean;\n}\n",
+      "role": "ENTRY",
+      "language": "typescript",
+      "size": 901,
+      "order": 13
+    },
+    {
+      "path": "src/utils/helpers.ts",
+      "content": "\nimport { Task, FilterState } from '../types';\n\nexport function filterTasks(tasks: Task[], filters: FilterState): Task[] {\n  return tasks.filter((task) => {\n    if (!filters.showCompleted && task.completed) return false;\n    if (filters.search && !task.title.toLowerCase().includes(filters.search.toLowerCase())) return false;\n    if (filters.categoryId && task.categoryId !== filters.categoryId) return false;\n    if (filters.priority && task.priority !== filters.priority) return false;\n    if (filters.assignedTo && !task.assignedTo?.includes(filters.assignedTo)) return false;\n    return true;\n  });\n}\n\nexport function sortTasksByOrder(tasks: Task[]): Task[] {\n  return [...tasks].sort((a, b) => a.order - b.order);\n}\n",
+      "role": "UTIL",
+      "language": "typescript",
+      "size": 722,
+      "order": 14
+    },
+    {
+      "path": "src/utils/mockData.ts",
+      "content": "\nimport { Task, User, Category, Comment } from '../types';\nimport { storage } from './storage';\n\nconst STORAGE_KEY = 'team-todo-tasks';\nconst CURRENT_USER_ID = 'user-1';\n\nexport function getMockTeamMembers(): User[] {\n  return [\n    {\n      id: 'user-1',\n      name: 'You',\n      email: 'you@example.com',\n      color: '#00f5ff',\n      avatar: 'https://picsum.photos/seed/you/100/100',\n    },\n    {\n      id: 'user-2',\n      name: 'Sarah Chen',\n      email: 'sarah@example.com',\n      color: '#b794f6',\n      avatar: 'https://picsum.photos/seed/sarah/100/100',\n    },\n    {\n      id: 'user-3',\n      name: 'Mike Rodriguez',\n      email: 'mike@example.com',\n      color: '#ff00ff',\n      avatar: 'https://picsum.photos/seed/mike/100/100',\n    },\n    {\n      id: 'user-4',\n      name: 'Emily Watson',\n      email: 'emily@example.com',\n      color: '#00ff88',\n      avatar: 'https://picsum.photos/seed/emily/100/100',\n    },\n  ];\n}\n\nexport function getMockCategories(): Category[] {\n  return [\n    {\n      id: 'default',\n      name: 'General',\n      color: '#888888',\n      icon: 'List',\n    },\n    {\n      id: 'cat-1',\n      name: 'Development',\n      color: '#00f5ff',\n      icon: 'Code',\n    },\n    {\n      id: 'cat-2',\n      name: 'Design',\n      color: '#b794f6',\n      icon: 'Palette',\n    },\n    {\n      id: 'cat-3',\n      name: 'Marketing',\n      color: '#ff00ff',\n      icon: 'Megaphone',\n    },\n  ];\n}\n\nexport function getMockTasks(): Task[] {\n  const stored = storage.get<Task[]>(STORAGE_KEY);\n  if (stored) {\n    return stored;\n  }\n\n  // Initial mock tasks\n  return [\n    {\n      id: 'task-1',\n      title: 'Implement drag & drop functionality',\n      description: 'Add react-beautiful-dnd for task reordering. Make sure the state updates correctly and persists to local storage.',\n      completed: false,\n      priority: 'urgent',\n      categoryId: 'cat-1',\n      assignedTo: ['user-1', 'user-2'],\n      dueDate: new Date(Date.now() + 86400000 * 2).toISOString(),\n      createdBy: 'user-1',\n      createdAt: new Date().toISOString(),\n      updatedAt: new Date().toISOString(),\n      order: 0,\n    },\n    {\n      id: 'task-2',\n      title: 'Design dark theme color palette',\n      description: 'Finalize the neon color scheme for dark mode. Ensure sufficient contrast for accessibility.',\n      completed: true,\n      priority: 'important',\n      categoryId: 'cat-2',\n      assignedTo: ['user-3'],\n      createdBy: 'user-1',\n      createdAt: new Date().toISOString(),\n      updatedAt: new Date().toISOString(),\n      order: 1,\n    },\n    {\n      id: 'task-3',\n      title: 'Write project documentation',\n      description: 'Create a README.md with setup instructions and project overview.',\n      completed: false,\n      priority: 'normal',\n      categoryId: 'cat-3',\n      createdBy: 'user-1',\n      createdAt: new Date().toISOString(),\n      updatedAt: new Date().toISOString(),\n      order: 2,\n    },\n  ];\n}\n\nexport function saveTasks(tasks: Task[]) {\n  storage.set(STORAGE_KEY, tasks);\n}\n\nexport function getMockComments(taskId: string): Comment[] {\n  return [\n    {\n      id: 'comment-1',\n      taskId,\n      userId: 'user-2',\n      content: 'I can help with this! Let me take a look.',\n      createdAt: new Date(Date.now() - 3600000).toISOString(),\n    },\n    {\n      id: 'comment-2',\n      taskId,\n      userId: 'user-3',\n      content: 'The new color palette looks amazing!',\n      createdAt: new Date(Date.now() - 7200000).toISOString(),\n    },\n  ];\n}\n\nexport function getCurrentUserId(): string {\n  return CURRENT_USER_ID;\n}\n",
+      "role": "UTIL",
+      "language": "typescript",
+      "size": 3544,
+      "order": 15
+    },
+    {
+      "path": "src/utils/storage.ts",
+      "content": "\nexport const storage = {\n  get<T>(key: string): T | null {\n    try {\n      const item = localStorage.getItem(key);\n      return item ? JSON.parse(item) : null;\n    } catch {\n      return null;\n    }\n  },\n\n  set<T>(key: string, value: T): void {\n    try {\n      localStorage.setItem(key, JSON.stringify(value));\n    } catch (error) {\n      console.error('Storage error:', error);\n    }\n  },\n\n  remove(key: string): void {\n    localStorage.removeItem(key);\n  },\n\n  clear(): void {\n    localStorage.clear();\n  },\n};\n",
+      "role": "UTIL",
+      "language": "typescript",
+      "size": 514,
+      "order": 16
+    },
+    {
+      "path": "src/store/useTaskStore.ts",
+      "content": "\nimport { create } from 'zustand';\nimport { Task, FilterState } from '../types';\n\ninterface TaskStore {\n  tasks: Task[];\n  filters: FilterState;\n  selectedTaskId: string | null;\n\n  // Actions\n  setTasks: (tasks: Task[]) => void;\n  addTask: (task: Task) => void;\n  updateTask: (id: string, updates: Partial<Task>) => void;\n  deleteTask: (id: string) => void;\n  toggleComplete: (id: string) => void;\n  reorderTasks: (reorderedTasks: Task[]) => void;\n\n  // Filters\n  setFilter: <K extends keyof FilterState>(key: K, value: FilterState[K]) => void;\n  clearFilters: () => void;\n\n  // Selection\n  selectTask: (id: string | null) => void;\n}\n\nexport const useTaskStore = create<TaskStore>((set, get) => ({\n  tasks: [],\n  filters: {\n    search: '',\n    categoryId: null,\n    priority: null,\n    assignedTo: null,\n    showCompleted: true,\n  },\n  selectedTaskId: null,\n\n  setTasks: (tasks) => set({ tasks }),\n\n  addTask: (task) => set((state) => ({\n    tasks: [...state.tasks, task],\n  })),\n\n  updateTask: (id, updates) => set((state) => ({\n    tasks: state.tasks.map((task) =>\n      task.id === id ? { ...task, ...updates, updatedAt: new Date().toISOString() } : task\n    ),\n  })),\n\n  deleteTask: (id) => set((state) => ({\n    tasks: state.tasks.filter((task) => task.id !== id),\n    selectedTaskId: state.selectedTaskId === id ? null : state.selectedTaskId\n  })),\n\n  toggleComplete: (id) => set((state) => ({\n    tasks: state.tasks.map((task) =>\n      task.id === id ? { ...task, completed: !task.completed } : task\n    ),\n  })),\n\n  reorderTasks: (reorderedTasks) => set((state) => {\n    const taskMap = new Map(reorderedTasks.map(t => [t.id, t]));\n    const updatedTasks = state.tasks.map(t => taskMap.has(t.id) ? taskMap.get(t.id)! : t);\n    return { tasks: updatedTasks };\n  }),\n\n  setFilter: (key, value) => set((state) => ({\n    filters: { ...state.filters, [key]: value },\n  })),\n\n  clearFilters: () => set({\n    filters: {\n      search: '',\n      categoryId: null,\n      priority: null,\n      assignedTo: null,\n      showCompleted: true,\n    },\n  }),\n\n  selectTask: (id) => set({ selectedTaskId: id }),\n}));\n",
+      "role": "SERVICE",
+      "language": "typescript",
+      "size": 2106,
+      "order": 17
+    },
+    {
+      "path": "src/store/useTeamStore.ts",
+      "content": "\nimport { create } from 'zustand';\nimport { User } from '../types';\n\ninterface TeamStore {\n  members: User[];\n  currentUserId: string;\n  setMembers: (members: User[]) => void;\n  setCurrentUser: (userId: string) => void;\n}\n\nexport const useTeamStore = create<TeamStore>((set) => ({\n  members: [],\n  currentUserId: '',\n  setMembers: (members) => set({ members }),\n  setCurrentUser: (userId) => set({ currentUserId: userId }),\n}));\n",
+      "role": "SERVICE",
+      "language": "typescript",
+      "size": 429,
+      "order": 18
+    },
+    {
+      "path": "src/store/useUIStore.ts",
+      "content": "\nimport { create } from 'zustand';\n\ninterface UIStore {\n  sidebarOpen: boolean;\n  detailsPanelOpen: boolean;\n  quickAddOpen: boolean;\n  assignModalOpen: boolean;\n  datePickerOpen: boolean;\n  selectedTaskForAssign: string | null;\n\n  toggleSidebar: () => void;\n  setDetailsPanelOpen: (open: boolean) => void;\n  setQuickAddOpen: (open: boolean) => void;\n  openAssignModal: (taskId: string) => void;\n  closeAssignModal: () => void;\n  setDatePickerOpen: (open: boolean) => void;\n}\n\nexport const useUIStore = create<UIStore>((set) => ({\n  sidebarOpen: true,\n  detailsPanelOpen: false,\n  quickAddOpen: false,\n  assignModalOpen: false,\n  datePickerOpen: false,\n  selectedTaskForAssign: null,\n\n  toggleSidebar: () => set((state) => ({ sidebarOpen: !state.sidebarOpen })),\n  \n  setDetailsPanelOpen: (open) => set({ detailsPanelOpen: open }),\n\n  setQuickAddOpen: (open) => set({ quickAddOpen: open }),\n\n  openAssignModal: (taskId) => set({\n    assignModalOpen: true,\n    selectedTaskForAssign: taskId,\n  }),\n\n  closeAssignModal: () => set({\n    assignModalOpen: false,\n    selectedTaskForAssign: null,\n  }),\n\n  setDatePickerOpen: (open) => set({ datePickerOpen: open }),\n}));\n",
+      "role": "SERVICE",
+      "language": "typescript",
+      "size": 1165,
+      "order": 19
+    },
+    {
+      "path": "src/hooks/useCategoriesAPI.ts",
+      "content": "\nimport { useEffect, useState } from 'react';\nimport { Category } from '../types';\nimport { getMockCategories } from '../utils/mockData';\n\nexport function useCategoriesAPI() {\n  const [categories, setCategories] = useState<Category[]>([]);\n\n  useEffect(() => {\n    // Mock API call\n    const mockCategories = getMockCategories();\n    setCategories(mockCategories);\n\n    // Future: Real API call\n    // axios.get('/api/v1/categories').then(res => setCategories(res.data));\n  }, []);\n\n  return { categories };\n}\n",
+      "role": "HOOK",
+      "language": "typescript",
+      "size": 510,
+      "order": 20
+    },
+    {
+      "path": "src/hooks/useCommentsAPI.ts",
+      "content": "\nimport { useState, useEffect } from 'react';\nimport { Comment } from '../types';\nimport { getMockComments, getCurrentUserId } from '../utils/mockData';\n\nexport function useCommentsAPI(taskId: string | null) {\n  const [comments, setComments] = useState<Comment[]>([]);\n\n  useEffect(() => {\n    if (!taskId) {\n      setComments([]);\n      return;\n    }\n\n    // Mock API call\n    const mockComments = getMockComments(taskId);\n    setComments(mockComments);\n\n    // Future: Real API call\n    // axios.get(`/api/v1/tasks/${taskId}/comments`).then(res => setComments(res.data));\n  }, [taskId]);\n\n  const addComment = async (content: string) => {\n    const currentUserId = getCurrentUserId();\n    const newComment: Comment = {\n      id: `comment-${Date.now()}`,\n      taskId: taskId!,\n      userId: currentUserId,\n      content,\n      createdAt: new Date().toISOString(),\n    };\n    setComments([...comments, newComment]);\n\n    // Future: Real API call\n    // await axios.post(`/api/v1/tasks/${taskId}/comments`, { content });\n  };\n\n  return { comments, addComment };\n}\n",
+      "role": "HOOK",
+      "language": "typescript",
+      "size": 1064,
+      "order": 21
+    },
+    {
+      "path": "src/hooks/useKeyboardShortcuts.ts",
+      "content": "\nimport { useEffect } from 'react';\nimport { useUIStore } from '../store/useUIStore';\n\nexport function useKeyboardShortcuts() {\n  const { setQuickAddOpen } = useUIStore();\n\n  useEffect(() => {\n    const handleKeyPress = (e: KeyboardEvent) => {\n      // Ctrl/Cmd + K = Quick Add\n      if ((e.ctrlKey || e.metaKey) && e.key === 'k') {\n        e.preventDefault();\n        setQuickAddOpen(true);\n      }\n\n      // Escape = Close modals (QuickAdd handled in its own component)\n      if (e.key === 'Escape') {\n        // Other modals can listen to this store change if needed\n        // For now, QuickAdd has its own Escape logic.\n      }\n    };\n\n    window.addEventListener('keydown', handleKeyPress);\n    return () => window.removeEventListener('keydown', handleKeyPress);\n  }, [setQuickAddOpen]);\n}\n",
+      "role": "HOOK",
+      "language": "typescript",
+      "size": 796,
+      "order": 22
+    },
+    {
+      "path": "src/hooks/useTasksAPI.ts",
+      "content": "\nimport { useEffect } from 'react';\nimport { useTaskStore } from '../store/useTaskStore';\nimport { getMockTasks, saveTasks } from '../utils/mockData';\nimport { Task } from '../types';\n\nexport function useTasksAPI() {\n  const { tasks, setTasks, addTask, updateTask, deleteTask } = useTaskStore();\n\n  // Load from localStorage on mount\n  useEffect(() => {\n    const mockTasks = getMockTasks();\n    setTasks(mockTasks);\n    // eslint-disable-next-line react-hooks/exhaustive-deps\n  }, []);\n\n  // Save to localStorage whenever tasks change\n  useEffect(() => {\n    if (tasks.length > 0) {\n      saveTasks(tasks);\n    }\n  }, [tasks]);\n\n  // These will be replaced with actual API calls later\n  const api = {\n    createTask: async (taskData: Omit<Task, 'id' | 'createdAt' | 'updatedAt'>) => {\n      const newTask: Task = {\n        ...taskData,\n        id: `task-${Date.now()}`,\n        createdAt: new Date().toISOString(),\n        updatedAt: new Date().toISOString(),\n      };\n      addTask(newTask);\n      return newTask;\n    },\n\n    updateTask: async (id: string, updates: Partial<Task>) => {\n      updateTask(id, updates);\n    },\n\n    deleteTask: async (id: string) => {\n      deleteTask(id);\n    },\n\n    // Future: These will make real API calls\n    // createTask: async (data) => axios.post('/api/v1/tasks', data),\n    // updateTask: async (id, data) => axios.put(`/api/v1/tasks/${id}`, data),\n    // deleteTask: async (id) => axios.delete(`/api/v1/tasks/${id}`),\n  };\n\n  return api;\n}\n",
+      "role": "HOOK",
+      "language": "typescript",
+      "size": 1484,
+      "order": 23
+    },
+    {
+      "path": "src/hooks/useTeamAPI.ts",
+      "content": "\nimport { useEffect } from 'react';\nimport { useTeamStore } from '../store/useTeamStore';\nimport { getMockTeamMembers, getCurrentUserId } from '../utils/mockData';\n\nexport function useTeamAPI() {\n  const { setMembers, setCurrentUser } = useTeamStore();\n\n  useEffect(() => {\n    // Mock API calls\n    const mockMembers = getMockTeamMembers();\n    const currentUserId = getCurrentUserId();\n\n    setMembers(mockMembers);\n    setCurrentUser(currentUserId);\n\n    // Future: Real API calls\n    // axios.get('/api/v1/team/members').then(res => setMembers(res.data));\n    // axios.get('/api/v1/auth/me').then(res => setCurrentUser(res.data.id));\n  }, [setMembers, setCurrentUser]);\n}\n",
+      "role": "HOOK",
+      "language": "typescript",
+      "size": 676,
+      "order": 24
+    },
+    {
+      "path": "src/components/common/Badge.tsx",
+      "content": "import { ReactNode, HTMLAttributes } from 'react';\nimport { clsx } from 'clsx';\n\n// FIX: Extended HTMLAttributes to allow standard span props and fix children type issue\ninterface BadgeProps extends HTMLAttributes<HTMLSpanElement> {\n  variant?: 'default' | 'urgent' | 'important' | 'normal' | 'cyan' | 'purple';\n}\n\nexport function Badge({ children, variant = 'default', className, ...props }: BadgeProps) {\n  const variants = {\n    default: 'bg-dark-hover text-gray-300',\n    urgent: 'bg-priority-urgent/20 text-priority-urgent border border-priority-urgent/50',\n    important: 'bg-priority-important/20 text-priority-important border border-priority-important/50',\n    normal: 'bg-priority-normal/20 text-priority-normal border border-priority-normal/50',\n    cyan: 'bg-neon-cyan/20 text-neon-cyan border border-neon-cyan/50',\n    purple: 'bg-neon-purple/20 text-neon-purple border border-neon-purple/50',\n  };\n\n  return (\n    <span\n      className={clsx(\n        'inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold',\n        variants[variant],\n        className\n      )}\n      {...props}\n    >\n      {children}\n    </span>\n  );\n}\n",
+      "role": "COMPONENT",
+      "language": "typescript",
+      "size": 1153,
+      "order": 25
+    },
+    {
+      "path": "src/components/common/Button.tsx",
+      "content": "import { ReactNode, ButtonHTMLAttributes } from 'react';\nimport { clsx } from 'clsx';\n\n// FIX: Changed to a type intersection to correctly inherit ButtonHTMLAttributes\ntype ButtonProps = {\n  children: ReactNode;\n  variant?: 'primary' | 'secondary' | 'danger' | 'ghost';\n  size?: 'sm' | 'md' | 'lg';\n} & ButtonHTMLAttributes<HTMLButtonElement>;\n\nexport function Button({\n  children,\n  variant = 'primary',\n  size = 'md',\n  className,\n  ...props\n}: ButtonProps) {\n  const baseStyles = 'inline-flex items-center justify-center font-semibold transition-all rounded-lg disabled:opacity-50 disabled:cursor-not-allowed';\n\n  const variants = {\n    primary: 'bg-neon-cyan text-dark-bg hover:shadow-neon-strong',\n    secondary: 'bg-dark-hover text-gray-100 border border-dark-border hover:border-neon-purple',\n    danger: 'bg-priority-urgent text-white hover:shadow-[0_0_20px_rgba(255,0,85,0.3)]',\n    ghost: 'hover:bg-dark-hover text-gray-300',\n  };\n\n  const sizes = {\n    sm: 'px-3 py-1.5 text-sm',\n    md: 'px-4 py-2 text-base',\n    lg: 'px-6 py-3 text-lg',\n  };\n\n  return (\n    <button\n      className={clsx(baseStyles, variants[variant], sizes[size], className)}\n      {...props}\n    >\n      {children}\n    </button>\n  );\n}\n",
+      "role": "COMPONENT",
+      "language": "typescript",
+      "size": 1219,
+      "order": 26
+    },
+    {
+      "path": "src/components/common/Card.tsx",
+      "content": "import { ReactNode, HTMLAttributes } from 'react';\nimport { clsx } from 'clsx';\n\n// FIX: Extended HTMLAttributes to allow standard div props like onClick\ninterface CardProps extends HTMLAttributes<HTMLDivElement> {\n  glass?: boolean;\n}\n\nexport function Card({ children, className, glass = true, ...props }: CardProps) {\n  return (\n    <div\n      className={clsx(\n        glass ? 'glass-card' : 'bg-dark-card border border-dark-border rounded-lg',\n        'p-4',\n        className\n      )}\n      {...props}\n    >\n      {children}\n    </div>\n  );\n}\n",
+      "role": "COMPONENT",
+      "language": "typescript",
+      "size": 547,
+      "order": 27
+    },
+    {
+      "path": "src/components/common/Checkbox.tsx",
+      "content": "\nimport { InputHTMLAttributes } from 'react';\nimport { Check } from 'lucide-react';\nimport { clsx } from 'clsx';\n\ninterface CheckboxProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'type'> {\n  label?: string;\n}\n\nexport function Checkbox({ label, checked, className, ...props }: CheckboxProps) {\n  return (\n    <label className=\"flex items-center gap-2 cursor-pointer\">\n      <div className=\"relative flex items-center\">\n        <input type=\"checkbox\" className=\"sr-only\" checked={checked} {...props} />\n        <div\n          className={clsx(\n            'w-5 h-5 rounded border-2 flex items-center justify-center transition-all',\n            checked\n              ? 'bg-neon-cyan border-neon-cyan'\n              : 'border-dark-border group-hover:border-neon-cyan'\n          )}\n        >\n          {checked && <Check className=\"h-4 w-4 text-dark-bg\" />}\n        </div>\n      </div>\n      {label && <span className=\"text-sm text-gray-300\">{label}</span>}\n    </label>\n  );\n}\n",
+      "role": "COMPONENT",
+      "language": "typescript",
+      "size": 983,
+      "order": 28
+    },
+    {
+      "path": "src/components/common/Dropdown.tsx",
+      "content": "\nimport { useState, useRef, useEffect, ReactNode } from 'react';\nimport { ChevronDown } from 'lucide-react';\nimport { clsx } from 'clsx';\n\ninterface DropdownProps {\n  trigger: ReactNode;\n  children: ReactNode;\n  align?: 'left' | 'right';\n}\n\nexport function Dropdown({ trigger, children, align = 'left' }: DropdownProps) {\n  const [isOpen, setIsOpen] = useState(false);\n  const dropdownRef = useRef<HTMLDivElement>(null);\n\n  useEffect(() => {\n    const handleClickOutside = (event: MouseEvent) => {\n      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {\n        setIsOpen(false);\n      }\n    };\n    document.addEventListener('mousedown', handleClickOutside);\n    return () => document.removeEventListener('mousedown', handleClickOutside);\n  }, []);\n\n  return (\n    <div className=\"relative\" ref={dropdownRef}>\n      <div onClick={() => setIsOpen(!isOpen)} className=\"cursor-pointer\">\n        {trigger}\n      </div>\n      {isOpen && (\n        <div\n          className={clsx(\n            'absolute z-10 mt-2 w-48 rounded-md shadow-lg bg-dark-card border border-dark-border glass-card',\n            align === 'left' ? 'left-0' : 'right-0'\n          )}\n        >\n          <div className=\"py-1\" role=\"menu\" aria-orientation=\"vertical\">\n            {children}\n          </div>\n        </div>\n      )}\n    </div>\n  );\n}\n\ninterface DropdownItemProps {\n    children: ReactNode;\n    onClick?: () => void;\n}\n\nexport function DropdownItem({ children, onClick }: DropdownItemProps) {\n    return (\n        <a\n            href=\"#\"\n            onClick={(e) => {\n                e.preventDefault();\n                onClick?.();\n            }}\n            className=\"block px-4 py-2 text-sm text-gray-300 hover:bg-dark-hover\"\n            role=\"menuitem\"\n        >\n            {children}\n        </a>\n    );\n}\n",
+      "role": "COMPONENT",
+      "language": "typescript",
+      "size": 1824,
+      "order": 29
+    },
+    {
+      "path": "src/components/common/Input.tsx",
+      "content": "\nimport { forwardRef, InputHTMLAttributes } from 'react';\nimport { clsx } from 'clsx';\n\ninterface InputProps extends InputHTMLAttributes<HTMLInputElement> {\n  label?: string;\n  error?: string;\n}\n\nexport const Input = forwardRef<HTMLInputElement, InputProps>(\n  ({ label, error, className, ...props }, ref) => {\n    return (\n      <div className=\"w-full\">\n        {label && (\n          <label className=\"block text-sm font-medium text-gray-300 mb-1\">\n            {label}\n          </label>\n        )}\n        <input\n          ref={ref}\n          className={clsx(\n            'input-dark w-full',\n            error && 'border-priority-urgent',\n            className\n          )}\n          {...props}\n        />\n        {error && <p className=\"text-priority-urgent text-sm mt-1\">{error}</p>}\n      </div>\n    );\n  }\n);\n\nInput.displayName = 'Input';\n",
+      "role": "COMPONENT",
+      "language": "typescript",
+      "size": 846,
+      "order": 30
+    },
+    {
+      "path": "src/components/Tasks/PriorityBadge.tsx",
+      "content": "\nimport { Priority } from '../../types';\nimport { Badge } from '../common/Badge';\nimport { AlertCircle, AlertTriangle, Circle } from 'lucide-react';\n\ninterface PriorityBadgeProps {\n  priority: Priority;\n}\n\nexport function PriorityBadge({ priority }: PriorityBadgeProps) {\n  const config = {\n    urgent: {\n      variant: 'urgent' as const,\n      icon: AlertCircle,\n      label: 'Urgent',\n    },\n    important: {\n      variant: 'important' as const,\n      icon: AlertTriangle,\n      label: 'Important',\n    },\n    normal: {\n      variant: 'normal' as const,\n      icon: Circle,\n      label: 'Normal',\n    },\n  };\n\n  const { variant, icon: Icon, label } = config[priority];\n\n  return (\n    <Badge variant={variant} className=\"capitalize\">\n      <Icon className=\"h-3 w-3 mr-1.5\" />\n      {label}\n    </Badge>\n  );\n}\n",
+      "role": "COMPONENT",
+      "language": "typescript",
+      "size": 812,
+      "order": 31
+    },
+    {
+      "path": "src/components/Tasks/QuickAdd.tsx",
+      "content": "import { useState, useEffect, useRef, FormEvent, KeyboardEvent } from 'react';\nimport { Plus, X } from 'lucide-react';\nimport { useTasksAPI } from '../../hooks/useTasksAPI';\nimport { useUIStore } from '../../store/useUIStore';\nimport { useTaskStore } from '../../store/useTaskStore';\nimport { Input } from '../common/Input';\nimport { Button } from '../common/Button';\n\nexport function QuickAdd() {\n  const [title, setTitle] = useState('');\n  const [isExpanded, setIsExpanded] = useState(false);\n  const { quickAddOpen, setQuickAddOpen } = useUIStore();\n  const { createTask } = useTasksAPI();\n  const tasks = useTaskStore(state => state.tasks);\n  const inputRef = useRef<HTMLInputElement>(null);\n\n  const shouldBeOpen = isExpanded || quickAddOpen;\n\n  useEffect(() => {\n    if (shouldBeOpen && inputRef.current) {\n      inputRef.current.focus();\n    }\n  }, [shouldBeOpen]);\n\n  const closeInput = () => {\n    setTitle('');\n    setIsExpanded(false);\n    setQuickAddOpen(false);\n  };\n\n  // FIX: Use imported FormEvent type\n  const handleSubmit = async (e: FormEvent) => {\n    e.preventDefault();\n    if (!title.trim()) return;\n\n    await createTask({\n      title: title.trim(),\n      completed: false,\n      priority: 'normal',\n      categoryId: 'default',\n      createdBy: 'user-1', // Mock current user\n      order: tasks.length,\n    });\n    \n    closeInput();\n  };\n\n  // FIX: Use imported KeyboardEvent type\n  const handleKeyDown = (e: KeyboardEvent) => {\n    if (e.key === 'Escape') {\n      closeInput();\n    }\n  };\n\n  if (!shouldBeOpen) {\n    return (\n      <button\n        onClick={() => {\n          setIsExpanded(true);\n          setQuickAddOpen(true);\n        }}\n        className=\"w-full flex items-center gap-2 px-4 py-3 bg-dark-hover border border-dark-border rounded-lg hover:border-neon-cyan/50 transition-all text-gray-400 hover:text-neon-cyan\"\n      >\n        <Plus className=\"h-5 w-5\" />\n        <span>Add task... (Ctrl+K)</span>\n      </button>\n    );\n  }\n\n  return (\n    <form onSubmit={handleSubmit} className=\"glass-card p-4\">\n      <div className=\"flex gap-2\">\n        <Input\n          ref={inputRef}\n          value={title}\n          onChange={(e) => setTitle(e.target.value)}\n          onKeyDown={handleKeyDown}\n          onBlur={() => !title && closeInput()}\n          placeholder=\"What needs to be done?\"\n          className=\"flex-1\"\n          autoFocus\n        />\n        <Button type=\"submit\" disabled={!title.trim()} size=\"md\">\n          <Plus className=\"h-5 w-5\" />\n        </Button>\n        <Button\n          type=\"button\"\n          variant=\"ghost\"\n          size=\"md\"\n          onClick={closeInput}\n        >\n          <X className=\"h-5 w-5\" />\n        </Button>\n      </div>\n      <p className=\"text-xs text-gray-500 mt-2\">\n        Press Enter to add \u2022 Escape to cancel\n      </p>\n    </form>\n  );\n}\n",
+      "role": "COMPONENT",
+      "language": "typescript",
+      "size": 2828,
+      "order": 32
+    },
+    {
+      "path": "src/components/Tasks/TaskDetails.tsx",
+      "content": "\nimport { X, Trash2, Calendar, Users, Edit2, Check } from 'lucide-react';\nimport { useTaskStore } from '../../store/useTaskStore';\nimport { useUIStore } from '../../store/useUIStore';\nimport { useTeamStore } from '../../store/useTeamStore';\nimport { Button } from '../common/Button';\nimport { PriorityBadge } from './PriorityBadge';\nimport { Avatar } from '../Team/Avatar';\nimport { CommentThread } from '../Comments/CommentThread';\nimport { format } from 'date-fns';\nimport { useState, useEffect } from 'react';\n\nexport function TaskDetails() {\n  const { selectedTaskId, tasks, updateTask, deleteTask, selectTask } = useTaskStore();\n  const { setDetailsPanelOpen } = useUIStore();\n  const { members } = useTeamStore();\n\n  const [isEditingTitle, setIsEditingTitle] = useState(false);\n  const [isEditingDesc, setIsEditingDesc] = useState(false);\n  \n  const selectedTask = tasks.find(task => task.id === selectedTaskId);\n  \n  const [title, setTitle] = useState(selectedTask?.title || '');\n  const [description, setDescription] = useState(selectedTask?.description || '');\n\n  useEffect(() => {\n    if (selectedTask) {\n      setTitle(selectedTask.title);\n      setDescription(selectedTask.description || '');\n      setIsEditingTitle(false);\n      setIsEditingDesc(false);\n    }\n  }, [selectedTask]);\n\n  if (!selectedTask) {\n    return null;\n  }\n\n  const handleClose = () => {\n    selectTask(null);\n    setDetailsPanelOpen(false);\n  };\n\n  const handleDelete = () => {\n    if (window.confirm('Are you sure you want to delete this task?')) {\n        deleteTask(selectedTask.id);\n        handleClose();\n    }\n  };\n  \n  const handleTitleSave = () => {\n    if (title.trim()) {\n      updateTask(selectedTask.id, { title });\n    } else {\n        setTitle(selectedTask.title);\n    }\n    setIsEditingTitle(false);\n  };\n  \n  const handleDescSave = () => {\n    updateTask(selectedTask.id, { description });\n    setIsEditingDesc(false);\n  };\n\n  const assignedMembers = members.filter(m => selectedTask.assignedTo?.includes(m.id));\n\n  return (\n    <div className=\"h-full w-full bg-dark-card border-l border-dark-border flex flex-col\">\n      <header className=\"p-4 border-b border-dark-border flex items-center justify-between flex-shrink-0\">\n        <h2 className=\"text-lg font-semibold text-gray-300\">Task Details</h2>\n        <div className=\"flex items-center gap-2\">\n            <Button variant=\"danger\" size=\"sm\" onClick={handleDelete}>\n                <Trash2 className=\"h-4 w-4\" />\n            </Button>\n            <Button variant=\"ghost\" size=\"sm\" onClick={handleClose}>\n                <X className=\"h-5 w-5\" />\n            </Button>\n        </div>\n      </header>\n\n      <div className=\"flex-1 p-6 overflow-auto scrollbar-dark space-y-6\">\n        {/* Title */}\n        <div className=\"group\">\n            {isEditingTitle ? (\n                <div className=\"flex items-center gap-2\">\n                    <input\n                        value={title}\n                        onChange={(e) => setTitle(e.target.value)}\n                        onKeyDown={(e) => e.key === 'Enter' && handleTitleSave()}\n                        onBlur={handleTitleSave}\n                        className=\"input-dark text-xl font-bold w-full\"\n                        autoFocus\n                    />\n                     <Button size=\"sm\" onClick={handleTitleSave}><Check className=\"h-4 w-4\" /></Button>\n                </div>\n            ) : (\n                <div className=\"flex items-start gap-2\">\n                    <h1 className=\"text-xl font-bold flex-1 break-words\">{selectedTask.title}</h1>\n                    <Button variant=\"ghost\" size=\"sm\" className=\"opacity-0 group-hover:opacity-100\" onClick={() => setIsEditingTitle(true)}>\n                        <Edit2 className=\"h-4 w-4\" />\n                    </Button>\n                </div>\n            )}\n        </div>\n\n        {/* Metadata */}\n        <div className=\"grid grid-cols-2 gap-4 text-sm\">\n            <div className=\"space-y-1\">\n                <p className=\"text-gray-400\">Priority</p>\n                <PriorityBadge priority={selectedTask.priority} />\n            </div>\n            <div className=\"space-y-1\">\n                <p className=\"text-gray-400\">Due Date</p>\n                <div className=\"flex items-center gap-2\">\n                    <Calendar className=\"h-4 w-4 text-gray-500\" />\n                    <span>{selectedTask.dueDate ? format(new Date(selectedTask.dueDate), 'PPP') : 'No due date'}</span>\n                </div>\n            </div>\n            <div className=\"space-y-1 col-span-2\">\n                <p className=\"text-gray-400\">Assigned To</p>\n                 <div className=\"flex items-center gap-2 flex-wrap\">\n                    {assignedMembers.map(m => <div key={m.id} className=\"flex items-center gap-2 bg-dark-hover p-1 rounded-full\"><Avatar user={m} size=\"xs\" /> <span className=\"text-xs pr-2\">{m.name}</span></div>)}\n                    {assignedMembers.length === 0 && <p className=\"text-gray-500\">Unassigned</p>}\n                    <Button variant=\"ghost\" size=\"sm\" className=\"rounded-full w-8 h-8 p-0\">+</Button>\n                </div>\n            </div>\n        </div>\n        \n        {/* Description */}\n        <div className=\"group\">\n            <h3 className=\"text-md font-semibold text-gray-300 mb-2\">Description</h3>\n             {isEditingDesc ? (\n                <div className=\"space-y-2\">\n                    <textarea\n                        value={description}\n                        onChange={(e) => setDescription(e.target.value)}\n                        className=\"input-dark w-full h-32\"\n                        placeholder=\"Add a more detailed description...\"\n                        autoFocus\n                    />\n                    <div className=\"flex justify-end gap-2\">\n                        <Button variant=\"secondary\" size=\"sm\" onClick={() => { setDescription(selectedTask.description || ''); setIsEditingDesc(false);}}>Cancel</Button>\n                        <Button size=\"sm\" onClick={handleDescSave}>Save</Button>\n                    </div>\n                </div>\n            ) : (\n                <div onClick={() => setIsEditingDesc(true)} className=\"prose prose-invert prose-sm text-gray-300 min-h-[4rem] p-2 rounded-md hover:bg-dark-hover cursor-text\">\n                    {selectedTask.description ? <p>{selectedTask.description}</p> : <p className=\"text-gray-500\">Add a description...</p>}\n                </div>\n            )}\n        </div>\n        \n        {/* Comments */}\n        <CommentThread taskId={selectedTask.id} />\n\n      </div>\n    </div>\n  );\n}\n",
+      "role": "COMPONENT",
+      "language": "typescript",
+      "size": 6581,
+      "order": 33
+    },
+    {
+      "path": "src/components/Tasks/TaskItem.tsx",
+      "content": "import { useState, KeyboardEvent } from 'react';\nimport { GripVertical, Calendar, MessageCircle, Users } from 'lucide-react';\nimport { useTaskStore } from '../../store/useTaskStore';\nimport { useTeamStore } from '../../store/useTeamStore';\nimport { useUIStore } from '../../store/useUIStore';\nimport { Task } from '../../types';\nimport { PriorityBadge } from './PriorityBadge';\nimport { Avatar } from '../Team/Avatar';\nimport { Checkbox } from '../common/Checkbox';\nimport { clsx } from 'clsx';\nimport { format } from 'date-fns';\n\ninterface TaskItemProps {\n  task: Task;\n  isDragging: boolean;\n}\n\nexport function TaskItem({ task, isDragging }: TaskItemProps) {\n  const [isEditing, setIsEditing] = useState(false);\n  const [editedTitle, setEditedTitle] = useState(task.title);\n  const { updateTask, toggleComplete, selectTask, selectedTaskId } = useTaskStore();\n  const { setDetailsPanelOpen } = useUIStore();\n  const { members } = useTeamStore();\n\n  const handleTitleSave = () => {\n    if (editedTitle.trim() && editedTitle !== task.title) {\n      updateTask(task.id, { title: editedTitle.trim() });\n    }\n    setIsEditing(false);\n  };\n\n  // FIX: Use imported KeyboardEvent type\n  const handleKeyDown = (e: KeyboardEvent) => {\n    if (e.key === 'Enter') {\n      handleTitleSave();\n    } else if (e.key === 'Escape') {\n      setEditedTitle(task.title);\n      setIsEditing(false);\n    }\n  };\n  \n  const handleSelectTask = () => {\n    selectTask(task.id);\n    setDetailsPanelOpen(true);\n  }\n\n  const assignedMembers = members.filter((m) => task.assignedTo?.includes(m.id));\n\n  return (\n    <div\n      className={clsx(\n        'task-item group cursor-pointer',\n        isDragging && 'shadow-neon-strong scale-105',\n        task.completed && 'opacity-60',\n        selectedTaskId === task.id && 'border-neon-cyan/80'\n      )}\n      onClick={handleSelectTask}\n    >\n      <div className=\"flex items-start gap-3\">\n        {/* Drag Handle */}\n        <div className=\"flex-shrink-0 pt-1\">\n            <GripVertical className=\"h-5 w-5 text-gray-600 opacity-0 group-hover:opacity-100 transition-opacity cursor-grab\" />\n        </div>\n\n        {/* Checkbox */}\n        <div className=\"flex-shrink-0 pt-1\">\n            <Checkbox\n              checked={task.completed}\n              onChange={(e) => {\n                e.stopPropagation();\n                toggleComplete(task.id);\n              }}\n              onClick={(e) => e.stopPropagation()}\n            />\n        </div>\n\n        {/* Content */}\n        <div className=\"flex-1 min-w-0\">\n          {isEditing ? (\n            <input\n              type=\"text\"\n              value={editedTitle}\n              onChange={(e) => setEditedTitle(e.target.value)}\n              onBlur={handleTitleSave}\n              onKeyDown={handleKeyDown}\n              className=\"input-dark w-full text-base font-medium\"\n              autoFocus\n              onClick={(e) => e.stopPropagation()}\n            />\n          ) : (\n            <h3\n              onClick={(e) => {\n                e.stopPropagation();\n                setIsEditing(true);\n              }}\n              className={clsx(\n                'text-base font-medium cursor-text break-words',\n                task.completed && 'line-through text-gray-500'\n              )}\n            >\n              {task.title}\n            </h3>\n          )}\n\n          {/* Metadata */}\n          <div className=\"flex items-center flex-wrap gap-x-3 gap-y-1 mt-2\">\n            <PriorityBadge priority={task.priority} />\n\n            {task.dueDate && (\n              <div className=\"flex items-center gap-1 text-xs text-gray-400\">\n                <Calendar className=\"h-3 w-3\" />\n                <span>{format(new Date(task.dueDate), 'MMM d')}</span>\n              </div>\n            )}\n\n            {assignedMembers.length > 0 && (\n              <div className=\"flex items-center gap-1\">\n                <Users className=\"h-4 w-4 text-gray-400\" />\n                <div className=\"flex -space-x-2\">\n                  {assignedMembers.slice(0, 3).map((member) => (\n                    <Avatar key={member.id} user={member} size=\"xs\" />\n                  ))}\n                  {assignedMembers.length > 3 && (\n                     <div className=\"w-6 h-6 text-xs rounded-full flex items-center justify-center font-semibold bg-dark-hover border-2 border-dark-card text-gray-300\">\n                        +{assignedMembers.length - 3}\n                     </div>\n                  )}\n                </div>\n              </div>\n            )}\n\n            <button className=\"flex items-center gap-1 text-xs text-gray-400 hover:text-neon-cyan\">\n              <MessageCircle className=\"h-3 w-3\" />\n              <span>2</span>\n            </button>\n          </div>\n        </div>\n      </div>\n    </div>\n  );\n}\n",
+      "role": "COMPONENT",
+      "language": "typescript",
+      "size": 4778,
+      "order": 34
+    },
+    {
+      "path": "src/components/Tasks/TaskList.tsx",
+      "content": "import { DragDropContext, Droppable, Draggable, DropResult } from 'react-beautiful-dnd';\nimport { useTaskStore } from '../../store/useTaskStore';\nimport { TaskItem } from './TaskItem';\nimport { filterTasks, sortTasksByOrder } from '../../utils/helpers';\nimport { Task } from '../../types';\n\nexport function TaskList() {\n  const { tasks, reorderTasks, filters } = useTaskStore();\n\n  // Filter and sort tasks\n  const processedTasks = sortTasksByOrder(filterTasks(tasks, filters));\n\n  const handleDragEnd = (result: DropResult) => {\n    if (!result.destination) return;\n\n    const items = Array.from(processedTasks);\n    const [reorderedItem] = items.splice(result.source.index, 1);\n    items.splice(result.destination.index, 0, reorderedItem);\n\n    // Create a map of all tasks by ID\n    // FIX: Explicitly type the Map to aid type inference\n    const allTasksMap: Map<string, Task> = new Map(tasks.map(t => [t.id, t]));\n\n    // Update order for reordered items\n    items.forEach((item, index) => {\n      const taskInMap = allTasksMap.get(item.id);\n      if (taskInMap) {\n        taskInMap.order = index;\n      }\n    });\n\n    // Get all tasks, now with updated order values, and sort them\n    // FIX: Explicitly type sort arguments to resolve 'unknown' type error\n    const allTasksUpdated = Array.from(allTasksMap.values()).sort((a: Task,b: Task) => a.order - b.order);\n\n    reorderTasks(allTasksUpdated);\n  };\n\n  if (tasks.length === 0) {\n      return (\n          <div className=\"text-center py-12\">\n            <p className=\"text-gray-500 text-lg\">You're all clear!</p>\n            <p className=\"text-gray-600 text-sm mt-1\">Add your first task to get started.</p>\n          </div>\n      );\n  }\n\n  if (processedTasks.length === 0) {\n    return (\n      <div className=\"text-center py-12\">\n        <p className=\"text-gray-500 text-lg\">No tasks found</p>\n        <p className=\"text-gray-600 text-sm mt-1\">\n          Try adjusting your filters or clearing them.\n        </p>\n      </div>\n    );\n  }\n\n  return (\n    <DragDropContext onDragEnd={handleDragEnd}>\n      <Droppable droppableId=\"tasks\">\n        {(provided) => (\n          <div\n            {...provided.droppableProps}\n            ref={provided.innerRef}\n            className=\"space-y-2\"\n          >\n            {processedTasks.map((task, index) => (\n              <Draggable key={task.id} draggableId={task.id} index={index}>\n                {(provided, snapshot) => (\n                  <div\n                    ref={provided.innerRef}\n                    {...provided.draggableProps}\n                    {...provided.dragHandleProps}\n                    style={provided.draggableProps.style}\n                  >\n                    <TaskItem task={task} isDragging={snapshot.isDragging} />\n                  </div>\n                )}\n              </Draggable>\n            ))}\n            {provided.placeholder}\n          </div>\n        )}\n      </Droppable>\n    </DragDropContext>\n  );\n}\n",
+      "role": "COMPONENT",
+      "language": "typescript",
+      "size": 2947,
+      "order": 35
+    },
+    {
+      "path": "src/components/Team/AssignModal.tsx",
+      "content": "\nimport { useTaskStore } from '../../store/useTaskStore';\nimport { useTeamStore } from '../../store/useTeamStore';\nimport { useUIStore } from '../../store/useUIStore';\nimport { Modal } from '../Modals/Modal';\nimport { Button } from '../common/Button';\nimport { Avatar } from './Avatar';\nimport { Check } from 'lucide-react';\n\nexport function AssignModal() {\n  const { assignModalOpen, closeAssignModal, selectedTaskForAssign } = useUIStore();\n  const { tasks, updateTask } = useTaskStore();\n  const { members } = useTeamStore();\n  \n  const task = tasks.find(t => t.id === selectedTaskForAssign);\n\n  if (!task) return null;\n\n  const toggleAssignee = (memberId: string) => {\n    const currentAssignees = task.assignedTo || [];\n    const newAssignees = currentAssignees.includes(memberId)\n      ? currentAssignees.filter(id => id !== memberId)\n      : [...currentAssignees, memberId];\n    updateTask(task.id, { assignedTo: newAssignees });\n  };\n\n  return (\n    <Modal isOpen={assignModalOpen} onClose={closeAssignModal} title=\"Assign Task\">\n        <div className=\"space-y-3\">\n            <p className=\"text-gray-400\">Select team members to assign to \"{task.title}\"</p>\n            <div className=\"max-h-60 overflow-y-auto scrollbar-dark pr-2\">\n                {members.map(member => (\n                    <div\n                        key={member.id}\n                        onClick={() => toggleAssignee(member.id)}\n                        className=\"flex items-center justify-between p-2 rounded-lg hover:bg-dark-hover cursor-pointer\"\n                    >\n                        <div className=\"flex items-center gap-3\">\n                            <Avatar user={member} size=\"md\" />\n                            <div>\n                                <p className=\"font-medium\">{member.name}</p>\n                                <p className=\"text-sm text-gray-500\">{member.email}</p>\n                            </div>\n                        </div>\n                        {task.assignedTo?.includes(member.id) && (\n                            <div className=\"w-5 h-5 bg-neon-cyan rounded-full flex items-center justify-center\">\n                                <Check className=\"h-4 w-4 text-dark-bg\" />\n                            </div>\n                        )}\n                    </div>\n                ))}\n            </div>\n             <div className=\"flex justify-end pt-4\">\n                <Button onClick={closeAssignModal}>Done</Button>\n            </div>\n        </div>\n    </Modal>\n  );\n}\n",
+      "role": "COMPONENT",
+      "language": "typescript",
+      "size": 2505,
+      "order": 36
+    },
+    {
+      "path": "src/components/Team/Avatar.tsx",
+      "content": "\nimport { User } from '../../types';\nimport { clsx } from 'clsx';\n\ninterface AvatarProps {\n  user: User;\n  size?: 'xs' | 'sm' | 'md' | 'lg';\n}\n\nexport function Avatar({ user, size = 'md' }: AvatarProps) {\n  const sizes = {\n    xs: 'w-6 h-6 text-xs',\n    sm: 'w-8 h-8 text-sm',\n    md: 'w-10 h-10 text-base',\n    lg: 'w-12 h-12 text-lg',\n  };\n\n  const initials = user.name\n    .split(' ')\n    .map((n) => n[0])\n    .join('')\n    .toUpperCase()\n    .slice(0, 2);\n\n  return (\n    <div\n      className={clsx(\n        'rounded-full flex items-center justify-center font-semibold flex-shrink-0 border-2 border-dark-card',\n        sizes[size]\n      )}\n      style={{ backgroundColor: user.color }}\n      title={user.name}\n    >\n      {user.avatar ? (\n        <img src={user.avatar} alt={user.name} className=\"w-full h-full rounded-full object-cover\" />\n      ) : (\n        <span className=\"text-white\">{initials}</span>\n      )}\n    </div>\n  );\n}\n",
+      "role": "COMPONENT",
+      "language": "typescript",
+      "size": 940,
+      "order": 37
+    },
+    {
+      "path": "src/components/Team/TeamMember.tsx",
+      "content": "\nimport { User } from '../../types';\nimport { Avatar } from './Avatar';\n\ninterface TeamMemberProps {\n  member: User;\n}\n\nexport function TeamMember({ member }: TeamMemberProps) {\n  return (\n    <div className=\"flex items-center gap-3 p-2 rounded-lg hover:bg-dark-hover transition-colors\">\n      <Avatar user={member} size=\"md\" />\n      <div className=\"flex-1 min-w-0\">\n        <p className=\"text-sm font-medium text-gray-200 truncate\">{member.name}</p>\n        <p className=\"text-xs text-gray-500 truncate\">{member.email}</p>\n      </div>\n      <div className=\"w-2 h-2 bg-neon-green rounded-full shadow-[0_0_5px_rgba(0,255,136,0.7)]\" title=\"Online\" />\n    </div>\n  );\n}\n",
+      "role": "COMPONENT",
+      "language": "typescript",
+      "size": 669,
+      "order": 38
+    },
+    {
+      "path": "src/components/Team/TeamPanel.tsx",
+      "content": "\nimport { Users } from 'lucide-react';\nimport { useTeamStore } from '../../store/useTeamStore';\nimport { TeamMember } from './TeamMember';\nimport { Card } from '../common/Card';\n\nexport function TeamPanel() {\n  const { members } = useTeamStore();\n\n  return (\n    <Card className=\"p-4\" glass={false}>\n      <div className=\"flex items-center gap-2 mb-4\">\n        <Users className=\"h-5 w-5 text-neon-purple\" />\n        <h2 className=\"text-lg font-semibold\">Team</h2>\n      </div>\n\n      <div className=\"space-y-2\">\n        {members.map((member) => (\n          <TeamMember key={member.id} member={member} />\n        ))}\n      </div>\n    </Card>\n  );\n}\n",
+      "role": "COMPONENT",
+      "language": "typescript",
+      "size": 648,
+      "order": 39
+    },
+    {
+      "path": "src/components/Comments/AddComment.tsx",
+      "content": "import { useState, FormEvent } from 'react';\nimport { Send } from 'lucide-react';\nimport { Input } from '../common/Input';\nimport { Button } from '../common/Button';\nimport { useTeamStore } from '../../store/useTeamStore';\nimport { Avatar } from '../Team/Avatar';\n\ninterface AddCommentProps {\n  onAdd: (content: string) => void;\n}\n\nexport function AddComment({ onAdd }: AddCommentProps) {\n  const [content, setContent] = useState('');\n  const { members, currentUserId } = useTeamStore();\n  const currentUser = members.find(m => m.id === currentUserId);\n\n  // FIX: Use imported FormEvent type\n  const handleSubmit = (e: FormEvent) => {\n    e.preventDefault();\n    if (!content.trim()) return;\n\n    onAdd(content.trim());\n    setContent('');\n  };\n\n  if (!currentUser) return null;\n\n  return (\n    <form onSubmit={handleSubmit} className=\"flex gap-2 items-start pt-4\">\n      <Avatar user={currentUser} size=\"sm\" />\n      <div className=\"flex-1 flex gap-2\">\n        <Input\n            value={content}\n            onChange={(e) => setContent(e.target.value)}\n            placeholder=\"Add a comment...\"\n            className=\"flex-1\"\n        />\n        <Button type=\"submit\" disabled={!content.trim()} size=\"md\">\n            <Send className=\"h-4 w-4\" />\n        </Button>\n      </div>\n    </form>\n  );\n}\n",
+      "role": "COMPONENT",
+      "language": "typescript",
+      "size": 1298,
+      "order": 40
+    },
+    {
+      "path": "src/components/Comments/CommentItem.tsx",
+      "content": "\nimport { Comment } from '../../types';\nimport { useTeamStore } from '../../store/useTeamStore';\nimport { Avatar } from '../Team/Avatar';\nimport { formatRelative } from 'date-fns';\n\ninterface CommentItemProps {\n  comment: Comment;\n}\n\nexport function CommentItem({ comment }: CommentItemProps) {\n  const { members } = useTeamStore();\n  const user = members.find((m) => m.id === comment.userId);\n\n  if (!user) return null;\n\n  return (\n    <div className=\"flex gap-3\">\n      <Avatar user={user} size=\"sm\" />\n      <div className=\"flex-1 glass-card p-3 rounded-lg\">\n        <div className=\"flex items-center gap-2 mb-1\">\n          <span className=\"text-sm font-medium text-gray-200\">{user.name}</span>\n          <span className=\"text-xs text-gray-500\">\n            {formatRelative(new Date(comment.createdAt), new Date())}\n          </span>\n        </div>\n        <p className=\"text-sm text-gray-300 whitespace-pre-wrap\">{comment.content}</p>\n      </div>\n    </div>\n  );\n}\n",
+      "role": "COMPONENT",
+      "language": "typescript",
+      "size": 970,
+      "order": 41
+    },
+    {
+      "path": "src/components/Comments/CommentThread.tsx",
+      "content": "\nimport { useCommentsAPI } from '../../hooks/useCommentsAPI';\nimport { CommentItem } from './CommentItem';\nimport { AddComment } from './AddComment';\nimport { MessageCircle } from 'lucide-react';\n\ninterface CommentThreadProps {\n  taskId: string;\n}\n\nexport function CommentThread({ taskId }: CommentThreadProps) {\n  const { comments, addComment } = useCommentsAPI(taskId);\n\n  return (\n    <div className=\"space-y-4\">\n      <div className=\"flex items-center gap-2\">\n        <MessageCircle className=\"h-5 w-5 text-neon-cyan\" />\n        <h3 className=\"text-lg font-semibold\">Comments ({comments.length})</h3>\n      </div>\n\n      <div className=\"space-y-3\">\n        {comments.length > 0 ? (\n          comments.map((comment) => (\n            <CommentItem key={comment.id} comment={comment} />\n          ))\n        ) : (\n          <p className=\"text-sm text-gray-500\">No comments yet.</p>\n        )}\n      </div>\n\n      <AddComment onAdd={addComment} />\n    </div>\n  );\n}\n",
+      "role": "COMPONENT",
+      "language": "typescript",
+      "size": 965,
+      "order": 42
+    },
+    {
+      "path": "src/components/Categories/AddCategory.tsx",
+      "content": "import { useState, FormEvent } from 'react';\nimport { Input } from '../common/Input';\nimport { Button } from '../common/Button';\n\ninterface AddCategoryProps {\n    onDone: () => void;\n}\n\nexport function AddCategory({ onDone }: AddCategoryProps) {\n    const [name, setName] = useState('');\n\n    // FIX: Use imported FormEvent type\n    const handleSubmit = (e: FormEvent) => {\n        e.preventDefault();\n        if (!name.trim()) return;\n        // In a real app, you would call an API here to create the category.\n        console.log('Adding category:', name);\n        setName('');\n        onDone();\n    };\n\n    return (\n        <form onSubmit={handleSubmit} className=\"flex gap-2 mb-4 p-2 bg-dark-hover rounded-lg\">\n            <Input \n                value={name}\n                onChange={(e) => setName(e.target.value)}\n                placeholder=\"New category name\"\n                className=\"flex-1\"\n            />\n            <Button type=\"submit\" size=\"sm\" disabled={!name.trim()}>Add</Button>\n        </form>\n    );\n}\n",
+      "role": "COMPONENT",
+      "language": "typescript",
+      "size": 1027,
+      "order": 43
+    },
+    {
+      "path": "src/components/Categories/CategoryItem.tsx",
+      "content": "\nimport { Category } from '../../types';\nimport { useTaskStore } from '../../store/useTaskStore';\nimport { clsx } from 'clsx';\nimport * as LucideIcons from 'lucide-react';\n\ninterface CategoryItemProps {\n    category: Category;\n}\n\nexport function CategoryItem({ category }: CategoryItemProps) {\n    const { filters, setFilter } = useTaskStore();\n    const isActive = filters.categoryId === category.id;\n    \n    // @ts-ignore\n    const Icon = LucideIcons[category.icon] || LucideIcons.Tag;\n\n    const handleClick = () => {\n        setFilter('categoryId', isActive ? null : category.id);\n    };\n\n    return (\n        <button\n            onClick={handleClick}\n            className={clsx(\n                'w-full flex items-center gap-3 p-2 rounded-lg text-left transition-colors',\n                isActive ? 'bg-dark-hover text-white' : 'text-gray-400 hover:bg-dark-hover hover:text-white'\n            )}\n        >\n            <div className=\"w-5 h-5 flex items-center justify-center\">\n               <Icon className=\"h-4 w-4\" style={{ color: category.color }} />\n            </div>\n            <span className=\"flex-1 text-sm font-medium\">{category.name}</span>\n            {/* You would fetch task counts here in a real app */}\n            {/* <span className=\"text-xs bg-dark-bg px-2 py-0.5 rounded-full\">{taskCount}</span> */}\n        </button>\n    );\n}\n",
+      "role": "COMPONENT",
+      "language": "typescript",
+      "size": 1356,
+      "order": 44
+    },
+    {
+      "path": "src/components/Categories/CategoryList.tsx",
+      "content": "\nimport { Tag, PlusCircle } from 'lucide-react';\nimport { useCategoriesAPI } from '../../hooks/useCategoriesAPI';\nimport { Card } from '../common/Card';\nimport { CategoryItem } from './CategoryItem';\nimport { AddCategory } from './AddCategory';\nimport { useState } from 'react';\n\nexport function CategoryList() {\n    const { categories } = useCategoriesAPI();\n    const [isAdding, setIsAdding] = useState(false);\n\n    return (\n        <Card className=\"p-4\" glass={false}>\n            <div className=\"flex items-center justify-between mb-4\">\n                <div className=\"flex items-center gap-2\">\n                    <Tag className=\"h-5 w-5 text-neon-pink\" />\n                    <h2 className=\"text-lg font-semibold\">Categories</h2>\n                </div>\n                <button onClick={() => setIsAdding(!isAdding)} className=\"text-gray-400 hover:text-neon-cyan\">\n                    <PlusCircle className=\"h-5 w-5\" />\n                </button>\n            </div>\n            {isAdding && <AddCategory onDone={() => setIsAdding(false)} />}\n            <div className=\"space-y-1\">\n                {categories.map(cat => (\n                    <CategoryItem key={cat.id} category={cat} />\n                ))}\n            </div>\n        </Card>\n    );\n}\n",
+      "role": "COMPONENT",
+      "language": "typescript",
+      "size": 1256,
+      "order": 45
+    },
+    {
+      "path": "src/components/Filters/DateFilter.tsx",
+      "content": "\n// This is a placeholder for a more complex date filter component.\n// A real implementation would use a date picker library.\nexport function DateFilter() {\n    return (\n        <div>\n            <h3 className=\"text-sm font-semibold mb-2 text-gray-400\">Due Date</h3>\n            <p className=\"text-xs text-gray-600\">Date filtering coming soon.</p>\n        </div>\n    );\n}\n",
+      "role": "COMPONENT",
+      "language": "typescript",
+      "size": 372,
+      "order": 46
+    },
+    {
+      "path": "src/components/Filters/FilterPanel.tsx",
+      "content": "import { SlidersHorizontal, RotateCcw } from 'lucide-react';\nimport { useTaskStore } from '../../store/useTaskStore';\nimport { useTeamStore } from '../../store/useTeamStore';\nimport { Card } from '../common/Card';\nimport { Button } from '../common/Button';\nimport { Checkbox } from '../common/Checkbox';\nimport { Priority } from '../../types';\nimport { DateFilter } from './DateFilter';\n\nexport function FilterPanel() {\n    const { filters, setFilter, clearFilters } = useTaskStore();\n    const { members } = useTeamStore();\n\n    const priorities: Priority[] = ['urgent', 'important', 'normal'];\n\n    return (\n        <Card className=\"p-4\" glass={false}>\n            <div className=\"flex items-center justify-between mb-4\">\n                <div className=\"flex items-center gap-2\">\n                    <SlidersHorizontal className=\"h-5 w-5 text-neon-cyan\" />\n                    <h2 className=\"text-lg font-semibold\">Filters</h2>\n                </div>\n                <Button variant=\"ghost\" size=\"sm\" onClick={clearFilters} title=\"Clear all filters\">\n                    <RotateCcw className=\"h-4 w-4\"/>\n                </Button>\n            </div>\n            \n            <div className=\"space-y-4\">\n                <div>\n                    <h3 className=\"text-sm font-semibold mb-2 text-gray-400\">Status</h3>\n                    <Checkbox\n                        label=\"Show completed tasks\"\n                        checked={filters.showCompleted}\n                        onChange={(e) => setFilter('showCompleted', e.target.checked)}\n                    />\n                </div>\n\n                <div>\n                    <h3 className=\"text-sm font-semibold mb-2 text-gray-400\">Priority</h3>\n                    <div className=\"flex gap-2\">\n                        {priorities.map(p => (\n                            <Button\n                                key={p}\n                                variant={filters.priority === p ? 'secondary' : 'ghost'}\n                                size=\"sm\"\n                                onClick={() => setFilter('priority', filters.priority === p ? null : p)}\n                                className=\"capitalize flex-1 border border-dark-border\"\n                            >\n                                {p}\n                            </Button>\n                        ))}\n                    </div>\n                </div>\n\n                <div>\n                    <h3 className=\"text-sm font-semibold mb-2 text-gray-400\">Assigned To</h3>\n                    <select\n                        value={filters.assignedTo || ''}\n                        onChange={(e) => setFilter('assignedTo', e.target.value || null)}\n                        className=\"input-dark w-full\"\n                    >\n                        <option value=\"\">Anyone</option>\n                        {members.map(member => (\n                            <option key={member.id} value={member.id}>{member.name}</option>\n                        ))}\n                    </select>\n                </div>\n                \n                 <DateFilter />\n            </div>\n        </Card>\n    );\n}\n",
+      "role": "COMPONENT",
+      "language": "typescript",
+      "size": 3120,
+      "order": 47
+    },
+    {
+      "path": "src/components/Filters/SearchBar.tsx",
+      "content": "\nimport { Search, X } from 'lucide-react';\nimport { useTaskStore } from '../../store/useTaskStore';\nimport { Input } from '../common/Input';\n\nexport function SearchBar() {\n  const { filters, setFilter } = useTaskStore();\n\n  return (\n    <div className=\"relative\">\n      <Search className=\"absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-500 pointer-events-none\" />\n      <Input\n        value={filters.search}\n        onChange={(e) => setFilter('search', e.target.value)}\n        placeholder=\"Search tasks...\"\n        className=\"pl-10 pr-10\"\n      />\n      {filters.search && (\n        <button\n          onClick={() => setFilter('search', '')}\n          className=\"absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-neon-cyan\"\n        >\n          <X className=\"h-4 w-4\" />\n        </button>\n      )}\n    </div>\n  );\n}\n",
+      "role": "COMPONENT",
+      "language": "typescript",
+      "size": 844,
+      "order": 48
+    },
+    {
+      "path": "src/components/Modals/ConfirmDialog.tsx",
+      "content": "\nimport { Modal } from './Modal';\nimport { Button } from '../common/Button';\n\ninterface ConfirmDialogProps {\n    isOpen: boolean;\n    onClose: () => void;\n    onConfirm: () => void;\n    title: string;\n    message: string;\n}\n\nexport function ConfirmDialog({ isOpen, onClose, onConfirm, title, message }: ConfirmDialogProps) {\n    return (\n        <Modal isOpen={isOpen} onClose={onClose} title={title}>\n            <div className=\"space-y-4\">\n                <p className=\"text-gray-300\">{message}</p>\n                <div className=\"flex justify-end gap-2\">\n                    <Button variant=\"secondary\" onClick={onClose}>\n                        Cancel\n                    </Button>\n                    <Button variant=\"danger\" onClick={onConfirm}>\n                        Confirm\n                    </Button>\n                </div>\n            </div>\n        </Modal>\n    );\n}\n",
+      "role": "COMPONENT",
+      "language": "typescript",
+      "size": 882,
+      "order": 49
+    },
+    {
+      "path": "src/components/Modals/DatePicker.tsx",
+      "content": "\n// Placeholder component for a date picker.\n// In a real application, you would integrate a library like react-day-picker.\n\ninterface DatePickerProps {\n    // props would go here\n}\n\nexport function DatePicker({}: DatePickerProps) {\n    return (\n        <div className=\"p-4 bg-dark-card rounded-lg\">\n            <p className=\"text-gray-400\">Date Picker Component</p>\n        </div>\n    );\n}\n",
+      "role": "COMPONENT",
+      "language": "typescript",
+      "size": 391,
+      "order": 50
+    },
+    {
+      "path": "src/components/Modals/Modal.tsx",
+      "content": "import React, { ReactNode, useEffect } from 'react';\nimport { X } from 'lucide-react';\nimport { Card } from '../common/Card';\n\n// FIX: Use React.PropsWithChildren for better children typing\ntype ModalProps = React.PropsWithChildren<{\n    isOpen: boolean;\n    onClose: () => void;\n    title: string;\n}>;\n\nexport function Modal({ isOpen, onClose, title, children }: ModalProps) {\n    useEffect(() => {\n        const handleEsc = (e: KeyboardEvent) => {\n            if (e.key === 'Escape') {\n                onClose();\n            }\n        };\n        window.addEventListener('keydown', handleEsc);\n        return () => window.removeEventListener('keydown', handleEsc);\n    }, [onClose]);\n    \n    if (!isOpen) return null;\n\n    return (\n        <div \n            className=\"fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50\"\n            onClick={onClose}\n        >\n            <Card \n                className=\"w-full max-w-md\"\n                glass={true}\n                onClick={(e) => e.stopPropagation()}\n            >\n                <header className=\"flex items-center justify-between pb-3 border-b border-dark-border mb-4\">\n                    <h2 className=\"text-lg font-semibold neon-text\">{title}</h2>\n                    <button onClick={onClose} className=\"text-gray-400 hover:text-neon-cyan\">\n                        <X className=\"h-5 w-5\" />\n                    </button>\n                </header>\n                <div>\n                    {children}\n                </div>\n            </Card>\n        </div>\n    );\n}\n",
+      "role": "COMPONENT",
+      "language": "typescript",
+      "size": 1562,
+      "order": 51
+    },
+    {
+      "path": "src/components/Layout/Header.tsx",
+      "content": "\nimport { Menu, Zap } from 'lucide-react';\nimport { useUIStore } from '../../store/useUIStore';\nimport { Button } from '../common/Button';\n\nexport function Header() {\n  const { toggleSidebar } = useUIStore();\n\n  return (\n    <header className=\"h-16 flex-shrink-0 border-b border-dark-border bg-dark-card/50 backdrop-blur-sm sticky top-0 z-10\">\n      <div className=\"h-full px-4 flex items-center justify-between\">\n        <div className=\"flex items-center gap-3\">\n          <Button variant=\"ghost\" size=\"sm\" onClick={toggleSidebar}>\n            <Menu className=\"h-5 w-5\" />\n          </Button>\n\n          <div className=\"flex items-center gap-2\">\n            <Zap className=\"h-6 w-6 text-neon-cyan\" />\n            <h1 className=\"text-xl font-bold neon-text\">Team Todo</h1>\n          </div>\n        </div>\n\n        <div className=\"flex items-center gap-2\">\n          <div className=\"hidden sm:block px-3 py-1 bg-dark-hover border border-dark-border rounded-md\">\n            <span className=\"text-sm text-gray-400\">Ctrl + K to add task</span>\n          </div>\n        </div>\n      </div>\n    </header>\n  );\n}\n",
+      "role": "COMPONENT",
+      "language": "typescript",
+      "size": 1107,
+      "order": 52
+    },
+    {
+      "path": "src/components/Layout/MainPanel.tsx",
+      "content": "\nimport { QuickAdd } from '../Tasks/QuickAdd';\nimport { SearchBar } from '../Filters/SearchBar';\nimport { TaskList } from '../Tasks/TaskList';\n\nexport function MainPanel() {\n  return (\n    <div className=\"max-w-4xl mx-auto p-6 space-y-6\">\n      <SearchBar />\n      <QuickAdd />\n      <TaskList />\n    </div>\n  );\n}\n",
+      "role": "COMPONENT",
+      "language": "typescript",
+      "size": 315,
+      "order": 53
+    },
+    {
+      "path": "src/components/Layout/Sidebar.tsx",
+      "content": "\nimport { CategoryList } from '../Categories/CategoryList';\nimport { TeamPanel } from '../Team/TeamPanel';\nimport { FilterPanel } from '../Filters/FilterPanel';\n\nexport function Sidebar() {\n  return (\n    <div className=\"h-full w-80 overflow-auto scrollbar-dark p-4 space-y-6\">\n      <FilterPanel />\n      <CategoryList />\n      <TeamPanel />\n    </div>\n  );\n}\n",
+      "role": "COMPONENT",
+      "language": "typescript",
+      "size": 361,
+      "order": 54
+    }
+  ],
+  "frontend_deps": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "zustand": "^4.4.7",
+    "react-beautiful-dnd": "^13.1.1",
+    "date-fns": "^3.0.0",
+    "lucide-react": "^0.292.0",
+    "clsx": "^2.0.0"
+  },
+  "backend_deps": {},
+  "created_at": "1772068059",
+  "version": 1,
+  "category": "saas"
+}

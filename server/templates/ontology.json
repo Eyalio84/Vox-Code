@@ -1,0 +1,181 @@
+{
+  "id": "fc1dbe4ac0bd",
+  "name": "ontology-builder",
+  "description": "Ontology/taxonomy graph editor with React Flow and inspector panel",
+  "stack": "react-only",
+  "complexity": "STANDARD",
+  "files": [
+    {
+      "path": ".env.local",
+      "content": "GEMINI_API_KEY=PLACEHOLDER_API_KEY\n",
+      "role": "COMPONENT",
+      "language": "text",
+      "size": 35,
+      "order": 0
+    },
+    {
+      "path": ".gitignore",
+      "content": "# Logs\nlogs\n*.log\nnpm-debug.log*\nyarn-debug.log*\nyarn-error.log*\npnpm-debug.log*\nlerna-debug.log*\n\nnode_modules\ndist\ndist-ssr\n*.local\n\n# Editor directories and files\n.vscode/*\n!.vscode/extensions.json\n.idea\n.DS_Store\n*.suo\n*.ntvs*\n*.njsproj\n*.sln\n*.sw?\n",
+      "role": "COMPONENT",
+      "language": "text",
+      "size": 253,
+      "order": 1
+    },
+    {
+      "path": "App.tsx",
+      "content": "import React from 'react';\nimport { EditorPage } from './pages/EditorPage';\n\nfunction App(): React.ReactElement {\n  return <EditorPage />;\n}\n\nexport default App;\n",
+      "role": "COMPONENT",
+      "language": "typescript",
+      "size": 162,
+      "order": 2
+    },
+    {
+      "path": "README.md",
+      "content": "<div align=\"center\">\n<img width=\"1200\" height=\"475\" alt=\"GHBanner\" src=\"https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6\" />\n</div>\n\n# Run and deploy your AI Studio app\n\nThis contains everything you need to run your app locally.\n\nView your app in AI Studio: https://ai.studio/apps/drive/1EFgGeh0al-5aDqpDIhPueJLEEZlvlHb5\n\n## Run Locally\n\n**Prerequisites:**  Node.js\n\n\n1. Install dependencies:\n   `npm install`\n2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key\n3. Run the app:\n   `npm run dev`\n",
+      "role": "COMPONENT",
+      "language": "markdown",
+      "size": 553,
+      "order": 3
+    },
+    {
+      "path": "exportUtils.ts",
+      "content": "import { OntologyNode, OntologyEdge } from '../types';\n\ninterface ExportParams {\n  nodes: OntologyNode[];\n  edges: OntologyEdge[];\n}\n\nexport function exportToJsonLd({ nodes, edges }: ExportParams): object {\n  const context = {\n    \"ex\": \"http://example.org/ontology#\",\n    \"rdf\": \"http://www.w3.org/1999/02/22-rdf-syntax-ns#\",\n    \"rdfs\": \"http://www.w3.org/2000/01/rdf-schema#\",\n    \"xsd\": \"http://www.w3.org/2001/XMLSchema#\",\n    \"label\": \"rdfs:label\",\n    \"domain\": { \"@id\": \"rdfs:domain\", \"@type\": \"@id\" },\n    \"range\": { \"@id\": \"rdfs:range\", \"@type\": \"@id\" },\n  };\n\n  const graph: object[] = [];\n\n  // Use a map to avoid duplicate property definitions for shared property keys\n  const definedProperties = new Map<string, object>();\n\n  nodes.forEach(node => {\n    const classId = `ex:${node.data.label}`;\n    graph.push({\n      \"@id\": classId,\n      \"@type\": \"rdfs:Class\",\n      \"label\": node.data.label\n    });\n\n    node.data.properties.forEach(prop => {\n      const propId = `ex:${prop.key}`;\n      if (!definedProperties.has(propId)) {\n        const propDefinition = {\n          \"@id\": propId,\n          \"@type\": \"rdf:Property\",\n          \"label\": prop.key,\n          \"domain\": classId,\n          \"range\": `xsd:${prop.value}` \n        };\n        definedProperties.set(propId, propDefinition);\n      }\n    });\n  });\n  \n  // Add all unique property definitions to the graph\n  definedProperties.forEach(propDef => graph.push(propDef));\n\n  edges.forEach(edge => {\n    const sourceNode = nodes.find(n => n.id === edge.source);\n    const targetNode = nodes.find(n => n.id === edge.target);\n    if (sourceNode && targetNode && edge.data) {\n        const propId = `ex:${edge.data.label}`;\n        if (!definedProperties.has(propId)) {\n            const propDefinition = {\n                \"@id\": propId,\n                \"@type\": \"rdf:Property\",\n                \"label\": edge.data.label,\n                \"domain\": `ex:${sourceNode.data.label}`,\n                \"range\": `ex:${targetNode.data.label}`\n            };\n            definedProperties.set(propId, propDefinition);\n            graph.push(propDefinition);\n        }\n    }\n  });\n\n  return {\n    \"@context\": context,\n    \"@graph\": graph\n  };\n}\n",
+      "role": "UTIL",
+      "language": "typescript",
+      "size": 2197,
+      "order": 4
+    },
+    {
+      "path": "index.html",
+      "content": "<!doctype html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"UTF-8\" />\n    <link rel=\"icon\" type=\"image/svg+xml\" href=\"/favicon.ico\" />\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n    <title>Ontology Builder</title>\n    <script src=\"https://cdn.tailwindcss.com\"></script>\n    <link rel=\"stylesheet\" href=\"https://aistudiocdn.com/reactflow@11.11.4/dist/style.css\" />\n  <script type=\"importmap\">\n{\n  \"imports\": {\n    \"react-dom/\": \"https://aistudiocdn.com/react-dom@^19.2.0/\",\n    \"react/\": \"https://aistudiocdn.com/react@^19.2.0/\",\n    \"react\": \"https://aistudiocdn.com/react@^19.2.0\",\n    \"lucide-react\": \"https://aistudiocdn.com/lucide-react@^0.552.0\",\n    \"reactflow\": \"https://aistudiocdn.com/reactflow@^11.11.4\",\n    \"reactflow/\": \"https://aistudiocdn.com/reactflow@^11.11.4/\",\n    \"nanoid\": \"https://aistudiocdn.com/nanoid@^5.1.6\",\n    \"zustand/\": \"https://aistudiocdn.com/zustand@^5.0.8/\",\n    \"zustand\": \"https://aistudiocdn.com/zustand@^5.0.8\"\n  }\n}\n</script>\n<link rel=\"stylesheet\" href=\"/index.css\">\n</head>\n  <body class=\"bg-gray-100\">\n    <div id=\"root\"></div>\n    <script type=\"module\" src=\"/index.tsx\"></script>\n  </body>\n</html>",
+      "role": "COMPONENT",
+      "language": "html",
+      "size": 1176,
+      "order": 5
+    },
+    {
+      "path": "index.tsx",
+      "content": "import React from 'react';\nimport ReactDOM from 'react-dom/client';\nimport App from './App';\n\nconst rootElement = document.getElementById('root');\nif (!rootElement) {\n  throw new Error(\"Could not find root element to mount to\");\n}\n\nconst root = ReactDOM.createRoot(rootElement);\nroot.render(\n  <React.StrictMode>\n    <App />\n  </React.StrictMode>\n);",
+      "role": "ENTRY",
+      "language": "typescript",
+      "size": 349,
+      "order": 6
+    },
+    {
+      "path": "metadata.json",
+      "content": "{\n  \"name\": \"Ontology Builder\",\n  \"description\": \"A visual, local-first application for creating and editing simple ontologies or knowledge graphs, featuring a React Flow canvas, an inspector panel for editing nodes and edges, and a one-click export to JSON-LD.\",\n  \"requestFramePermissions\": []\n}",
+      "role": "COMPONENT",
+      "language": "json",
+      "size": 297,
+      "order": 7
+    },
+    {
+      "path": "package.json",
+      "content": "{\n  \"name\": \"ontology-builder\",\n  \"private\": true,\n  \"version\": \"0.0.0\",\n  \"type\": \"module\",\n  \"scripts\": {\n    \"dev\": \"vite\",\n    \"build\": \"vite build\",\n    \"preview\": \"vite preview\"\n  },\n  \"dependencies\": {\n    \"react-dom\": \"^19.2.0\",\n    \"react\": \"^19.2.0\",\n    \"lucide-react\": \"^0.552.0\",\n    \"reactflow\": \"^11.11.4\",\n    \"nanoid\": \"^5.1.6\",\n    \"zustand\": \"^5.0.8\"\n  },\n  \"devDependencies\": {\n    \"@types/node\": \"^22.14.0\",\n    \"@vitejs/plugin-react\": \"^5.0.0\",\n    \"typescript\": \"~5.8.2\",\n    \"vite\": \"^6.2.0\"\n  }\n}\n",
+      "role": "CONFIG",
+      "language": "json",
+      "size": 522,
+      "order": 8
+    },
+    {
+      "path": "tsconfig.json",
+      "content": "{\n  \"compilerOptions\": {\n    \"target\": \"ES2022\",\n    \"experimentalDecorators\": true,\n    \"useDefineForClassFields\": false,\n    \"module\": \"ESNext\",\n    \"lib\": [\n      \"ES2022\",\n      \"DOM\",\n      \"DOM.Iterable\"\n    ],\n    \"skipLibCheck\": true,\n    \"types\": [\n      \"node\"\n    ],\n    \"moduleResolution\": \"bundler\",\n    \"isolatedModules\": true,\n    \"moduleDetection\": \"force\",\n    \"allowJs\": true,\n    \"jsx\": \"react-jsx\",\n    \"paths\": {\n      \"@/*\": [\n        \"./*\"\n      ]\n    },\n    \"allowImportingTsExtensions\": true,\n    \"noEmit\": true\n  }\n}",
+      "role": "CONFIG",
+      "language": "json",
+      "size": 542,
+      "order": 9
+    },
+    {
+      "path": "types.ts",
+      "content": "import { Node, Edge } from 'reactflow';\n\nexport interface Property {\n  id: string;\n  key: string;\n  value: string;\n}\n\nexport interface NodeData {\n  label: string;\n  properties: Property[];\n}\n\nexport interface EdgeData {\n  label: string;\n}\n\nexport type OntologyNode = Node<NodeData>;\nexport type OntologyEdge = Edge<EdgeData>;\n",
+      "role": "TYPE",
+      "language": "typescript",
+      "size": 326,
+      "order": 10
+    },
+    {
+      "path": "vite.config.ts",
+      "content": "import path from 'path';\nimport { defineConfig, loadEnv } from 'vite';\nimport react from '@vitejs/plugin-react';\n\nexport default defineConfig(({ mode }) => {\n    const env = loadEnv(mode, '.', '');\n    return {\n      server: {\n        port: 3000,\n        host: '0.0.0.0',\n      },\n      plugins: [react()],\n      define: {\n        'process.env.API_KEY': JSON.stringify(env.GEMINI_API_KEY),\n        'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY)\n      },\n      resolve: {\n        alias: {\n          '@': path.resolve(__dirname, '.'),\n        }\n      }\n    };\n});\n",
+      "role": "CONFIG",
+      "language": "typescript",
+      "size": 580,
+      "order": 11
+    },
+    {
+      "path": "pages/EditorPage.tsx",
+      "content": "import React from 'react';\nimport { OntologyCanvas } from '../components/canvas/OntologyCanvas';\nimport { InspectorPanel } from '../components/sidebar/InspectorPanel';\nimport { Header } from '../components/layout/Header';\nimport { ReactFlowProvider } from 'reactflow';\n\nexport function EditorPage(): React.ReactElement {\n  return (\n    <ReactFlowProvider>\n      <div className=\"flex flex-col h-screen w-screen font-sans bg-gray-100 text-gray-900\">\n        <Header />\n        <div className=\"flex flex-grow overflow-hidden\">\n          <main className=\"flex-grow h-full\">\n            <OntologyCanvas />\n          </main>\n          <aside className=\"w-96 flex-shrink-0 bg-white border-l border-gray-200 shadow-md\">\n            <InspectorPanel />\n          </aside>\n        </div>\n      </div>\n    </ReactFlowProvider>\n  );\n}\n",
+      "role": "COMPONENT",
+      "language": "typescript",
+      "size": 822,
+      "order": 12
+    },
+    {
+      "path": "store/useOntologyStore.ts",
+      "content": "import { create } from 'zustand';\nimport { persist } from 'zustand/middleware';\nimport {\n  applyNodeChanges,\n  applyEdgeChanges,\n  OnNodesChange,\n  OnEdgesChange,\n  OnConnect,\n  NodeChange,\n  EdgeChange,\n  Connection,\n  Edge,\n  Node,\n} from 'reactflow';\nimport { nanoid } from 'nanoid';\nimport { OntologyNode, OntologyEdge, NodeData, EdgeData } from '../types';\n\ntype SelectedElement = OntologyNode | OntologyEdge | null;\n\ninterface StoreState {\n  nodes: OntologyNode[];\n  edges: OntologyEdge[];\n  selectedElement: SelectedElement;\n  onNodesChange: OnNodesChange;\n  onEdgesChange: OnEdgesChange;\n  onConnect: OnConnect;\n  addNode: (type?: string) => void;\n  updateNodeData: (nodeId: string, newData: Partial<NodeData>) => void;\n  updateEdgeData: (edgeId: string, newData: Partial<EdgeData>) => void;\n  setSelectedElement: (element: SelectedElement) => void;\n  getState: () => StoreState;\n}\n\nexport const useOntologyStore = create<StoreState>()(\n  persist(\n    (set, get) => ({\n      nodes: [],\n      edges: [],\n      selectedElement: null,\n\n      onNodesChange: (changes: NodeChange[]) => {\n        set({\n          nodes: applyNodeChanges(changes, get().nodes),\n        });\n      },\n\n      onEdgesChange: (changes: EdgeChange[]) => {\n        set({\n          edges: applyEdgeChanges(changes, get().edges),\n        });\n      },\n\n      onConnect: (connection: Connection) => {\n        const newEdge: OntologyEdge = {\n          ...connection,\n          id: nanoid(),\n          type: 'default',\n          data: { label: 'hasProperty' },\n        };\n        set({\n          edges: [...get().edges, newEdge],\n        });\n      },\n\n      addNode: (type = 'class') => {\n        const newNode: OntologyNode = {\n          id: nanoid(),\n          type: 'class',\n          position: { x: Math.random() * 500 + 100, y: Math.random() * 300 + 100 },\n          data: {\n            label: 'NewConcept',\n            properties: [{ id: nanoid(), key: 'name', value: 'string' }],\n          },\n        };\n        set({ nodes: [...get().nodes, newNode] });\n      },\n\n      updateNodeData: (nodeId: string, newData: Partial<NodeData>) => {\n        set({\n          nodes: get().nodes.map((node) =>\n            node.id === nodeId\n              ? { ...node, data: { ...node.data, ...newData } }\n              : node\n          ),\n        });\n      },\n\n      updateEdgeData: (edgeId: string, newData: Partial<EdgeData>) => {\n        set({\n          edges: get().edges.map((edge) =>\n            edge.id === edgeId\n              ? { ...edge, data: { ...edge.data, ...newData } }\n              : edge\n          ),\n        });\n      },\n\n      setSelectedElement: (element: SelectedElement) => {\n        set({ selectedElement: element });\n      },\n      \n      getState: () => get(),\n    }),\n    {\n      name: 'ontology-storage',\n    }\n  )\n);\n",
+      "role": "SERVICE",
+      "language": "typescript",
+      "size": 2808,
+      "order": 13
+    },
+    {
+      "path": "components/layout/Header.tsx",
+      "content": "import React from 'react';\nimport { Download } from 'lucide-react';\nimport { useOntologyStore } from '../../store/useOntologyStore';\nimport { exportToJsonLd } from '../../utils/exportUtils';\n\nexport function Header(): React.ReactElement {\n  const { getState } = useOntologyStore();\n\n  const handleExport = () => {\n    const { nodes, edges } = getState();\n    const jsonData = exportToJsonLd({ nodes, edges });\n    \n    const dataStr = \"data:text/json;charset=utf-8,\" + encodeURIComponent(JSON.stringify(jsonData, null, 2));\n    const downloadAnchorNode = document.createElement('a');\n    downloadAnchorNode.setAttribute(\"href\", dataStr);\n    downloadAnchorNode.setAttribute(\"download\", \"ontology.jsonld\");\n    document.body.appendChild(downloadAnchorNode);\n    downloadAnchorNode.click();\n    downloadAnchorNode.remove();\n  };\n\n  return (\n    <header className=\"bg-white border-b border-gray-200 p-4 flex justify-between items-center shadow-sm flex-shrink-0\">\n      <h1 className=\"text-2xl font-bold text-gray-800\">Ontology Builder</h1>\n      <div className=\"flex items-center space-x-2\">\n        <button \n          onClick={handleExport} \n          className=\"flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200\"\n        >\n          <Download className=\"h-4 w-4 mr-2\" />\n          Export JSON-LD\n        </button>\n      </div>\n    </header>\n  );\n}\n",
+      "role": "COMPONENT",
+      "language": "typescript",
+      "size": 1480,
+      "order": 14
+    },
+    {
+      "path": "components/canvas/ClassNode.tsx",
+      "content": "import React from 'react';\nimport { Handle, Position, NodeProps } from 'reactflow';\nimport { NodeData } from '../../types';\n\nexport function ClassNode({ data }: NodeProps<NodeData>): React.ReactElement {\n  return (\n    <div className=\"bg-white border-2 border-blue-500 rounded-lg shadow-lg text-center w-[180px]\">\n      <Handle type=\"target\" position={Position.Top} className=\"w-3 h-3 bg-gray-400 border-2 border-white rounded-full !-top-1.5\" />\n      <div className=\"p-4\">\n        <div className=\"font-bold text-lg mb-2 text-gray-800\">{data.label}</div>\n        <div className=\"text-left text-sm space-y-1\">\n          {data.properties?.map(prop => (\n            <div key={prop.id} className=\"flex justify-between items-center bg-gray-50 p-1 rounded\">\n              <span className=\"text-gray-700\">{prop.key}</span>\n              <span className=\"text-blue-600 font-mono\">{prop.value}</span>\n            </div>\n          ))}\n        </div>\n      </div>\n      <Handle type=\"source\" position={Position.Bottom} className=\"w-3 h-3 bg-gray-400 border-2 border-white rounded-full !-bottom-1.5\" />\n    </div>\n  );\n}\n",
+      "role": "COMPONENT",
+      "language": "typescript",
+      "size": 1109,
+      "order": 15
+    },
+    {
+      "path": "components/canvas/OntologyCanvas.tsx",
+      "content": "import React, { useMemo } from 'react';\nimport ReactFlow, { Background, Controls, MiniMap, OnSelectionChangeParams, NodeTypes } from 'reactflow';\nimport { useOntologyStore } from '../../store/useOntologyStore';\nimport { ClassNode } from './ClassNode';\n\nexport function OntologyCanvas(): React.ReactElement {\n  const {\n    nodes,\n    edges,\n    onNodesChange,\n    onEdgesChange,\n    onConnect,\n    setSelectedElement,\n  } = useOntologyStore();\n\n  const nodeTypes: NodeTypes = useMemo(() => ({ class: ClassNode }), []);\n\n  const handleSelectionChange = ({ nodes, edges }: OnSelectionChangeParams) => {\n    setSelectedElement(nodes[0] || edges[0] || null);\n  };\n\n  return (\n    <div className=\"w-full h-full\">\n      <ReactFlow\n        nodes={nodes}\n        edges={edges}\n        onNodesChange={onNodesChange}\n        onEdgesChange={onEdgesChange}\n        onConnect={onConnect}\n        onSelectionChange={handleSelectionChange}\n        nodeTypes={nodeTypes}\n        fitView\n        className=\"bg-gray-50\"\n      >\n        <Background />\n        <Controls />\n        <MiniMap />\n      </ReactFlow>\n    </div>\n  );\n}\n",
+      "role": "COMPONENT",
+      "language": "typescript",
+      "size": 1110,
+      "order": 16
+    },
+    {
+      "path": "components/sidebar/EdgeEditor.tsx",
+      "content": "import React, { useState, useEffect } from 'react';\nimport { useOntologyStore } from '../../store/useOntologyStore';\nimport { OntologyEdge } from '../../types';\n\ninterface EdgeEditorProps {\n  edge: OntologyEdge;\n}\n\nexport function EdgeEditor({ edge }: EdgeEditorProps): React.ReactElement {\n  const [label, setLabel] = useState(edge.data?.label || '');\n  const updateEdgeData = useOntologyStore((state) => state.updateEdgeData);\n  const nodes = useOntologyStore((state) => state.nodes);\n\n  useEffect(() => {\n    setLabel(edge.data?.label || '');\n  }, [edge]);\n\n  const handleLabelChange = (e: React.ChangeEvent<HTMLInputElement>) => {\n    const newLabel = e.target.value;\n    setLabel(newLabel);\n    updateEdgeData(edge.id, { label: newLabel });\n  };\n  \n  const sourceNode = nodes.find(n => n.id === edge.source);\n  const targetNode = nodes.find(n => n.id === edge.target);\n\n  return (\n    <div className=\"p-6 space-y-6\">\n      <div>\n        <label htmlFor=\"relationship-name\" className=\"block text-sm font-medium text-gray-700 mb-1\">Relationship Name</label>\n        <input\n          id=\"relationship-name\"\n          type=\"text\"\n          value={label}\n          onChange={handleLabelChange}\n          className=\"w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition\"\n        />\n      </div>\n      <div className=\"text-sm text-gray-600 bg-gray-50 p-3 rounded-lg border border-gray-200 space-y-1\">\n        <p><span className=\"font-semibold text-gray-800\">From:</span> {sourceNode?.data.label || edge.source}</p>\n        <p><span className=\"font-semibold text-gray-800\">To:</span> {targetNode?.data.label || edge.target}</p>\n      </div>\n    </div>\n  );\n}\n",
+      "role": "COMPONENT",
+      "language": "typescript",
+      "size": 1715,
+      "order": 17
+    },
+    {
+      "path": "components/sidebar/InspectorPanel.tsx",
+      "content": "import React from 'react';\nimport { useOntologyStore } from '../../store/useOntologyStore';\nimport { NodeEditor } from './NodeEditor';\nimport { EdgeEditor } from './EdgeEditor';\nimport { PlusCircle } from 'lucide-react';\nimport { isEdge } from 'reactflow';\n\nexport function InspectorPanel(): React.ReactElement {\n  const { selectedElement, addNode } = useOntologyStore();\n\n  const renderContent = () => {\n    if (!selectedElement) {\n      return (\n        <div className=\"p-6 text-center text-gray-500\">\n          <p className=\"mb-4\">Select an element to inspect its properties, or add a new concept to the canvas.</p>\n          <button \n            onClick={() => addNode()} \n            className=\"flex items-center justify-center w-full px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors duration-200\"\n          >\n            <PlusCircle className=\"h-4 w-4 mr-2\" />\n            Add Concept\n          </button>\n        </div>\n      );\n    }\n\n    if (isEdge(selectedElement)) {\n      return <EdgeEditor edge={selectedElement} />;\n    }\n    \n    return <NodeEditor node={selectedElement} />;\n  };\n\n  return <div className=\"h-full overflow-y-auto\">{renderContent()}</div>;\n}\n",
+      "role": "TEST",
+      "language": "typescript",
+      "size": 1278,
+      "order": 18
+    },
+    {
+      "path": "components/sidebar/NodeEditor.tsx",
+      "content": "import React, { useState, useEffect } from 'react';\nimport { useOntologyStore } from '../../store/useOntologyStore';\nimport { nanoid } from 'nanoid';\nimport { X, Plus } from 'lucide-react';\nimport { OntologyNode, Property } from '../../types';\n\ninterface NodeEditorProps {\n  node: OntologyNode;\n}\n\nexport function NodeEditor({ node }: NodeEditorProps): React.ReactElement {\n  const [label, setLabel] = useState(node.data.label);\n  const [properties, setProperties] = useState<Property[]>(node.data.properties || []);\n  const updateNodeData = useOntologyStore((state) => state.updateNodeData);\n\n  useEffect(() => {\n    setLabel(node.data.label);\n    setProperties(node.data.properties || []);\n  }, [node]);\n\n  const handleLabelChange = (e: React.ChangeEvent<HTMLInputElement>) => {\n    const newLabel = e.target.value;\n    setLabel(newLabel);\n    updateNodeData(node.id, { label: newLabel });\n  };\n\n  const handlePropertyChange = (id: string, field: 'key' | 'value', value: string) => {\n    const newProperties = properties.map(p => p.id === id ? { ...p, [field]: value } : p);\n    setProperties(newProperties);\n    updateNodeData(node.id, { properties: newProperties });\n  };\n  \n  const addProperty = () => {\n    const newProperties = [...properties, { id: nanoid(), key: 'newProp', value: 'string' }];\n    setProperties(newProperties);\n    updateNodeData(node.id, { properties: newProperties });\n  };\n\n  const removeProperty = (id: string) => {\n    const newProperties = properties.filter(p => p.id !== id);\n    setProperties(newProperties);\n    updateNodeData(node.id, { properties: newProperties });\n  };\n\n  return (\n    <div className=\"p-6 space-y-6\">\n      <div>\n        <label htmlFor=\"concept-name\" className=\"block text-sm font-medium text-gray-700 mb-1\">Concept Name</label>\n        <input\n          id=\"concept-name\"\n          type=\"text\"\n          value={label}\n          onChange={handleLabelChange}\n          className=\"w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition\"\n        />\n      </div>\n      \n      <div>\n        <div className=\"flex justify-between items-center mb-2\">\n          <h3 className=\"text-sm font-medium text-gray-700\">Properties</h3>\n          <button onClick={addProperty} className=\"text-blue-600 hover:text-blue-800 flex items-center text-sm font-medium p-1 rounded-md hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors\">\n            <Plus className=\"h-4 w-4 mr-1\" /> Add\n          </button>\n        </div>\n        <div className=\"space-y-2\">\n          {properties.map(prop => (\n            <div key={prop.id} className=\"flex items-center gap-2 p-2 bg-gray-50 rounded-md border border-gray-200\">\n              <input\n                type=\"text\"\n                value={prop.key}\n                onChange={(e) => handlePropertyChange(prop.id, 'key', e.target.value)}\n                className=\"w-full px-2 py-1 border border-gray-300 rounded-md text-sm focus:ring-1 focus:ring-blue-500 focus:border-blue-500 outline-none transition\"\n                placeholder=\"Property\"\n              />\n              <input\n                type=\"text\"\n                value={prop.value}\n                onChange={(e) => handlePropertyChange(prop.id, 'value', e.target.value)}\n                className=\"w-full px-2 py-1 border border-gray-300 rounded-md text-sm focus:ring-1 focus:ring-blue-500 focus:border-blue-500 outline-none transition\"\n                placeholder=\"Type\"\n              />\n              <button onClick={() => removeProperty(prop.id)} className=\"text-red-500 hover:text-red-700 p-1 rounded-full hover:bg-red-100 transition-colors\">\n                <X className=\"h-4 w-4\" />\n              </button>\n            </div>\n          ))}\n           {properties.length === 0 && (\n            <p className=\"text-xs text-gray-400 text-center py-2\">No properties defined.</p>\n          )}\n        </div>\n      </div>\n    </div>\n  );\n}\n",
+      "role": "COMPONENT",
+      "language": "typescript",
+      "size": 3966,
+      "order": 19
+    }
+  ],
+  "frontend_deps": {
+    "react-dom": "^19.2.0",
+    "react": "^19.2.0",
+    "lucide-react": "^0.552.0",
+    "reactflow": "^11.11.4",
+    "nanoid": "^5.1.6",
+    "zustand": "^5.0.8"
+  },
+  "backend_deps": {},
+  "created_at": "1772068059",
+  "version": 1,
+  "category": "tool"
+}

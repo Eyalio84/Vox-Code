@@ -1,0 +1,23 @@
+{
+  "name": "Zustand Store Pattern",
+  "description": "State management with Zustand \u2014 store definition + typed selectors",
+  "category": "state",
+  "files": [
+    {
+      "path": "src/store/useStore.ts",
+      "content": "\nimport { create } from 'zustand';\nimport { Task, FilterState } from '../types';\n\ninterface TaskStore {\n  tasks: Task[];\n  filters: FilterState;\n  selectedTaskId: string | null;\n\n  // Actions\n  setTasks: (tasks: Task[]) => void;\n  addTask: (task: Task) => void;\n  updateTask: (id: string, updates: Partial<Task>) => void;\n  deleteTask: (id: string) => void;\n  toggleComplete: (id: string) => void;\n  reorderTasks: (reorderedTasks: Task[]) => void;\n\n  // Filters\n  setFilter: <K extends keyof FilterState>(key: K, value: FilterState[K]) => void;\n  clearFilters: () => void;\n\n  // Selection\n  selectTask: (id: string | null) => void;\n}\n\nexport const useTaskStore = create<TaskStore>((set, get) => ({\n  tasks: [],\n  filters: {\n    search: '',\n    categoryId: null,\n    priority: null,\n    assignedTo: null,\n    showCompleted: true,\n  },\n  selectedTaskId: null,\n\n  setTasks: (tasks) => set({ tasks }),\n\n  addTask: (task) => set((state) => ({\n    tasks: [...state.tasks, task],\n  })),\n\n  updateTask: (id, updates) => set((state) => ({\n    tasks: state.tasks.map((task) =>\n      task.id === id ? { ...task, ...updates, updatedAt: new Date().toISOString() } : task\n    ),\n  })),\n\n  deleteTask: (id) => set((state) => ({\n    tasks: state.tasks.filter((task) => task.id !== id),\n    selectedTaskId: state.selectedTaskId === id ? null : state.selectedTaskId\n  })),\n\n  toggleComplete: (id) => set((state) => ({\n    tasks: state.tasks.map((task) =>\n      task.id === id ? { ...task, completed: !task.completed } : task\n    ),\n  })),\n\n  reorderTasks: (reorderedTasks) => set((state) => {\n    const taskMap = new Map(reorderedTasks.map(t => [t.id, t]));\n    const updatedTasks = state.tasks.map(t => taskMap.has(t.id) ? taskMap.get(t.id)! : t);\n    return { tasks: updatedTasks };\n  }),\n\n  setFilter: (key, value) => set((state) => ({\n    filters: { ...state.filters, [key]: value },\n  })),\n\n  clearFilters: () => set({\n    filters: {\n      search: '',\n      categoryId: null,\n      priority: null,\n      assignedTo: null,\n      showCompleted: true,\n    },\n  }),\n\n  selectTask: (id) => set({ selectedTaskId: id }),\n}));\n",
+      "role": "SERVICE",
+      "language": "typescript",
+      "size": 2106,
+      "order": 0
+    },
+    {
+      "path": "src/store/useUIStore.ts",
+      "content": "\nimport { create } from 'zustand';\n\ninterface UIStore {\n  sidebarOpen: boolean;\n  detailsPanelOpen: boolean;\n  quickAddOpen: boolean;\n  assignModalOpen: boolean;\n  datePickerOpen: boolean;\n  selectedTaskForAssign: string | null;\n\n  toggleSidebar: () => void;\n  setDetailsPanelOpen: (open: boolean) => void;\n  setQuickAddOpen: (open: boolean) => void;\n  openAssignModal: (taskId: string) => void;\n  closeAssignModal: () => void;\n  setDatePickerOpen: (open: boolean) => void;\n}\n\nexport const useUIStore = create<UIStore>((set) => ({\n  sidebarOpen: true,\n  detailsPanelOpen: false,\n  quickAddOpen: false,\n  assignModalOpen: false,\n  datePickerOpen: false,\n  selectedTaskForAssign: null,\n\n  toggleSidebar: () => set((state) => ({ sidebarOpen: !state.sidebarOpen })),\n  \n  setDetailsPanelOpen: (open) => set({ detailsPanelOpen: open }),\n\n  setQuickAddOpen: (open) => set({ quickAddOpen: open }),\n\n  openAssignModal: (taskId) => set({\n    assignModalOpen: true,\n    selectedTaskForAssign: taskId,\n  }),\n\n  closeAssignModal: () => set({\n    assignModalOpen: false,\n    selectedTaskForAssign: null,\n  }),\n\n  setDatePickerOpen: (open) => set({ datePickerOpen: open }),\n}));\n",
+      "role": "SERVICE",
+      "language": "typescript",
+      "size": 1165,
+      "order": 1
+    }
+  ]
+}
