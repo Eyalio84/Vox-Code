@@ -41,7 +41,7 @@ async def call_gemini(request: LLMRequest, api_key: str) -> LLMResponse:
             role = "user" if msg.role == "user" else "model"
             contents.append({"role": role, "parts": [{"text": msg.content}]})
 
-    model = request.model or "gemini-2.5-flash"
+    model = request.model or "gemini-3-flash-preview"
     start = time.time()
 
     response = await client.aio.models.generate_content(
@@ -179,7 +179,7 @@ async def stream_gemini(
             role = "user" if msg.role == "user" else "model"
             contents.append({"role": role, "parts": [{"text": msg.content}]})
 
-    model = request.model or "gemini-2.5-flash"
+    model = request.model or "gemini-3-flash-preview"
     start = time.time()
 
     config = genai_types.GenerateContentConfig(
@@ -303,10 +303,10 @@ def create_llm_caller(gemini_key: str = "", anthropic_key: str = ""):
         elif model.startswith("claude") and gemini_key:
             # Claude requested but unavailable — fallback to Gemini
             log.info(f"Claude unavailable, falling back to Gemini for {model}")
-            request.model = "gemini-2.5-pro"
+            request.model = "gemini-3-pro-preview"
             return await call_gemini(request, gemini_key)
         elif gemini_key:
-            request.model = request.model or "gemini-2.5-flash"
+            request.model = request.model or "gemini-3-flash-preview"
             return await call_gemini(request, gemini_key)
         elif claude_available:
             request.model = request.model or "claude-sonnet-4-6"
@@ -335,11 +335,11 @@ def create_streaming_caller(gemini_key: str = "", anthropic_key: str = ""):
                 yield chunk
         elif model.startswith("claude") and gemini_key:
             log.info(f"Claude unavailable for streaming, falling back to Gemini")
-            request.model = "gemini-2.5-pro"
+            request.model = "gemini-3-pro-preview"
             async for chunk in stream_gemini(request, gemini_key):
                 yield chunk
         elif gemini_key:
-            request.model = request.model or "gemini-2.5-flash"
+            request.model = request.model or "gemini-3-flash-preview"
             async for chunk in stream_gemini(request, gemini_key):
                 yield chunk
         elif claude_available:
