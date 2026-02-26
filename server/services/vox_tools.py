@@ -176,10 +176,23 @@ class VoxToolDispatcher:
         }
 
     async def _tool_search_tools(self, args: dict[str, Any]) -> dict[str, Any]:
-        """Search the tool catalog."""
+        """Search the tool catalog — semantic search with keyword fallback."""
         query = args.get("query", "").lower()
         domain = args.get("domain", "")
 
+        # Try semantic search first
+        if self._gemini_key and query:
+            try:
+                from server.services.tool_embeddings import search_tools_semantic
+                results = await search_tools_semantic(
+                    query, self._gemini_key, top_k=10, domain=domain
+                )
+                if results:
+                    return {"tools": results, "total": len(results), "method": "semantic"}
+            except Exception:
+                log.warning("Semantic search failed, falling back to keyword")
+
+        # Keyword fallback (existing logic)
         _ensure_catalog()
 
         results = TOOL_CATALOG
@@ -193,7 +206,6 @@ class VoxToolDispatcher:
                 or query in t.get("description", "").lower()
             ]
 
-        # Return top 10
         return {
             "tools": [
                 {
@@ -206,6 +218,7 @@ class VoxToolDispatcher:
                 for t in results[:10]
             ],
             "total": len(results),
+            "method": "keyword",
         }
 
     async def _tool_load_template(self, args: dict[str, Any]) -> dict[str, Any]:

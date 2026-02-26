@@ -41,6 +41,16 @@ AVAILABLE_TOOLS = [
 ]
 
 
+async def _get_semantic_candidates(summary: str, top_k: int = 30) -> list[str]:
+    """Pre-filter tools using semantic search before LLM ranking."""
+    try:
+        from server.services.tool_embeddings import search_tools_semantic
+        results = await search_tools_semantic(summary, GEMINI_KEY, top_k=top_k)
+        return [r["id"] for r in results]
+    except Exception:
+        return list(AVAILABLE_TOOLS)
+
+
 class RecommendRequest(BaseModel):
     spec_summary: str
     file_paths: list[str] = []
@@ -58,9 +68,9 @@ class RecommendResponse(BaseModel):
     recommendations: list[ToolRecommendation] = []
 
 
-def _build_prompt(req: RecommendRequest) -> str:
+def _build_prompt(req: RecommendRequest, tool_ids: list[str] | None = None) -> str:
     """Build the recommendation prompt with project context."""
-    tools_list = ", ".join(AVAILABLE_TOOLS)
+    tools_list = ", ".join(tool_ids or AVAILABLE_TOOLS)
     parts = [
         "You are an expert developer tool recommender.",
         f"Given the following project context, recommend relevant tools from this list: {tools_list}",
@@ -120,7 +130,8 @@ async def recommend_tools(req: RecommendRequest) -> RecommendResponse:
         log.warning("GEMINI_API_KEY not set, returning empty recommendations")
         return RecommendResponse()
 
-    prompt = _build_prompt(req)
+    candidates = await _get_semantic_candidates(req.spec_summary)
+    prompt = _build_prompt(req, candidates)
 
     try:
         # Lazy import — heavy SDK
