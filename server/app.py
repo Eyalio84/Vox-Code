@@ -27,6 +27,7 @@ from server.routers.project import router as project_router
 from server.routers.templates import router as templates_router
 from server.routers.studio_projects import router as projects_router
 from server.routers.awareness import router as awareness_router
+from server.routers.tts import router as tts_router
 from server.services.tts_service import tts
 
 log = logging.getLogger("aus.server")
@@ -81,6 +82,7 @@ app.include_router(project_router)
 app.include_router(templates_router)
 app.include_router(projects_router)
 app.include_router(awareness_router)
+app.include_router(tts_router)
 
 
 def get_studio() -> Studio:
