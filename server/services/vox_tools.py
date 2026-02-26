@@ -1,4 +1,4 @@
-"""VOX function call dispatcher — implements the 6 tools VOX can invoke.
+"""VOX function call dispatcher — implements the 8 tools VOX can invoke.
 
 Each function receives args from Gemini and returns a dict result.
 Results are sent back to Gemini as FunctionResponse.
@@ -207,3 +207,33 @@ class VoxToolDispatcher:
             ],
             "total": len(results),
         }
+
+    async def _tool_load_template(self, args: dict[str, Any]) -> dict[str, Any]:
+        """Load a project template."""
+        template_id = args.get("template_id", "")
+        if not template_id:
+            return {"error": "No template_id provided"}
+
+        if self._send_ui_action:
+            await self._send_ui_action({
+                "type": "ui_action",
+                "action": "load_template",
+                "template_id": template_id,
+            })
+
+        return {"status": "template_loading", "template_id": template_id}
+
+    async def _tool_add_blueprint(self, args: dict[str, Any]) -> dict[str, Any]:
+        """Add a blueprint to the current project."""
+        blueprint_id = args.get("blueprint_id", "")
+        if not blueprint_id:
+            return {"error": "No blueprint_id provided"}
+
+        if self._send_ui_action:
+            await self._send_ui_action({
+                "type": "ui_action",
+                "action": "add_blueprint",
+                "blueprint_id": blueprint_id,
+            })
+
+        return {"status": "blueprint_added", "blueprint_id": blueprint_id}

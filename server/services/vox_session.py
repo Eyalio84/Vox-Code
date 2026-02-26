@@ -47,13 +47,15 @@ Available actions:
 - Navigate the Studio UI
 - Check project status
 - Search for tools by name, domain, or keyword
+- Load a project template (11 real-world React apps as starters)
+- Add component blueprints (Zustand stores, React Flow canvases, Recharts dashboards, etc.)
 
 Current theme: {theme}
 """
 
 
 def _build_tool_declarations() -> list[dict[str, Any]]:
-    """Build the 6 function declarations for Gemini Live API."""
+    """Build the 8 function declarations for Gemini Live API."""
     return [
         {
             "name": "recommend_tools",
@@ -143,6 +145,36 @@ def _build_tool_declarations() -> list[dict[str, Any]]:
                     },
                 },
                 "required": ["query"],
+            },
+        },
+        {
+            "name": "load_template",
+            "description": "Load a project template by ID. Shows a pre-built project the user can customize.",
+            "behavior": "NON_BLOCKING",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "template_id": {
+                        "type": "string",
+                        "description": "The template ID to load (e.g. 'expenceflow', 'greenleafcoffee', 'laser-tag')",
+                    },
+                },
+                "required": ["template_id"],
+            },
+        },
+        {
+            "name": "add_blueprint",
+            "description": "Add a reusable component blueprint to the current project. Injects files like auth flows, chart dashboards, or graph editors.",
+            "behavior": "NON_BLOCKING",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "blueprint_id": {
+                        "type": "string",
+                        "description": "The blueprint ID to add (e.g. 'zustand-store', 'recharts-dashboard', 'react-flow-canvas')",
+                    },
+                },
+                "required": ["blueprint_id"],
             },
         },
     ]
