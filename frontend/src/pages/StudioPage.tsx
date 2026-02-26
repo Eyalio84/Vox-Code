@@ -29,6 +29,7 @@ const StudioPage: React.FC<StudioPageProps> = ({ isToolsOpen, onCloseTools }) =>
     phases,
     project,
     streamingText,
+    streamingDeps,
     isStreaming,
     error,
     generate,
@@ -195,6 +196,7 @@ const StudioPage: React.FC<StudioPageProps> = ({ isToolsOpen, onCloseTools }) =>
           <PreviewPanel
             files={files}
             selectedFile={selectedFile}
+            extraDeps={{ ...streamingDeps, ...(project?.frontend_deps ?? {}) }}
           />
         </div>
       </div>

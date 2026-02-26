@@ -13,6 +13,7 @@ export interface StudioState {
   project: AusProject | null
   plan: string
   streamingText: string
+  streamingDeps: Record<string, string>
   isStreaming: boolean
   error: string | null
 }
@@ -24,6 +25,7 @@ const initialState: StudioState = {
   project: null,
   plan: '',
   streamingText: '',
+  streamingDeps: {},
   isStreaming: false,
   error: null,
 }
@@ -117,22 +119,23 @@ export function useStudioStream() {
 
         case 'studio_deps':
           setState((prev) => {
-            if (!prev.project) return prev
-            const frontendDeps = {
-              ...prev.project.frontend_deps,
-              ...(data.frontend as Record<string, string>),
-            }
-            const backendDeps = {
-              ...prev.project.backend_deps,
-              ...(data.backend as Record<string, string>),
-            }
+            const frontendDeps = (data.frontend as Record<string, string>) ?? {}
+            const newStreamingDeps = { ...prev.streamingDeps, ...frontendDeps }
+            // Also update project if it exists
+            const updatedProject = prev.project
+              ? {
+                  ...prev.project,
+                  frontend_deps: { ...prev.project.frontend_deps, ...frontendDeps },
+                  backend_deps: {
+                    ...prev.project.backend_deps,
+                    ...((data.backend as Record<string, string>) ?? {}),
+                  },
+                }
+              : prev.project
             return {
               ...prev,
-              project: {
-                ...prev.project,
-                frontend_deps: frontendDeps,
-                backend_deps: backendDeps,
-              },
+              streamingDeps: newStreamingDeps,
+              project: updatedProject,
             }
           })
           break
@@ -179,6 +182,7 @@ export function useStudioStream() {
         error: null,
         phases: [],
         streamingText: '',
+        streamingDeps: {},
       }))
 
       const controller = new AbortController()
@@ -273,6 +277,7 @@ export function useStudioStream() {
       project,
       plan: '',
       streamingText: '',
+      streamingDeps: {},
       isStreaming: false,
       error: null,
     })
