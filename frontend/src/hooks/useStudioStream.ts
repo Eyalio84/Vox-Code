@@ -260,6 +260,9 @@ export function useStudioStream() {
   }, [])
 
   const loadProject = useCallback((project: AusProject) => {
+    // Abort any active generation before loading
+    abortRef.current?.abort()
+    abortRef.current = null
     const filesMap: Record<string, AusFile> = {}
     for (const f of project.files) {
       filesMap[f.path] = f
