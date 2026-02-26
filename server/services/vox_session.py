@@ -311,16 +311,29 @@ class VoxLiveSession:
                 if response.tool_call:
                     await self._handle_tool_calls(response.tool_call)
 
-                # Transcript (text content from model)
+                # Server content: audio, transcript, search results
                 if response.server_content:
-                    model_turn = response.server_content.model_turn
+                    sc = response.server_content
+                    model_turn = sc.model_turn
                     if model_turn:
                         for part in model_turn.parts:
                             if part.text and self._on_transcript:
                                 await self._on_transcript("vox", part.text)
 
+                    # Input transcription (user speech → text)
+                    if hasattr(sc, 'input_transcription') and sc.input_transcription:
+                        text = getattr(sc.input_transcription, 'text', '')
+                        if text and self._on_transcript:
+                            await self._on_transcript("user", text)
+
+                    # Output transcription (VOX speech → text)
+                    if hasattr(sc, 'output_transcription') and sc.output_transcription:
+                        text = getattr(sc.output_transcription, 'text', '')
+                        if text and self._on_transcript:
+                            await self._on_transcript("vox", text)
+
                     # Turn complete
-                    if response.server_content.turn_complete:
+                    if getattr(sc, 'turn_complete', False):
                         if self._on_control:
                             await self._on_control({"type": "turn_complete"})
 
