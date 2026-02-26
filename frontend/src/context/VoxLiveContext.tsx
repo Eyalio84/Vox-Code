@@ -28,12 +28,19 @@ export interface ToolAction {
   timestamp: number
 }
 
+export interface SearchSource {
+  title: string
+  uri: string
+  domain: string
+}
+
 interface VoxLiveState {
   isConnected: boolean
   isVoxSpeaking: boolean
   isMuted: boolean
   transcript: TranscriptEntry[]
   lastToolAction: ToolAction | null
+  searchSources: SearchSource[]
   error: string | null
 }
 
@@ -117,6 +124,7 @@ export const VoxLiveProvider: React.FC<{ children: React.ReactNode }> = ({ child
     isMuted: false,
     transcript: [],
     lastToolAction: null,
+    searchSources: [],
     error: null,
   })
 
@@ -228,6 +236,13 @@ export const VoxLiveProvider: React.FC<{ children: React.ReactNode }> = ({ child
                 data: msg.data || msg,
                 timestamp: Date.now(),
               },
+            }))
+            break
+
+          case 'search_used':
+            setState((prev) => ({
+              ...prev,
+              searchSources: msg.sources || [],
             }))
             break
 

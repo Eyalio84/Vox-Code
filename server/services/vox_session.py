@@ -332,6 +332,29 @@ class VoxLiveSession:
                         if text and self._on_transcript:
                             await self._on_transcript("vox", text)
 
+                    # Grounding metadata (Google Search results)
+                    if hasattr(sc, 'grounding_metadata') and sc.grounding_metadata:
+                        gm = sc.grounding_metadata
+                        sources = []
+                        if hasattr(gm, 'grounding_chunks') and gm.grounding_chunks:
+                            for chunk in gm.grounding_chunks:
+                                if hasattr(chunk, 'web') and chunk.web:
+                                    sources.append({
+                                        "title": getattr(chunk.web, 'title', ''),
+                                        "uri": getattr(chunk.web, 'uri', ''),
+                                        "domain": getattr(chunk.web, 'domain', ''),
+                                    })
+                        queries = []
+                        if hasattr(gm, 'web_search_queries') and gm.web_search_queries:
+                            queries = list(gm.web_search_queries)
+                        if sources or queries:
+                            if self._on_control:
+                                await self._on_control({
+                                    "type": "search_used",
+                                    "sources": sources,
+                                    "queries": queries,
+                                })
+
                     # Turn complete
                     if getattr(sc, 'turn_complete', False):
                         if self._on_control:

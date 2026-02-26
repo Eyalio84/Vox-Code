@@ -15,6 +15,7 @@ const VoxLivePanel: React.FC = () => {
     isMuted,
     transcript,
     lastToolAction,
+    searchSources,
     error,
     endSession,
     toggleMute,
@@ -156,6 +157,24 @@ const VoxLivePanel: React.FC = () => {
           }}
         >
           VOX used: <strong>{lastToolAction.name}</strong>
+        </div>
+      )}
+
+      {/* Search indicator */}
+      {searchSources.length > 0 && (
+        <div
+          style={{
+            padding: '6px 16px',
+            borderTop: '1px solid var(--t-border)',
+            fontSize: '0.65rem',
+            color: 'var(--t-muted)',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 6,
+          }}
+        >
+          <span style={{ opacity: 0.7 }}>Searched the web</span>
+          <span style={{ opacity: 0.5 }}>({searchSources.length} sources)</span>
         </div>
       )}
 
