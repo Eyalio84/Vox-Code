@@ -51,6 +51,7 @@ Available actions:
 - Search for tools by name, domain, or keyword
 - Load a project template (11 real-world React apps as starters)
 - Add component blueprints (Zustand stores, React Flow canvases, Recharts dashboards, etc.)
+- Search the web for real-time information (documentation, libraries, current events)
 
 Current theme: {theme}
 """
@@ -232,10 +233,16 @@ class VoxLiveSession:
                     )
                 )
             ),
-            tools=[{"function_declarations": tool_decls}],
+            tools=[
+                types.Tool(function_declarations=tool_decls),
+                types.Tool(google_search=types.GoogleSearch()),
+            ],
+            input_audio_transcription=types.AudioTranscriptionConfig(),
+            output_audio_transcription=types.AudioTranscriptionConfig(),
             context_window_compression=types.ContextWindowCompressionConfig(
                 sliding_window=types.SlidingWindow(),
             ),
+            session_resumption=types.SessionResumptionConfig(),
         )
 
         # Add resume handle if reconnecting
